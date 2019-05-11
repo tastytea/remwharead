@@ -1,0 +1,42 @@
+= remwharead(1)
+:doctype:       manpage
+:Author:        tastytea
+:Email:         tastytea@tastytea.de
+:Date:          2019-05-11
+:Revision:      0.0.0
+:man source:    remwharead
+:man version:   {revision}
+:man manual:    General Commands Manual
+
+== NAME
+
+remwharead - Remember what you read, and when
+
+== SYNOPSIS
+
+*remwharead*  [_url_|_--version_] [_arguments_]
+
+////
+== DESCRIPTION
+////
+
+== OPTIONS
+
+*--version*::
+Print version, copyright and license.
+
+////
+== EXAMPLES
+
+== FILES
+
+* *Configuration file*: `${XDG_CONFIG_HOME}/remwharead.cfg`
+
+`${XDG_CONFIG_HOME}` is usually `~/.config`.
+////
+
+== REPORTING BUGS
+
+Bugtracker: https://schlomp.space/tastytea/remwharead/issues
+
+E-mail: tastytea@tastytea.de
