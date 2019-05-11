@@ -14,18 +14,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
+#ifndef REMWHAREAD_PARSE_OPTIONS_HPP
+#define REMWHAREAD_PARSE_OPTIONS_HPP
+
 #include <string>
-#include "parse_options.hpp"
+#include <vector>
+#include <array>
+#include <chrono>
+#include <cstdlib>
 
-using std::cout;
-using std::cerr;
-using std::endl;
 using std::string;
+using std::vector;
+using std::array;
+using std::chrono::system_clock;
+using std::uint8_t;
 
-int main(int argc, char *argv[])
+enum class export_format
 {
-    options opts = parse_options(argc, argv);
+    csv,
+    asciidoc
+};
 
-    return 0;
-}
+typedef struct options
+{
+    vector<string> tags;
+    export_format format = {};
+    string file;
+    array<system_clock::time_point, 2> span;
+} options;
+
+// Convert ISO 8601 time-string to time_point.
+const system_clock::time_point string_to_timepoint(const string &strtime);
+
+// Parse command-line options.
+const options parse_options(int argc, char *argv[]);
+
+#endif  // REMWHAREAD_PARSE_OPTIONS_HPP

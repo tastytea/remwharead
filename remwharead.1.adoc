@@ -2,10 +2,9 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-05-11
+:Date:          2019-05-12
 :Revision:      0.0.0
 :man source:    remwharead
-:man version:   {revision}
 :man manual:    General Commands Manual
 
 == NAME
@@ -16,7 +15,7 @@ remwharead - Remember what you read, and when
 
 *remwharead* [*-t* _tags_] _URL_
 
-*remwhared* *-e* _format_ [*-f* _file_] [*-s* _start_,_end_]
+*remwharead* *-e* _format_ [*-f* _file_] [*-s* _start_,_end_]
 
 == DESCRIPTION
 
@@ -36,9 +35,13 @@ Save output to _file_. Default is stdout.
 
 *-s* _start_,_end_, *--span*=_start_,_end_::
 Only export entries between _start_ and _end_. _start_ and _end_ are date and
-time representations according to ISO 8601.
+time representations according to ISO 8601. Time zones are ignored at the
+moment.
 
-*--version*::
+*-h*, *--help*::
+Show help message.
+
+*-V*, *--version*::
 Print version, copyright and license.
 
 == EXAMPLES
