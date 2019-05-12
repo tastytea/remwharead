@@ -26,7 +26,13 @@
 using std::cout;
 using std::cerr;
 using std::endl;
-using std::exit;
+
+options::options()
+{}
+
+options::options(const uint8_t &status)
+    : status_code(status)
+{}
 
 const system_clock::time_point string_to_timepoint(const string &strtime)
 {
@@ -38,7 +44,7 @@ const system_clock::time_point string_to_timepoint(const string &strtime)
     return system_clock::from_time_t(time);
 }
 
-const options parse_options(int argc, char *argv[])
+const options parse_options(const int argc, const char *argv[])
 {
     string tags;
     string format;
@@ -68,7 +74,7 @@ const options parse_options(int argc, char *argv[])
         {
             cout << "Usage: " << argv[0] << " [-t tags] URL\n";
             cout << op;
-            exit(0);
+            return options(0);
         }
 
         if (option_version->is_set())
@@ -79,7 +85,7 @@ const options parse_options(int argc, char *argv[])
     "<https://www.gnu.org/licenses/gpl-3.0.html>.\n"
     "This program comes with ABSOLUTELY NO WARRANTY. This is free software,\n"
     "and you are welcome to redistribute it under certain conditions.\n";
-            exit(0);
+            return options(0);
         }
 
         if (!tags.empty())
@@ -108,7 +114,7 @@ const options parse_options(int argc, char *argv[])
             else
             {
                 cerr << "Error: Export format must be csv or asciidoc.\n";
-                exit(1);
+                return options(1);
             }
         }
 
@@ -129,14 +135,14 @@ const options parse_options(int argc, char *argv[])
             {
                 cerr << "Error: Time span must be in format: "
                     "YYYY-MM-DD,YYYY-MM-DD\n";
-                exit(1);
+                return options(1);
             }
         }
     }
     catch (const std::exception &e)
     {
         cerr << "Error: " << e.what() << endl;
-        exit(1);
+        return options(1);
     }
 
     return opts;

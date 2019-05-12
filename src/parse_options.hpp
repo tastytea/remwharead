@@ -21,7 +21,7 @@
 #include <vector>
 #include <array>
 #include <chrono>
-#include <cstdlib>
+#include <cstdint>
 
 using std::string;
 using std::vector;
@@ -41,12 +41,16 @@ typedef struct options
     export_format format = {};
     string file;
     array<system_clock::time_point, 2> span;
+    uint8_t status_code = 0;
+
+    options();
+    explicit options(const uint8_t &status);
 } options;
 
 // Convert ISO 8601 time-string to time_point.
 const system_clock::time_point string_to_timepoint(const string &strtime);
 
 // Parse command-line options.
-const options parse_options(int argc, char *argv[]);
+const options parse_options(const int argc, const char *argv[]);
 
 #endif  // REMWHAREAD_PARSE_OPTIONS_HPP

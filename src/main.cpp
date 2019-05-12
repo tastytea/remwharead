@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <string>
+#include "sqlite.hpp"
 #include "parse_options.hpp"
 
 using std::cout;
@@ -23,9 +24,13 @@ using std::cerr;
 using std::endl;
 using std::string;
 
-int main(int argc, char *argv[])
+int main(const int argc, const char *argv[])
 {
     options opts = parse_options(argc, argv);
+    if (opts.status_code != 0)
+    {
+        return opts.status_code;
+    }
 
     return 0;
 }
