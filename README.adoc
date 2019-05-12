@@ -31,9 +31,11 @@ emerge -a www-misc/remwharead
 * Tested OS: Linux
 * C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/6/7/8,
   https://llvm.org/[clang] 3/5/6)
-* https://cmake.org/[cmake] (at least: 3.6)
+* https://cmake.org/[cmake] (at least: 3.2)
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
-* http://www.curlpp.org/[curlpp] (tested: 0.8)
+* http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)
+* http://vsqlite.virtuosic-bytes.com/[vsqlite++] (tested: 0.3)
+* https://github.com/badaix/popl[popl] (tested: 1.2)
 * Optional:
 ** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
 
