@@ -19,7 +19,7 @@ See https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[
 Add my https://schlomp.space/tastytea/overlay[repository] and install it from
 there.
 
-[source,shellsession]
+[source,zsh]
 ----
 eselect repository enable tastytea
 echo "www-misc/remwharead ~amd64" >> /etc/portage/package.accept_keywords/remwharead
@@ -46,7 +46,7 @@ emerge -a www-misc/remwharead
 
 ===== Debian stretch
 
-[source,shellsession]
+[source,zsh]
 ----
 echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
 echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
@@ -67,14 +67,14 @@ https://schlomp.space/tastytea/remwharead/releases[schlomp.space].
 
 ===== Development version
 
-[source,shellsession]
+[source,zsh]
 ----
 git clone https://schlomp.space/tastytea/remwharead.git
 ----
 
 ==== Compile
 
-[source,shellsession]
+[source,zsh]
 ----
 mkdir build
 cd build/
