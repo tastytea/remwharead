@@ -1,10 +1,15 @@
 = remwharead
 
-*remwharead* helps you remembering what you read, and when.
+[NOTE]
+This program is not usable at the moment. Most of the described functions are
+not yet available.
+
+*remwharead* saves URLs of things you read in a database along with the current
+ date and time, title, description, the full text of the page and optional tags.
 
 == Usage
 
-See https://schlomp.space/tastytea/remwharead/src/branch/master/remwharead.1.adoc[manpage].
+See https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[manpage].
 
 == Install
 
