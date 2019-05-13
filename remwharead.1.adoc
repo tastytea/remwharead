@@ -19,21 +19,21 @@ remwharead - Remember what you read, and when
 
 == DESCRIPTION
 
-*remwhared* saves URLs of things you read in a database along with the current
+*remwharead* saves URLs of things you read in a database along with the current
  date and time, title, description, the full text of the page and optional tags.
 
 == OPTIONS
 
-*-t* _tags_, *--tags*=_tags_::
+*-t* _tags_, *--tags* _tags_::
 Add tags to _URL_, delimited by commas.
 
-*-e* _format_, *--export*=_format_::
+*-e* _format_, *--export* _format_::
 Export to _format_. Possible values are _csv_ and _asciidoc_.
 
-*-f* _file_, *--file*=_file_::
+*-f* _file_, *--file* _file_::
 Save output to _file_. Default is stdout.
 
-*-s* _start_,_end_, *--span*=_start_,_end_::
+*-s* _start_,_end_, *--span* _start_,_end_::
 Only export entries between _start_ and _end_. _start_ and _end_ are date and
 time representations according to ISO 8601. Time zones are ignored at the
 moment.
@@ -46,11 +46,11 @@ Print version, copyright and license.
 
 == EXAMPLES
 
-`remwhared -t tag1,tag2 https://example.com/article.html`
+`remwharead -t tag1,tag2 https://example.com/article.html`
 
-`remwhared -e asciidoc -f out.adoc -s 2019-04-01,2019-05-31`
+`remwharead -e asciidoc -f out.adoc -s 2019-04-01,2019-05-31`
 
-`remwhared -e asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
+`remwharead -e asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
 
 == FILES
 
