@@ -59,6 +59,7 @@ SCENARIO ("The option parser works correctly")
 {
     bool exception = false;
     options opts;
+    const string url = "https://example.com/article.html";
 
     WHEN ("The options are --help --file test")
     {
@@ -106,13 +107,13 @@ SCENARIO ("The option parser works correctly")
         }
     }
 
-    WHEN ("The options are -t 💩")
+    WHEN ("The options are -t 💩 " + url)
     {
         try
         {
             const char *argv[]
-                = { "remwharead", "-t", "💩" };
-            opts = parse_options(3, argv);
+                = { "remwharead", "-t", "💩", url.c_str() };
+            opts = parse_options(4, argv);
         }
         catch (const std::exception &e)
         {
@@ -126,6 +127,7 @@ SCENARIO ("The option parser works correctly")
             REQUIRE_FALSE(exception);
             REQUIRE(opts.status_code == 0);
             REQUIRE(opts.tags == vector<string>{ "💩" });
+            REQUIRE(opts.url == url);
         }
     }
 
@@ -144,9 +146,10 @@ SCENARIO ("The option parser works correctly")
                 {
                     "remwharead",
                     "-t",
-                    tags.c_str()
+                    tags.c_str(),
+                    url.c_str()
                 };
-            opts = parse_options(3, argv);
+            opts = parse_options(4, argv);
         }
         catch (const std::exception &e)
         {
@@ -160,6 +163,7 @@ SCENARIO ("The option parser works correctly")
             REQUIRE_FALSE(exception);
             REQUIRE(opts.status_code == 0);
             REQUIRE(opts.tags == vector<string>{ "tag1", longstring, "tag3" });
+            REQUIRE(opts.url == url);
         }
     }
 }

@@ -31,6 +31,7 @@ using std::uint8_t;
 
 enum class export_format
 {
+    undefined,
     csv,
     asciidoc
 };
@@ -38,9 +39,10 @@ enum class export_format
 typedef struct options
 {
     vector<string> tags;
-    export_format format = {};
+    export_format format = export_format::undefined;
     string file;
     array<system_clock::time_point, 2> span;
+    string url;
     uint8_t status_code = 0;
 
     options();

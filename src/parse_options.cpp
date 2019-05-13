@@ -115,6 +115,7 @@ const options parse_options(const int argc, const char *argv[])
             }
             else
             {
+                opts.format = export_format::undefined;
                 cerr << "Error: Export format must be csv or asciidoc.\n";
                 return options(1);
             }
@@ -139,6 +140,17 @@ const options parse_options(const int argc, const char *argv[])
                     "YYYY-MM-DD,YYYY-MM-DD.\n";
                 return options(1);
             }
+        }
+
+        if (op.non_option_args().size() > 0)
+        {
+            opts.url = op.non_option_args().front();
+        }
+
+        if (opts.url == "" && opts.format == export_format::undefined)
+        {
+            cerr << "Error: You have to specify either URL or --export.\n";
+            return options(1);
         }
     }
     catch (const std::exception &e)
