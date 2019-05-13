@@ -72,7 +72,9 @@ const options parse_options(const int argc, const char *argv[])
 
         if (option_help->is_set())
         {
-            cout << "Usage: " << argv[0] << " [-t tags] URL\n";
+            cout << "Usage: " << argv[0] << " [-t tags] URL\n"
+                 << "       " << argv[0]
+                 << " -e format [-f file] [-s start,end]\n";
             cout << op;
             return options(0);
         }
@@ -134,7 +136,7 @@ const options parse_options(const int argc, const char *argv[])
             else
             {
                 cerr << "Error: Time span must be in format: "
-                    "YYYY-MM-DD,YYYY-MM-DD\n";
+                    "YYYY-MM-DD,YYYY-MM-DD.\n";
                 return options(1);
             }
         }
