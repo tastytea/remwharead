@@ -16,9 +16,11 @@
 
 #include <exception>
 #include <iostream>
+#include <algorithm>
 #include <basedir.h>
 #include <sqlite/execute.hpp>
 #include <sqlite/query.hpp>
+#include "time.hpp"
 #include "sqlite.hpp"
 
 using std::cerr;
@@ -59,15 +61,26 @@ Database::operator bool() const
 }
 
 void Database::store(const string &uri, const string &archive_uri,
-                     const string &datetime, const string &tags,
-                     const string &title, const string &description,
-                     const string &fulltext)
+                     const system_clock::time_point &datetime,
+                     const vector<string> &tags, const string &title,
+                     const string &description, const string &fulltext)
 {
     try
     {
+        const string strdatetime = timepoint_to_string(datetime);
+        string strtags;
+        for (const string &tag : tags)
+        {
+            strtags += tag;
+            if (tag != *(tags.rbegin()))
+            {
+                strtags += ",";
+            }
+        }
+
         sqlite::execute ins(*_con, "INSERT INTO remwharead "
                             "VALUES(?, ?, ?, ?, ?, ?, ?);");
-        ins % uri % archive_uri % datetime % tags
+        ins % uri % archive_uri % strdatetime % strtags
             % title % description % fulltext;
         ins();
     }

@@ -20,10 +20,14 @@
 #include <experimental/filesystem>
 #include <memory>
 #include <string>
+#include <vector>
+#include <chrono>
 #include <sqlite/connection.hpp>
 
 namespace fs = std::experimental::filesystem;
 using std::string;
+using std::vector;
+using std::chrono::system_clock;
 
 class Database
 {
@@ -32,7 +36,8 @@ public:
     operator bool() const;
 
     void store(const string &uri, const string &archive_uri,
-               const string &datetime, const string &tags, const string &title,
+               const system_clock::time_point &datetime,
+               const vector<string> &tags, const string &title,
                const string &description, const string &fulltext);
 
 private:

@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <string>
+#include <chrono>
 #include "sqlite.hpp"
 #include "parse_options.hpp"
 
@@ -23,6 +24,7 @@ using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
+using std::chrono::system_clock;
 
 int main(const int argc, const char *argv[])
 {
@@ -33,10 +35,18 @@ int main(const int argc, const char *argv[])
     }
 
     Database db;
-    db ? cout << "success." : cout << "failure.";
-    cout << endl;
 
-    db.store("a", "b", "c", "d", "e", "f", "g");
+    if (!db)
+    {
+        cerr << "Error: Database connection failed.\n";
+        return 2;
+    }
+
+    if (!opts.url.empty())
+    {
+        db.store(opts.url, "archive", system_clock::now(), opts.tags,
+                 "title", "description", "fulltext");
+    }
 
     return 0;
 }
