@@ -34,7 +34,7 @@ link_directories(${LIBXDG_BASEDIR_LIBRARY_DIRS})
 link_directories(${SQLITE3_LIBRARY_DIRS})
 
 set(COMMON_LIBRARIES
-  ${LIBXDG_BASEDIR_LIBRARIES} vsqlitepp)
+  ${LIBXDG_BASEDIR_LIBRARIES} vsqlitepp stdc++fs)
 
 # Write version in header
 configure_file(

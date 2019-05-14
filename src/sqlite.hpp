@@ -14,29 +14,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <string>
-#include "sqlite.hpp"
-#include "parse_options.hpp"
+#ifndef REMWHAREAD_SQLITE_HPP
+#define REMWHAREAD_SQLITE_HPP
 
-using std::cout;
-using std::cerr;
-using std::endl;
+#include <experimental/filesystem>
+#include <memory>
+#include <string>
+#include <sqlite/connection.hpp>
+
+namespace fs = std::experimental::filesystem;
 using std::string;
 
-int main(const int argc, const char *argv[])
+class Database
 {
-    options opts = parse_options(argc, argv);
-    if (opts.status_code != 0)
-    {
-        return opts.status_code;
-    }
+public:
+    Database();
+    operator bool() const;
 
-    Database db;
-    db ? cout << "success." : cout << "failure.";
-    cout << endl;
+    void store(const string &uri, const string &archive_uri,
+               const string &datetime, const string &tags, const string &title,
+               const string &description, const string &fulltext);
 
-    db.store("a", "b", "c", "d", "e", "f", "g");
+private:
+    fs::path _dbpath;
+    std::unique_ptr<sqlite::connection> _con;
+    bool _connected;
+};
 
-    return 0;
-}
+#endif  // REMWHAREAD_SQLITE_HPP
