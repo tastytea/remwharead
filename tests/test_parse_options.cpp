@@ -16,44 +16,12 @@
 
 #include <exception>
 #include <string>
-#include <chrono>
 #include <vector>
 #include <catch.hpp>
 #include "parse_options.hpp"
 
 using std::string;
-using std::chrono::system_clock;
-using std::chrono::seconds;
 using std::vector;
-
-SCENARIO ("The time conversion works correctly")
-{
-    bool exception = false;
-    const string datetime = "1970-01-04T00:00:00";
-    system_clock::time_point tp;
-    seconds seconds_since_epoch;
-
-    GIVEN ("The date and time " + datetime)
-    {
-        try
-        {
-            tp = string_to_timepoint(datetime);
-            seconds_since_epoch = std::chrono::duration_cast<seconds>
-                (tp.time_since_epoch());
-        }
-        catch (const std::exception &e)
-        {
-            exception = true;
-        }
-
-        THEN ("No exception is thrown")
-            AND_THEN ("Seconds since epoch is not 0")
-        {
-            REQUIRE_FALSE(exception);
-            REQUIRE(seconds_since_epoch != seconds(0));
-        }
-    }
-}
 
 SCENARIO ("The option parser works correctly")
 {

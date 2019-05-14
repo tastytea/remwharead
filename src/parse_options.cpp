@@ -16,9 +16,6 @@
 
 #include <iostream>
 #include <exception>
-#include <ctime>
-#include <iomanip>
-#include <sstream>
 #include <popl.hpp>
 #include "version.hpp"
 #include "parse_options.hpp"
@@ -33,16 +30,6 @@ options::options()
 options::options(const uint8_t &status)
     : status_code(status)
 {}
-
-const system_clock::time_point string_to_timepoint(const string &strtime)
-{
-    std::stringstream sstime(strtime);
-    struct std::tm tm = {};
-    tm.tm_isdst = -1;           // Detect daylight saving time.
-    sstime >> std::get_time(&tm, "%Y-%m-%dT%T");
-    std::time_t time = timelocal(&tm); // Assume time is local.
-    return system_clock::from_time_t(time);
-}
 
 const options parse_options(const int argc, const char *argv[])
 {

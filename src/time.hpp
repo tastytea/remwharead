@@ -14,43 +14,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_PARSE_OPTIONS_HPP
-#define REMWHAREAD_PARSE_OPTIONS_HPP
+#ifndef REMWHAREAD_TIME_HPP
+#define REMWHAREAD_TIME_HPP
 
 #include <string>
-#include <vector>
-#include <array>
 #include <chrono>
-#include <cstdint>
-#include "time.hpp"
 
 using std::string;
-using std::vector;
-using std::array;
 using std::chrono::system_clock;
-using std::uint8_t;
 
-enum class export_format
-{
-    undefined,
-    csv,
-    asciidoc
-};
+// Convert ISO 8601 time-string to time_point.
+const system_clock::time_point string_to_timepoint(const string &strtime);
 
-typedef struct options
-{
-    vector<string> tags;
-    export_format format = export_format::undefined;
-    string file;
-    array<system_clock::time_point, 2> span;
-    string url;
-    uint8_t status_code = 0;
+// Convert time_point to USO 8601 time-string.
+const string timepoint_to_string(const system_clock::time_point &tp);
 
-    options();
-    explicit options(const uint8_t &status);
-} options;
-
-// Parse command-line options.
-const options parse_options(const int argc, const char *argv[]);
-
-#endif  // REMWHAREAD_PARSE_OPTIONS_HPP
+#endif  // REMWHAREAD_TIME_HPP
