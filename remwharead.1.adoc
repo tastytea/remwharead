@@ -39,6 +39,9 @@ Only export entries between _start_ and _end_. _start_ and _end_ are date and
 time representations according to ISO 8601. Time zones are ignored at the
 moment.
 
+*-S* _attribute_, *--sort* _attribute_::
+Sort by _time_, _tag_ or _both_ (default) when exporting to _asciidoc_.
+
 *-h*, *--help*::
 Show help message.
 
@@ -55,7 +58,7 @@ Print version, copyright and license.
 
 == FILES
 
-* *Database*: `${XDG_DATA_HOME}/remwharead.sqlite`
+* *Database*: `${XDG_DATA_HOME}/remwharead/database.sqlite`
 
 `${XDG_DATA_HOME}` is usually `~/.local/share`.
 
