@@ -20,17 +20,24 @@
 #include <cstdint>
 #include "time.hpp"
 
-const time_point string_to_timepoint(const string &strtime)
+const time_point string_to_timepoint(const string &strtime, bool sqlite)
 {
     std::stringstream sstime(strtime);
     struct std::tm tm = {};
     tm.tm_isdst = -1;           // Detect daylight saving time.
-    sstime >> std::get_time(&tm, "%Y-%m-%dT%T");
+    if (sqlite)
+    {
+        sstime >> std::get_time(&tm, "%Y-%m-%d %T");
+    }
+    else
+    {
+        sstime >> std::get_time(&tm, "%Y-%m-%dT%T");
+    }
     std::time_t time = timelocal(&tm); // Assume time is local.
     return system_clock::from_time_t(time);
 }
 
-const string timepoint_to_string(const time_point &tp)
+const string timepoint_to_string(const time_point &tp, bool sqlite)
 {
     constexpr std::uint16_t bufsize = 32;
     std::time_t time = system_clock::to_time_t(tp);
@@ -38,7 +45,14 @@ const string timepoint_to_string(const time_point &tp)
     tm = std::localtime(&time);
 
     char buffer[bufsize];
-    std::strftime(buffer, bufsize, "%FT%T", tm);
+    if (sqlite)
+    {
+        std::strftime(buffer, bufsize, "%F %T", tm);
+    }
+    else
+    {
+        std::strftime(buffer, bufsize, "%FT%T", tm);
+    }
 
     return static_cast<const string>(buffer);
 }
