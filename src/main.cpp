@@ -19,6 +19,7 @@
 #include <chrono>
 #include "sqlite.hpp"
 #include "parse_options.hpp"
+#include "url.hpp"
 
 using std::cout;
 using std::cerr;
@@ -44,8 +45,10 @@ int main(const int argc, const char *argv[])
 
     if (!opts.url.empty())
     {
+        URL url(opts.url);
+        html_extract page = url.get();
         db.store(opts.url, "archive", system_clock::now(), opts.tags,
-                 "title", "description", "fulltext");
+                 page.title, page.description, page.fulltext);
     }
 
     return 0;
