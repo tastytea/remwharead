@@ -22,6 +22,7 @@
 #include <array>
 #include <chrono>
 #include <cstdint>
+#include "types.hpp"
 #include "time.hpp"
 
 using std::string;
@@ -29,20 +30,6 @@ using std::vector;
 using std::array;
 using std::chrono::system_clock;
 using std::uint8_t;
-
-enum class export_format
-{
-    undefined,
-    csv,
-    asciidoc
-};
-
-enum class sort_attribute
-{
-    both,
-    time,
-    tag
-};
 
 typedef struct options
 {
