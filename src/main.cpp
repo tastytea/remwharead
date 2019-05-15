@@ -55,6 +55,7 @@ int main(const int argc, const char *argv[])
     {
     case export_format::csv:
     {
+        cout << "#URI;Archived URI;Date & time;Tags;Title;Description\n";
         for (const Database::entry &entry
                  : db.retrieve(opts.span[0], opts.span[1]))
         {
@@ -67,7 +68,6 @@ int main(const int argc, const char *argv[])
                     strtags += ",";
                 }
             }
-            cout << "#URI;Archived URI;Date & time;Tags;Title;Description\n";
             cout << entry.uri << ';' << entry.archive_uri << ';'
                  << timepoint_to_string(entry.datetime) << ';'
                  << strtags << ';' << entry.title << ';'
