@@ -67,6 +67,7 @@ int main(const int argc, const char *argv[])
                     strtags += ",";
                 }
             }
+            cout << "#URI;Archived URI;Date & time;Tags;Title;Description\n";
             cout << entry.uri << ';' << entry.archive_uri << ';'
                  << timepoint_to_string(entry.datetime) << ';'
                  << strtags << ';' << entry.title << ';'
