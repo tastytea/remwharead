@@ -28,6 +28,7 @@ namespace fs = std::experimental::filesystem;
 using std::string;
 using std::vector;
 using std::chrono::system_clock;
+using time_point = system_clock::time_point;
 
 class Database
 {
@@ -35,10 +36,11 @@ public:
     Database();
     operator bool() const;
 
+    //! Store in database.
     void store(const string &uri, const string &archive_uri,
-               const system_clock::time_point &datetime,
-               const vector<string> &tags, const string &title,
-               const string &description, const string &fulltext);
+               const time_point &datetime, const vector<string> &tags,
+               const string &title, const string &description,
+               const string &fulltext);
 
 private:
     fs::path _dbpath;

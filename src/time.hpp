@@ -22,11 +22,12 @@
 
 using std::string;
 using std::chrono::system_clock;
+using time_point = system_clock::time_point;
 
 // Convert ISO 8601 time-string to time_point.
-const system_clock::time_point string_to_timepoint(const string &strtime);
+const time_point string_to_timepoint(const string &strtime);
 
 // Convert time_point to USO 8601 time-string.
-const string timepoint_to_string(const system_clock::time_point &tp);
+const string timepoint_to_string(const time_point &tp);
 
 #endif  // REMWHAREAD_TIME_HPP

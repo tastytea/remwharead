@@ -20,7 +20,7 @@
 #include <cstdint>
 #include "time.hpp"
 
-const system_clock::time_point string_to_timepoint(const string &strtime)
+const time_point string_to_timepoint(const string &strtime)
 {
     std::stringstream sstime(strtime);
     struct std::tm tm = {};
@@ -30,7 +30,7 @@ const system_clock::time_point string_to_timepoint(const string &strtime)
     return system_clock::from_time_t(time);
 }
 
-const string timepoint_to_string(const system_clock::time_point &tp)
+const string timepoint_to_string(const time_point &tp)
 {
     constexpr std::uint16_t bufsize = 32;
     std::time_t time = system_clock::to_time_t(tp);

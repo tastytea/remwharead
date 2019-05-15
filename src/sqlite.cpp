@@ -61,9 +61,9 @@ Database::operator bool() const
 }
 
 void Database::store(const string &uri, const string &archive_uri,
-                     const system_clock::time_point &datetime,
-                     const vector<string> &tags, const string &title,
-                     const string &description, const string &fulltext)
+                     const time_point &datetime, const vector<string> &tags,
+                     const string &title, const string &description,
+                     const string &fulltext)
 {
     try
     {

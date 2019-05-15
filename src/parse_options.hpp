@@ -29,6 +29,7 @@ using std::string;
 using std::vector;
 using std::array;
 using std::chrono::system_clock;
+using time_point = system_clock::time_point;
 using std::uint8_t;
 
 typedef struct options
@@ -36,7 +37,7 @@ typedef struct options
     vector<string> tags;
     export_format format = export_format::undefined;
     string file;
-    array<system_clock::time_point, 2> span;
+    array<time_point, 2> span;
     sort_attribute sort = sort_attribute::both;
     string url;
     uint8_t status_code = 0;
