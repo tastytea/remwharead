@@ -427,7 +427,7 @@ const string URL::archive()
         const string answer = oss.str();
         if (regex_search(answer, match, regex("Content-Location: (.+)\r\n")))
         {
-            return "https://web.archive.org/" + match[1].str();
+            return "https://web.archive.org" + match[1].str();
         }
     }
     catch (const std::exception &e)
