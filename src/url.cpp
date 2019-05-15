@@ -406,3 +406,34 @@ const string URL::unescape_html(const string &html)
 
     return output;
 }
+
+const string URL::archive()
+{
+    try
+    {
+        std::ostringstream oss;
+        curlpp::Easy request;
+        request.setOpt<curlopts::UserAgent>(string("remwharead/")
+                                            + global::version);
+        request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
+        request.setOpt<curlopts::FollowLocation>(true);
+        request.setOpt<curlopts::Url>("https://web.archive.org/save/" + _url);
+        request.setOpt<curlopts::WriteStream>(&oss);
+        request.setOpt<curlopts::NoBody>(true);        // Make a HEAD request.
+        request.setOpt<curlpp::options::Header>(true); // Save headers in oss.
+        request.perform();
+
+        smatch match;
+        const string answer = oss.str();
+        if (regex_search(answer, match, regex("Content-Location: (.+)\r\n")))
+        {
+            return "https://web.archive.org/" + match[1].str();
+        }
+    }
+    catch (const std::exception &e)
+    {
+        cerr << "Error: " << e.what() << endl;
+    }
+
+    return "";
+}

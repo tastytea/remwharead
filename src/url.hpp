@@ -33,7 +33,10 @@ class URL
 public:
     explicit URL(const string &url);
 
+    //! Download URL and extract title, description and full text.
     const html_extract get();
+    //! Save URL in archive and return URL.
+    const string archive();
 
 private:
     string _url;

@@ -47,7 +47,7 @@ int main(const int argc, const char *argv[])
     {
         URL url(opts.url);
         html_extract page = url.get();
-        db.store(opts.url, "archive", system_clock::now(), opts.tags,
+        db.store(opts.url, url.archive(), system_clock::now(), opts.tags,
                  page.title, page.description, page.fulltext);
     }
 
