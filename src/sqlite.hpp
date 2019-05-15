@@ -23,6 +23,7 @@
 #include <vector>
 #include <chrono>
 #include <sqlite/connection.hpp>
+#include "types.hpp"
 
 namespace fs = std::experimental::filesystem;
 using std::string;
@@ -33,14 +34,27 @@ using time_point = system_clock::time_point;
 class Database
 {
 public:
+    typedef struct entry
+    {
+        string uri;
+        string archive_uri;
+        time_point datetime;
+        vector<string> tags;
+        string title;
+        string description;
+        string fulltext;
+    } entry;
+
     Database();
     operator bool() const;
 
     //! Store in database.
-    void store(const string &uri, const string &archive_uri,
-               const time_point &datetime, const vector<string> &tags,
-               const string &title, const string &description,
-               const string &fulltext);
+    void store(const entry &data) const;
+
+    //! retrieve from database.
+    const vector<entry> retrieve(const time_point &start = time_point(),
+                                 const time_point &end = system_clock::now())
+        const;
 
 private:
     fs::path _dbpath;

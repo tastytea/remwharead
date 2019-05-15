@@ -47,8 +47,42 @@ int main(const int argc, const char *argv[])
     {
         URL url(opts.url);
         html_extract page = url.get();
-        db.store(opts.url, url.archive(), system_clock::now(), opts.tags,
-                 page.title, page.description, page.fulltext);
+        db.store({opts.url, url.archive(), system_clock::now(), opts.tags,
+                  page.title, page.description, page.fulltext});
+    }
+
+    switch (opts.format)
+    {
+    case export_format::csv:
+    {
+        for (const Database::entry &entry : db.retrieve())
+        {
+            string strtags;
+            for (const string &tag : entry.tags)
+            {
+                strtags += tag;
+                if (tag != *(entry.tags.rbegin()))
+                {
+                    strtags += ",";
+                }
+            }
+            cout << entry.uri << ';' << entry.archive_uri << ';'
+                 << timepoint_to_string(entry.datetime) << ';'
+                 << strtags << ';' << entry.title << ';'
+                 << entry.description << endl;
+        }
+        break;
+    }
+    case export_format::asciidoc:
+    {
+        cerr << "AsciiDoc is not yet supported.\n";
+        break;
+    }
+    default:
+    {
+        // Do nothing.
+        break;
+    }
     }
 
     return 0;

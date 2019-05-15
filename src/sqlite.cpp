@@ -60,19 +60,16 @@ Database::operator bool() const
     return _connected;
 }
 
-void Database::store(const string &uri, const string &archive_uri,
-                     const time_point &datetime, const vector<string> &tags,
-                     const string &title, const string &description,
-                     const string &fulltext)
+void Database::store(const Database::entry &data) const
 {
     try
     {
-        const string strdatetime = timepoint_to_string(datetime);
+        const string strdatetime = timepoint_to_string(data.datetime, true);
         string strtags;
-        for (const string &tag : tags)
+        for (const string &tag : data.tags)
         {
             strtags += tag;
-            if (tag != *(tags.rbegin()))
+            if (tag != *(data.tags.rbegin()))
             {
                 strtags += ",";
             }
@@ -80,12 +77,63 @@ void Database::store(const string &uri, const string &archive_uri,
 
         sqlite::execute ins(*_con, "INSERT INTO remwharead "
                             "VALUES(?, ?, ?, ?, ?, ?, ?);");
-        ins % uri % archive_uri % strdatetime % strtags
-            % title % description % fulltext;
+        ins % data.uri % data.archive_uri % strdatetime % strtags
+            % data.title % data.description % data.fulltext;
         ins();
     }
     catch (std::exception &e)
     {
         cerr << "Error in " << __func__ << ": " << e.what() << endl;
     }
+}
+
+const vector<Database::entry> Database::retrieve(const time_point &start,
+                                                 const time_point &end) const
+{
+    try
+    {
+        const string query = "SELECT * FROM remwharead WHERE datetime "
+            "BETWEEN '" + timepoint_to_string(start, true)
+            +  "' AND '" + timepoint_to_string(end, true)
+            + "' ORDER BY datetime;";
+
+        sqlite::query q(*_con, query);
+        sqlite::result_type res = q.get_result();
+        vector<entry> entries;
+
+        while(res->next_row())
+        {
+            vector<string> tags;
+            const string strtags = res->get_string(3);
+            size_t pos = 0;
+            while (pos != std::string::npos)
+            {
+                const size_t newpos = strtags.find(',', pos);
+                tags.push_back(strtags.substr(pos, newpos - pos));
+                pos = newpos;
+                if (pos != std::string::npos)
+                {
+                    ++pos;
+                }
+            }
+            entries.push_back
+                ({
+                    res->get_string(0),
+                    res->get_string(1),
+                    string_to_timepoint(res->get_string(2), true),
+                    tags,
+                    res->get_string(4),
+                    res->get_string(5),
+                    res->get_string(6)
+                });
+        }
+
+        return entries;
+    }
+    catch (std::exception &e)
+    {
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
+    }
+
+    return {};
 }
