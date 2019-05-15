@@ -68,10 +68,10 @@ int main(const int argc, const char *argv[])
                     strtags += ",";
                 }
             }
-            cout << entry.uri << ';' << entry.archive_uri << ';'
-                 << timepoint_to_string(entry.datetime) << ';'
-                 << strtags << ';' << entry.title << ';'
-                 << entry.description << endl;
+            cout << '"' << entry.uri << "\";\"" << entry.archive_uri << "\";\""
+                 << timepoint_to_string(entry.datetime) << "\";\""
+                 << strtags << "\";\"" << entry.title << "\";\""
+                 << entry.description << '"'<< endl;
         }
         break;
     }
