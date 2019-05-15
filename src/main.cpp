@@ -55,7 +55,8 @@ int main(const int argc, const char *argv[])
     {
     case export_format::csv:
     {
-        for (const Database::entry &entry : db.retrieve())
+        for (const Database::entry &entry
+                 : db.retrieve(opts.span[0], opts.span[1]))
         {
             string strtags;
             for (const string &tag : entry.tags)
@@ -75,7 +76,7 @@ int main(const int argc, const char *argv[])
     }
     case export_format::asciidoc:
     {
-        cerr << "AsciiDoc is not yet supported.\n";
+        cerr << "Error: AsciiDoc is not yet supported.\n";
         break;
     }
     default:
