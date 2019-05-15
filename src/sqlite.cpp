@@ -51,7 +51,7 @@ Database::Database()
     }
     catch (std::exception &e)
     {
-        cerr << "Error: " << e.what() << endl;
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
     }
 }
 
@@ -86,6 +86,6 @@ void Database::store(const string &uri, const string &archive_uri,
     }
     catch (std::exception &e)
     {
-        cerr << "Error: " << e.what() << endl;
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
     }
 }

@@ -74,7 +74,7 @@ const html_extract URL::get()
     }
     catch (const std::exception &e)
     {
-        cerr << "Error: " << e.what() << endl;
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
     }
 
     return { "", "", "" };
@@ -432,7 +432,7 @@ const string URL::archive()
     }
     catch (const std::exception &e)
     {
-        cerr << "Error: " << e.what() << endl;
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
     }
 
     return "";

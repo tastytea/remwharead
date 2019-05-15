@@ -166,7 +166,7 @@ const options parse_options(const int argc, const char *argv[])
     }
     catch (const std::exception &e)
     {
-        cerr << "Error: " << e.what() << endl;
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
         return options(1);
     }
 
