@@ -40,6 +40,7 @@ emerge -a www-misc/remwharead
 ** Tests: https://github.com/catchorg/Catch2[catch] (tested: 2.5 / 1.2)
 
 .Install dependencies in Debian stretch.
+====
 [source,zsh]
 ----
 echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
@@ -51,6 +52,7 @@ apt-get install -t sid libcurlpp-dev
 wget -O src/popl.hpp https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
 CXX="g++-6"
 ----
+====
 
 ==== Get sourcecode
 

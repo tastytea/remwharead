@@ -18,6 +18,30 @@ steps:
     source: https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
     destination: src/popl.hpp
 
+- name: gcc6
+  image: debian:stretch-slim
+  pull: always
+  environment:
+    LANG: C.utf8
+    CXX: g++-6
+    CXXFLAGS: -pipe -O2
+  commands:
+  - rm /etc/apt/apt.conf.d/docker-clean
+  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
+  - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
+  - apt-get update -q
+  - apt-get install -qy g++-6 cmake pkg-config
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
+  - apt-get install -qy -t sid libcurlpp-dev
+  - rm -rf build && mkdir -p build && cd build
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
+  - make VERBOSE=1
+  - make install DESTDIR=install
+  - ctest
+  volumes:
+  - name: debian-package-cache
+    path: /var/cache/apt/archives
+
 - name: gcc5
   image: debian:stretch-slim
   pull: always
@@ -42,29 +66,6 @@ steps:
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
   - make VERBOSE=1
-  volumes:
-  - name: debian-package-cache
-    path: /var/cache/apt/archives
-
-- name: gcc6
-  image: debian:stretch-slim
-  pull: always
-  environment:
-    LANG: C.utf8
-    CXX: g++-6
-    CXXFLAGS: -pipe -O2
-  commands:
-  - rm /etc/apt/apt.conf.d/docker-clean
-  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
-  - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
-  - apt-get update -q
-  - apt-get install -qy g++-6 cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
-  - apt-get install -qy -t sid libcurlpp-dev
-  - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
-  - make VERBOSE=1
-  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
