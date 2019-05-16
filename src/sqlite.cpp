@@ -103,7 +103,7 @@ const vector<Database::entry> Database::retrieve(const time_point &start,
         const string query = "SELECT * FROM remwharead WHERE datetime "
             "BETWEEN '" + timepoint_to_string(start, true)
             +  "' AND '" + timepoint_to_string(end, true)
-            + "' ORDER BY datetime;";
+            + "' ORDER BY datetime DESC;";
 
         sqlite::query q(*_con, query);
         sqlite::result_type res = q.get_result();
