@@ -36,7 +36,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
         out << "= Visited things\n"
             << ":Author: remwharead " << global::version << endl
             << ":Date:   " << timepoint_to_string(system_clock::now()) << endl
-            << ":toc:    right" << endl
+            << ":TOC:    right" << endl
             // << ":toc-title:" << endl
             << endl;
 
