@@ -17,10 +17,12 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <fstream>
+#include <memory>
 #include "sqlite.hpp"
 #include "parse_options.hpp"
-#include "csv.hpp"
 #include "uri.hpp"
+#include "export.hpp"
 
 using std::cout;
 using std::cerr;
@@ -52,16 +54,42 @@ int main(const int argc, const char *argv[])
                   page.title, page.description, page.fulltext});
     }
 
+    std::ofstream file;
+    if (!opts.file.empty())
+    {
+        file.open(opts.file);
+        if (!file.good())
+        {
+            cerr << "Error: Could not open file: " << opts.file << endl;
+            return 3;
+        }
+    }
     switch (opts.format)
     {
     case export_format::csv:
     {
-        export_csv(db.retrieve(opts.span[0], opts.span[1]));
+        if (file.is_open())
+        {
+            export_csv(db.retrieve(opts.span[0], opts.span[1]), file);
+            file.close();
+        }
+        else
+        {
+            export_csv(db.retrieve(opts.span[0], opts.span[1]));
+        }
         break;
     }
     case export_format::asciidoc:
     {
-        cerr << "Error: AsciiDoc is not yet supported.\n";
+        if (file.is_open())
+        {
+            export_adoc(db.retrieve(opts.span[0], opts.span[1]), file);
+            file.close();
+        }
+        else
+        {
+            export_adoc(db.retrieve(opts.span[0], opts.span[1]));
+        }
         break;
     }
     default:

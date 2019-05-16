@@ -1,8 +1,7 @@
 = remwharead
 
 [NOTE]
-This program is not usable at the moment. Most of the described functions are
-not yet available.
+Some of the described functions are not yet available.
 
 *remwharead* saves URLs of things you read in a database along with an URL to
  the archived version, the current date and time, title, description, the full

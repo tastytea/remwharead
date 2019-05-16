@@ -66,6 +66,11 @@ commas. Line breaks in the full text are converted to "\n". Our CSV
 implementation follows RFC 4180 and the full MIME media type is
 `text/csv;charset=utf-8;header=present`.
 
+=== AsciiDoc
+
+AsciiDoc is a markup language that can be read as plain text or converted to
+HTML, PDF and many other formats.
+
 == FILES
 
 * *Database*: `${XDG_DATA_HOME}/remwharead/database.sqlite`

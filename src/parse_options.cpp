@@ -99,7 +99,7 @@ const options parse_options(const int argc, const char *argv[])
             {
                 opts.format = export_format::csv;
             }
-            else if (format == "asciidoc")
+            else if (format == "asciidoc" || format == "adoc")
             {
                 opts.format = export_format::asciidoc;
             }

@@ -14,8 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_CSV_HPP
-#define REMWHAREAD_CSV_HPP
+#ifndef REMWHAREAD_EXPORT_HPP
+#define REMWHAREAD_EXPORT_HPP
 
 #include <vector>
 #include <iostream>
@@ -26,6 +26,11 @@ using std::ostream;
 using std::cout;
 
 void export_csv(const vector<Database::entry> &entries, ostream &out = cout);
+//! replaces " with "".
 const string quote_csv(const string &field);
 
-#endif  // REMWHAREAD_CSV_HPP
+void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
+//! Replaces spaces with -.
+const string replace_spaces(const string &text);
+
+#endif  // REMWHAREAD_EXPORT_HPP
