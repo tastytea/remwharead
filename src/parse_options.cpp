@@ -49,7 +49,7 @@ const options parse_options(const int argc, const char *argv[])
         op.add<popl::Value<string>>
             ("f", "file", "Save output to file.", "", &file);
         op.add<popl::Value<string>>
-            ("s", "span", "Only export entries between YYYY-MM-DD,YYYY-MM-DD.",
+            ("S", "span", "Only export entries between YYYY-MM-DD,YYYY-MM-DD.",
              "", &span);
         auto option_help = op.add<popl::Switch>
             ("h", "help", "Show this help message.");
@@ -61,7 +61,7 @@ const options parse_options(const int argc, const char *argv[])
         {
             cout << "Usage: " << argv[0] << " [-t tags] URI\n"
                  << "       " << argv[0]
-                 << " -e format [-f file] [-s start,end]\n";
+                 << " -e format [-f file] [-S start,end]\n";
             cout << op;
             return options(0);
         }
