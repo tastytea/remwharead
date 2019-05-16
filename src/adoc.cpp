@@ -18,7 +18,6 @@
 #include <regex>
 #include <algorithm>
 #include <utility>
-#include <cstdint>
 #include <curlpp/cURLpp.hpp>
 #include "version.hpp"
 #include "time.hpp"
@@ -26,10 +25,9 @@
 
 using std::cerr;
 using std::endl;
-using std::uint64_t;
 using std::regex;
 using std::regex_replace;
-using std::pair;
+using tagpair = std::pair<string,vector<Database::entry>>;
 
 void export_adoc(const vector<Database::entry> &entries, ostream &out)
 {
@@ -42,7 +40,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             // << ":toc-title:" << endl
             << endl;
 
-        std::map<string,uint64_t> alltags;
+        std::map<string,vector<Database::entry>> alltags;
         string day;
         for (const Database::entry &entry : entries)
         {
@@ -54,6 +52,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 day = newday;
                 out << "== " << day << endl << endl;
             }
+            out << "[[dt" << datetime << "]]\n";
             out << ".link:" << entry.uri;
             if (!entry.title.empty())
             {
@@ -75,11 +74,11 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 auto globaltag = alltags.find(tag);
                 if (globaltag != alltags.end())
                 {
-                    ++(globaltag->second);
+                    globaltag->second.push_back(entry);
                 }
                 else
                 {
-                    alltags.insert({ tag, 1 });
+                    alltags.insert({ tag, { entry } });
                 }
 
                 out << " xref:" << replace_spaces(tag) << '[' << tag << ']';
@@ -103,22 +102,25 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
         if (!alltags.empty())
         {
             out << "== Tags\n\n";
-            vector<pair<string,uint64_t>> sortedtags(alltags.size());
+            vector<tagpair> sortedtags(alltags.size());
             std::move(alltags.begin(), alltags.end(), sortedtags.begin());
             std::sort(sortedtags.begin(), sortedtags.end(),
-                      [](const pair<string,uint64_t> &a, pair<string,uint64_t> &b)
+                      [](const tagpair &a, tagpair &b)
                       {
-                          return a.second > b.second;
+                          return a.second.size() > b.second.size();
                       });
 
             for (const auto &tag : sortedtags)
             {
-                out << "[[" << replace_spaces(tag.first) << "]]" << tag.first
-                    << "(" << tag.second << ")";
-                if (tag != *(sortedtags.rbegin()))
+                out << "=== [[" << replace_spaces(tag.first) << "]]"
+                    << tag.first << endl;
+                for (const Database::entry &entry : tag.second)
                 {
-                    out << ", ";
+                    out << endl << "* xref:dt"
+                        << timepoint_to_string(entry.datetime)
+                        << '[' << entry.title << ']' << endl;
                 }
+                out << endl;
             }
             out << endl;
         }
