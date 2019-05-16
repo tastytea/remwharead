@@ -20,6 +20,7 @@
 #include "sqlite.hpp"
 #include "parse_options.hpp"
 #include "url.hpp"
+#include "csv.hpp"
 
 using std::cout;
 using std::cerr;
@@ -55,24 +56,7 @@ int main(const int argc, const char *argv[])
     {
     case export_format::csv:
     {
-        cout << "#URI;Archived URI;Date & time;Tags;Title;Description\n";
-        for (const Database::entry &entry
-                 : db.retrieve(opts.span[0], opts.span[1]))
-        {
-            string strtags;
-            for (const string &tag : entry.tags)
-            {
-                strtags += tag;
-                if (tag != *(entry.tags.rbegin()))
-                {
-                    strtags += ",";
-                }
-            }
-            cout << '"' << entry.uri << "\";\"" << entry.archive_uri << "\";\""
-                 << timepoint_to_string(entry.datetime) << "\";\""
-                 << strtags << "\";\"" << entry.title << "\";\""
-                 << entry.description << '"'<< endl;
-        }
+        export_csv(db.retrieve(opts.span[0], opts.span[1]));
         break;
     }
     case export_format::asciidoc:

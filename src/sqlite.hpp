@@ -43,6 +43,9 @@ public:
         string title;
         string description;
         string fulltext;
+
+        //! The full text in one line.
+        const string fulltext_oneline() const;
     } entry;
 
     Database();

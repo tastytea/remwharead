@@ -29,7 +29,7 @@ remwharead - Remember what you read, and when
 Add tags to _URL_, delimited by commas.
 
 *-e* _format_, *--export* _format_::
-Export to _format_. Possible values are _csv_ and _asciidoc_.
+Export to _format_. Possible values are _csv_ and _asciidoc_. See _FORMATS_.
 
 *-f* _file_, *--file* _file_::
 Save output to _file_. Default is stdout.
@@ -55,6 +55,15 @@ Print version, copyright and license.
 `remwharead -e asciidoc -f out.adoc -s 2019-04-01,2019-05-31`
 
 `remwharead -e asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
+
+== FORMATS
+
+=== CSV
+
+CSV is short for comma separated values. All fields are quoted and delimited by
+commas. Line breaks in the full text are converted to "\n". Our CSV
+implementation follows RFC 4180 and the full MIME media type is
+`text/csv;charset=utf-8;header=present`.
 
 == FILES
 
