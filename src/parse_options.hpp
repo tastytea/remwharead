@@ -37,7 +37,7 @@ typedef struct options
     vector<string> tags;
     export_format format = export_format::undefined;
     string file;
-    array<time_point, 2> span = { time_point(), system_clock::now() };
+    array<time_point, 2> span = {{ time_point(), system_clock::now() }};
     string uri;
     uint8_t status_code = 0;
 
