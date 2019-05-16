@@ -64,8 +64,9 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -92,8 +93,9 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -120,8 +122,9 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -142,8 +145,9 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -166,8 +170,9 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -190,8 +195,9 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
