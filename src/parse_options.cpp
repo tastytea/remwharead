@@ -37,7 +37,6 @@ const options parse_options(const int argc, const char *argv[])
     string format;
     string file;
     string span;
-    string sort;
     options opts;
 
     try
@@ -52,8 +51,6 @@ const options parse_options(const int argc, const char *argv[])
         op.add<popl::Value<string>>
             ("s", "span", "Only export entries between YYYY-MM-DD,YYYY-MM-DD.",
              "", &span);
-        op.add<popl::Value<string>>
-            ("S", "sort", "Sort by time, tag or both (default).", "", &sort);
         auto option_help = op.add<popl::Switch>
             ("h", "help", "Show this help message.");
         auto option_version = op.add<popl::Switch>
@@ -128,27 +125,6 @@ const options parse_options(const int argc, const char *argv[])
             {
                 cerr << "Error: Time span must be in format: "
                     "YYYY-MM-DD,YYYY-MM-DD.\n";
-                return options(1);
-            }
-        }
-
-        if (!sort.empty())
-        {
-            if (sort == "time")
-            {
-                opts.sort = sort_attribute::time;
-            }
-            else if (sort == "tag")
-            {
-                opts.sort = sort_attribute::tag;
-            }
-            else if (sort == "both")
-            {
-                opts.sort = sort_attribute::both;
-            }
-            else
-            {
-                cerr << "Error: --sort " << sort << " not understood.\n";
                 return options(1);
             }
         }

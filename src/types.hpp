@@ -24,11 +24,4 @@ enum class export_format
     asciidoc
 };
 
-enum class sort_attribute
-{
-    both,
-    time,
-    tag
-};
-
 #endif  // REMWHAREAD_TYPES_HPP

@@ -40,9 +40,6 @@ are date and time representations according to ISO 8601
 (YYYY-MM-DDThh:mm:ss). Time zones are ignored.
 Example: `--span 2019-01-01,2019-02-10T12:30`.
 
-*-S* _attribute_, *--sort* _attribute_::
-Sort by _time_, _tag_ or _both_ (default) when exporting to _asciidoc_.
-
 *-h*, *--help*::
 Show help message.
 

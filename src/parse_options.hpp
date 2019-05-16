@@ -38,7 +38,6 @@ typedef struct options
     export_format format = export_format::undefined;
     string file;
     array<time_point, 2> span = { time_point(), system_clock::now() };
-    sort_attribute sort = sort_attribute::both;
     string uri;
     uint8_t status_code = 0;
 
