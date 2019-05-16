@@ -409,6 +409,11 @@ const string URL::unescape_html(const string &html)
 
 const string URL::archive()
 {
+    if (_url.substr(0, 4) != "http")
+    {
+        return "";
+    }
+
     try
     {
         std::ostringstream oss;
