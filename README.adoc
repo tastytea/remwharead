@@ -1,11 +1,8 @@
 = remwharead
 
-[NOTE]
-Some of the described functions are not yet available.
-
-*remwharead* saves URLs of things you read in a database along with an URL to
- the archived version, the current date and time, title, description, the full
- text of the page and optional tags.
+*remwharead* saves URIs of things you want to remember in a database along with
+ an URI to the archived version, the current date and time, title, description,
+ the full text of the page and optional tags.
 
 == Usage
 
@@ -13,7 +10,6 @@ See https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[
 
 == Install
 
-////
 === Gentoo
 
 Add my https://schlomp.space/tastytea/overlay[repository] and install it from
@@ -26,11 +22,9 @@ echo "www-misc/remwharead ~amd64" >> /etc/portage/package.accept_keywords/remwha
 emaint sync -r tastytea
 emerge -a www-misc/remwharead
 ----
-////
 
 === From source
 
-////
 ==== Dependencies
 
 * Tested OS: Linux
@@ -43,27 +37,14 @@ emerge -a www-misc/remwharead
 * https://github.com/badaix/popl[popl] (tested: 1.2)
 * Optional:
 ** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
-
-===== Debian stretch
-
-[source,zsh]
-----
-echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
-echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
-apt-get update
-apt-get install build-essential cmake pkg-config libcurl4-openssl-dev asciidoc
-apt-get install -t sid libcurlpp-dev
-----
-////
+** Tests: https://github.com/catchorg/Catch2[catch] (tested: 2.5 / 1.2)
 
 ==== Get sourcecode
 
-////
 ===== Releases
 
 Download the current release at
 https://schlomp.space/tastytea/remwharead/releases[schlomp.space].
-////
 
 ===== Development version
 

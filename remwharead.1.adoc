@@ -9,7 +9,7 @@
 
 == NAME
 
-remwharead - Remember what you read, and when
+remwharead - Saves URIs of things you want to remember in a database
 
 == SYNOPSIS
 
@@ -19,9 +19,9 @@ remwharead - Remember what you read, and when
 
 == DESCRIPTION
 
-*remwharead* saves URIs of things you read in a database along with an URI to
- the archived version, the current date and time, title, description, the full
- text of the page and optional tags.
+*remwharead* saves URIs of things you want to remember in a database along with
+ an URI to the archived version, the current date and time, title, description,
+ the full text of the page and optional tags.
 
 == OPTIONS
 
