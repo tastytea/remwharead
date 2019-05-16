@@ -130,7 +130,7 @@ SCENARIO ("The option parser works correctly")
         {
             REQUIRE_FALSE(exception);
             REQUIRE(opts.status_code == 0);
-            REQUIRE(opts.tags == vector<string>{ "tag1", longstring, "tag3" });
+            REQUIRE((opts.tags == vector<string>{ "tag1", longstring, "tag3" }));
             REQUIRE(opts.uri == uri);
         }
     }
