@@ -97,14 +97,30 @@ const string URI::extract_description(const string &html)
 const string URI::strip_html(const string &html)
 {
     string out;
+
     out = regex_replace(html, regex("<script[^<]+"), ""); // Remove JavaScript.
     out = regex_replace(out, regex("<style[^<]+"), "");   // Remove CSS.
-    out = regex_replace(out, regex("<[^>]+>"), "");       // Remove tags.
-    out = regex_replace(out, regex("\r"), "\n");     // Replace CR with LF.
-    out = regex_replace(out, regex(" +\n"), "\n");   // Remove trailing space.
+    out = remove_html_tags(out);                          // Remove tags.
+    out = regex_replace(out, regex("\r"), "");            // Remove CR.
+    out = regex_replace(out, regex("\\s+\n"), "\n"); // Remove trailing space.
     out = regex_replace(out, regex("\n{2,}"), "\n"); // Reduce newlines.
 
     return unescape_html(out);
+}
+const string URI::remove_html_tags(const string &html)
+{
+    // NOTE: I did this with regex_replace before, but libstdc++ segfaulted.
+    string out;
+    size_t pos = 0;
+    while (pos != std::string::npos)
+    {
+        size_t startpos = html.find('<', pos);
+        size_t endpos = html.find('>', startpos);
+        out += html.substr(pos, startpos - pos);
+        pos = endpos;
+    }
+
+    return out;
 }
 
 const string URI::unescape_html(const string &html)

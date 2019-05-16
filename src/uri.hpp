@@ -44,6 +44,7 @@ private:
     const string extract_title(const string &html);
     const string extract_description(const string &html);
     const string strip_html(const string &html);
+    const string remove_html_tags(const string &html);
     const string unescape_html(const string &html);
     const string remove_newlines(const string &text);
 };
