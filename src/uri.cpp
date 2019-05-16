@@ -26,7 +26,7 @@
 #include <curlpp/Exception.hpp>
 #include <curlpp/Infos.hpp>
 #include <version.hpp>
-#include "url.hpp"
+#include "uri.hpp"
 
 namespace curlopts = curlpp::options;
 using std::uint64_t;
@@ -37,12 +37,12 @@ using std::regex_replace;
 using std::regex_search;
 using std::smatch;
 
-URL::URL(const string &url)
-    :_url(url)
+URI::URI(const string &uri)
+    :_uri(uri)
 {
 }
 
-const html_extract URL::get()
+const html_extract URI::get()
 {
     try
     {
@@ -52,7 +52,7 @@ const html_extract URL::get()
                                             + global::version);
         request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
         request.setOpt<curlopts::FollowLocation>(true);
-        request.setOpt<curlopts::Url>(_url);
+        request.setOpt<curlopts::Url>(_uri);
         request.setOpt<curlopts::WriteStream>(&oss);
         request.perform();
 
@@ -80,21 +80,21 @@ const html_extract URL::get()
     return { "", "", "" };
 }
 
-const string URL::extract_title(const string &html)
+const string URI::extract_title(const string &html)
 {
     smatch match;
     regex_search(html, match, regex("<title>([^<]+)"));
-    return match[1].str();
+    return remove_newlines(match[1].str());
 }
 
-const string URL::extract_description(const string &html)
+const string URI::extract_description(const string &html)
 {
     smatch match;
     regex_search(html, match, regex("description\"[^>]+content=\"([^\"]+)"));
-    return match[1].str();
+    return remove_newlines(match[1].str());
 }
 
-const string URL::strip_html(const string &html)
+const string URI::strip_html(const string &html)
 {
     string out;
     out = regex_replace(html, regex("<script[^<]+"), ""); // Remove JavaScript.
@@ -107,7 +107,7 @@ const string URL::strip_html(const string &html)
     return unescape_html(out);
 }
 
-const string URL::unescape_html(const string &html)
+const string URI::unescape_html(const string &html)
 {
     string buffer = html;
     string output;
@@ -407,9 +407,9 @@ const string URL::unescape_html(const string &html)
     return output;
 }
 
-const string URL::archive()
+const string URI::archive()
 {
-    if (_url.substr(0, 4) != "http")
+    if (_uri.substr(0, 4) != "http")
     {
         return "";
     }
@@ -422,7 +422,7 @@ const string URL::archive()
                                             + global::version);
         request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
         request.setOpt<curlopts::FollowLocation>(true);
-        request.setOpt<curlopts::Url>("https://web.archive.org/save/" + _url);
+        request.setOpt<curlopts::Url>("https://web.archive.org/save/" + _uri);
         request.setOpt<curlopts::WriteStream>(&oss);
         request.setOpt<curlopts::NoBody>(true);        // Make a HEAD request.
         request.setOpt<curlpp::options::Header>(true); // Save headers in oss.
@@ -441,4 +441,9 @@ const string URL::archive()
     }
 
     return "";
+}
+
+const string URI::remove_newlines(const string &text)
+{
+    return regex_replace(text, regex("\n"), " ");
 }

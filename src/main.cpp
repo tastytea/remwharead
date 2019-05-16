@@ -19,8 +19,8 @@
 #include <chrono>
 #include "sqlite.hpp"
 #include "parse_options.hpp"
-#include "url.hpp"
 #include "csv.hpp"
+#include "uri.hpp"
 
 using std::cout;
 using std::cerr;
@@ -44,11 +44,11 @@ int main(const int argc, const char *argv[])
         return 2;
     }
 
-    if (!opts.url.empty())
+    if (!opts.uri.empty())
     {
-        URL url(opts.url);
-        html_extract page = url.get();
-        db.store({opts.url, url.archive(), system_clock::now(), opts.tags,
+        URI uri(opts.uri);
+        html_extract page = uri.get();
+        db.store({opts.uri, uri.archive(), system_clock::now(), opts.tags,
                   page.title, page.description, page.fulltext});
     }
 

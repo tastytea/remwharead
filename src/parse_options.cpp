@@ -44,7 +44,7 @@ const options parse_options(const int argc, const char *argv[])
     {
         popl::OptionParser op("Available options");
         op.add<popl::Value<string>>
-            ("t", "tags", "Add tags to URL, delimited by commas.", "", &tags);
+            ("t", "tags", "Add tags to URI, delimited by commas.", "", &tags);
         op.add<popl::Value<string>>
             ("e", "export", "Export to format.", "", &format);
         op.add<popl::Value<string>>
@@ -62,7 +62,7 @@ const options parse_options(const int argc, const char *argv[])
 
         if (option_help->is_set())
         {
-            cout << "Usage: " << argv[0] << " [-t tags] URL\n"
+            cout << "Usage: " << argv[0] << " [-t tags] URI\n"
                  << "       " << argv[0]
                  << " -e format [-f file] [-s start,end]\n";
             cout << op;
@@ -155,12 +155,12 @@ const options parse_options(const int argc, const char *argv[])
 
         if (op.non_option_args().size() > 0)
         {
-            opts.url = op.non_option_args().front();
+            opts.uri = op.non_option_args().front();
         }
 
-        if (opts.url == "" && opts.format == export_format::undefined)
+        if (opts.uri == "" && opts.format == export_format::undefined)
         {
-            cerr << "Error: You have to specify either URL or --export.\n";
+            cerr << "Error: You have to specify either URI or --export.\n";
             return options(1);
         }
     }

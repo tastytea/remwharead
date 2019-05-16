@@ -39,7 +39,7 @@ typedef struct options
     string file;
     array<time_point, 2> span = { time_point(), system_clock::now() };
     sort_attribute sort = sort_attribute::both;
-    string url;
+    string uri;
     uint8_t status_code = 0;
 
     options();

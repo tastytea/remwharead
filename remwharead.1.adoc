@@ -13,20 +13,20 @@ remwharead - Remember what you read, and when
 
 == SYNOPSIS
 
-*remwharead* [*-t* _tags_] _URL_
+*remwharead* [*-t* _tags_] _URI_
 
 *remwharead* *-e* _format_ [*-f* _file_] [*-s* _start_,_end_]
 
 == DESCRIPTION
 
-*remwharead* saves URLs of things you read in a database along with an URL to
+*remwharead* saves URIs of things you read in a database along with an URI to
  the archived version, the current date and time, title, description, the full
  text of the page and optional tags.
 
 == OPTIONS
 
 *-t* _tags_, *--tags* _tags_::
-Add tags to _URL_, delimited by commas.
+Add tags to _URI_, delimited by commas.
 
 *-e* _format_, *--export* _format_::
 Export to _format_. Possible values are _csv_ and _asciidoc_. See _FORMATS_.

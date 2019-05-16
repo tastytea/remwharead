@@ -14,8 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_URL_HPP
-#define REMWHAREAD_URL_HPP
+#ifndef REMWHAREAD_URI_HPP
+#define REMWHAREAD_URI_HPP
 
 #include <string>
 
@@ -28,23 +28,24 @@ typedef struct html_extract
     string fulltext;
 } html_extract;
 
-class URL
+class URI
 {
 public:
-    explicit URL(const string &url);
+    explicit URI(const string &uri);
 
-    //! Download URL and extract title, description and full text.
+    //! Download URI and extract title, description and full text.
     const html_extract get();
-    //! Save URL in archive and return URL.
+    //! Save URI in archive and return URI.
     const string archive();
 
 private:
-    string _url;
+    string _uri;
 
     const string extract_title(const string &html);
     const string extract_description(const string &html);
     const string strip_html(const string &html);
     const string unescape_html(const string &html);
+    const string remove_newlines(const string &text);
 };
 
-#endif  // REMWHAREAD_URL_HPP
+#endif  // REMWHAREAD_URI_HPP
