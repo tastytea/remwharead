@@ -37,7 +37,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t xenial g++-5
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
@@ -59,11 +59,12 @@ steps:
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
   - apt-get update -q
   - apt-get install -qy g++-6 cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - ctest
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -87,7 +88,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t xenial g++-7
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
@@ -115,7 +116,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t xenial g++-8
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
@@ -137,7 +138,7 @@ steps:
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
   - apt-get update -q
   - apt-get install -qy clang cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
@@ -161,7 +162,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t stretch-backports clang-5.0
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
@@ -185,7 +186,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t stretch-backports clang-6.0
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev asciidoc catch
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
