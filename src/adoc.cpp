@@ -35,8 +35,8 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
     {
         out << "= Visited things\n"
             << ":Author: remwharead " << global::version << endl
-            << ":Date: " << timepoint_to_string(system_clock::now()) << endl
-            << ":toc: right" << endl
+            << ":Date:   " << timepoint_to_string(system_clock::now()) << endl
+            << ":toc:    right" << endl
             // << ":toc-title:" << endl
             << endl;
 
@@ -52,6 +52,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 day = newday;
                 out << "== " << day << endl << endl;
             }
+
             out << "[[dt" << datetime << "]]\n";
             out << ".link:" << entry.uri;
             if (!entry.title.empty())
@@ -63,6 +64,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 out << "[]";
             }
             out << endl;
+
             out << '_' << time << '_';
             for (const string &tag : entry.tags)
             {
@@ -93,6 +95,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 out << " (" << entry.archive_uri << "[archived version])\n";
             }
             out << endl;
+
             if (!entry.description.empty())
             {
                 out << entry.description << endl << endl;
