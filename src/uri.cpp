@@ -118,6 +118,10 @@ const string URI::remove_html_tags(const string &html)
         size_t endpos = html.find('>', startpos);
         out += html.substr(pos, startpos - pos);
         pos = endpos;
+        if (pos != std::string::npos)
+        {
+            ++pos;
+        }
     }
 
     return out;
