@@ -73,7 +73,6 @@ SCENARIO ("The AsciiDoc export works correctly")
                     adoc_ok = false;
                 }
             }
-            std::cout << adoc;
         }
         catch (const std::exception &e)
         {
