@@ -56,6 +56,8 @@ SCENARIO ("The CSV export works correctly")
             {
                 csv_ok = true;
             }
+            std::cout << "|" << output.str() << "|\n"
+                      << "|" << expected << "|\n";
         }
         catch (const std::exception &e)
         {
