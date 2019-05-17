@@ -49,8 +49,9 @@ apt-get update
 apt-get install g++-6 cmake pkg-config libcurl4-openssl-dev libxdg-basedir-dev \
     libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc
 apt-get install -t sid libcurlpp-dev
+# Inside the source directory:
 wget -O src/popl.hpp https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
-CXX="g++-6"
+export CXX="g++-6"
 ----
 ====
 
