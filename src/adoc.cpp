@@ -125,7 +125,6 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 }
                 out << endl;
             }
-            out << endl;
         }
     }
     catch (std::exception &e)
