@@ -38,7 +38,7 @@ public:
     //! Save URI in archive and return URI.
     const string archive();
 
-private:
+protected:
     string _uri;
 
     const string extract_title(const string &html);
