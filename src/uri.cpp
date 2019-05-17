@@ -98,29 +98,53 @@ const string URI::strip_html(const string &html)
 {
     string out;
 
-    out = regex_replace(html, regex("<script[^<]+"), ""); // Remove JavaScript.
-    out = regex_replace(out, regex("<style[^<]+"), "");   // Remove CSS.
-    out = remove_html_tags(out);                          // Remove tags.
-    out = regex_replace(out, regex("\r"), "");            // Remove CR.
+    out = remove_html_tags(html, "script") // Remove JavaScript.
+    out = remove_html_tags(out, "style");  // Remove CSS.
+    out = remove_html_tags(out);           // Remove tags.
+
+    size_t pos = 0;
+    while ((pos = out.find("\r")) != std::string::npos)   // Remove CR.
+    {
+        out.replace(pos, 1, "");
+    }
+
     out = regex_replace(out, regex("\\s+\n"), "\n"); // Remove trailing space.
     out = regex_replace(out, regex("\n{2,}"), "\n"); // Reduce newlines.
 
     return unescape_html(out);
 }
-const string URI::remove_html_tags(const string &html)
+const string URI::remove_html_tags(const string &html, const string &tag)
 {
     // NOTE: I did this with regex_replace before, but libstdc++ segfaulted.
     string out;
-    size_t pos = 0;
-    while (pos != std::string::npos)
+    if (tag.empty())
     {
-        size_t startpos = html.find('<', pos);
-        size_t endpos = html.find('>', startpos);
-        out += html.substr(pos, startpos - pos);
-        pos = endpos;
-        if (pos != std::string::npos)
+        size_t pos = 0;
+        while (pos != std::string::npos)
         {
-            ++pos;
+            size_t startpos = html.find('<', pos);
+            size_t endpos = html.find('>', startpos);
+            out += html.substr(pos, startpos - pos);
+            pos = endpos;
+            if (pos != std::string::npos)
+            {
+                ++pos;
+            }
+        }
+    }
+    else
+    {
+        size_t pos = 0;
+        out = html;
+        while ((pos = out.find("<" + tag)) != std::string::npos)
+        {
+            size_t endpos = out.find("</" + tag, pos);
+            if (endpos == std::string::npos)
+            {
+                break;
+            }
+            endpos += 3 + tag.length(); // tag + </ + >
+            out.replace(pos, endpos - pos, "");
         }
     }
 

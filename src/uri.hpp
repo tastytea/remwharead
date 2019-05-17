@@ -44,7 +44,8 @@ protected:
     const string extract_title(const string &html);
     const string extract_description(const string &html);
     const string strip_html(const string &html);
-    const string remove_html_tags(const string &html);
+    //! Remove all HTML tags. If tag is not empty, remove tag and its content.
+    const string remove_html_tags(const string &html, const string &tag = "");
     const string unescape_html(const string &html);
     const string remove_newlines(const string &text);
 };
