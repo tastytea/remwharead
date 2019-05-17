@@ -98,12 +98,12 @@ const string URI::strip_html(const string &html)
 {
     string out;
 
-    out = remove_html_tags(html, "script") // Remove JavaScript.
-    out = remove_html_tags(out, "style");  // Remove CSS.
-    out = remove_html_tags(out);           // Remove tags.
+    out = remove_html_tags(html, "script"); // Remove JavaScript.
+    out = remove_html_tags(out, "style");   // Remove CSS.
+    out = remove_html_tags(out);            // Remove tags.
 
     size_t pos = 0;
-    while ((pos = out.find("\r")) != std::string::npos)   // Remove CR.
+    while ((pos = out.find("\r")) != std::string::npos) // Remove CR.
     {
         out.replace(pos, 1, "");
     }
