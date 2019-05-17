@@ -18,6 +18,7 @@
 #include <string>
 #include <chrono>
 #include <sstream>
+#include <regex>
 #include <catch.hpp>
 #include "time.hpp"
 #include "sqlite.hpp"
@@ -25,6 +26,8 @@
 
 using std::string;
 using std::chrono::system_clock;
+using std::regex;
+using std::regex_search;
 
 SCENARIO ("The CSV export works correctly")
 {
@@ -45,19 +48,18 @@ SCENARIO ("The CSV export works correctly")
         {
             std::ostringstream output;
             export_csv({ entry }, output);
+            const string csv = output.str();
 
-            const string expected =
-                "\"URI\",\"Archived URI\",\"Date & time\",\"Tags\","
+            const regex re
+                ("\"URI\",\"Archived URI\",\"Date & time\",\"Tags\","
                 "\"Title\",\"Description\",\"Full text\"\r\n"
                 "\"https://example.com/page.html\",\"\","
-                "\"1970-01-01T01:00:00\",\"tag1,tag2\","
-                "\"Nice title\",\"Good description.\",\"Full text.\"\r\n";
-            if (output.str() == expected)
+                "\"1970-01-01T\\d{2}:\\d{2}:\\d{2}\",\"tag1,tag2\","
+                 "\"Nice title\",\"Good description.\",\"Full text.\"\r\n");
+            if (regex_search(csv, re))
             {
                 csv_ok = true;
             }
-            std::cout << "|" << output.str() << "|\n"
-                      << "|" << expected << "|\n";
         }
         catch (const std::exception &e)
         {
