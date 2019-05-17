@@ -31,7 +31,7 @@ SCENARIO ("URI works correctly")
             explicit URITest(const string &)
                 : URI("") {}
             URITest()
-                : URI("") {}
+                : URI("test.html") {}
 
             bool test_title()
             {
