@@ -82,16 +82,28 @@ const html_extract URI::get()
 
 const string URI::extract_title(const string &html)
 {
-    smatch match;
-    regex_search(html, match, regex("<title>([^<]+)"));
-    return remove_newlines(match[1].str());
+    const regex re_htmlfile("\\.(.?html?|xml|rss)$");
+    if (_uri.substr(0, 4) == "http" || regex_search(_uri, re_htmlfile))
+    {
+        smatch match;
+        regex_search(html, match, regex("<title>([^<]+)"));
+        return remove_newlines(match[1].str());
+    }
+
+    return "";
 }
 
 const string URI::extract_description(const string &html)
 {
-    smatch match;
-    regex_search(html, match, regex("description\"[^>]+content=\"([^\"]+)"));
-    return remove_newlines(match[1].str());
+    const regex re_htmlfile("\\.(.?html?|xml|rss)$");
+    if (_uri.substr(0, 4) == "http" || regex_search(_uri, re_htmlfile))
+    {
+        smatch match;
+        regex_search(html, match, regex("description\"[^>]+content=\"([^\"]+)"));
+        return remove_newlines(match[1].str());
+    }
+
+    return "";
 }
 
 const string URI::strip_html(const string &html)
