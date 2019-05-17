@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-05-16
+:Date:          2019-05-18
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -68,11 +68,26 @@ implementation follows RFC 4180 and the full MIME media type is
 AsciiDoc is a markup language that can be read as plain text or converted to
 HTML, PDF and many other formats.
 
+== PROTOCOL SUPPORT
+
+Since remwharead is built on libcurl, it supports the same protocols. See
+*curl*(1), section _DESCRIPTION_. Titles and descriptions are currently only extracted
+when using HTTP(S).
+
+== ENVIRONMENT
+
+You can use proxy servers with the same environment variables as curl. See
+*curl*(1), section _ENVIRONMENT_.
+
 == FILES
 
 * *Database*: `${XDG_DATA_HOME}/remwharead/database.sqlite`
 
 `${XDG_DATA_HOME}` is usually `~/.local/share`.
+
+== SEE ALSO
+
+*curl*(1)
 
 == REPORTING BUGS
 
