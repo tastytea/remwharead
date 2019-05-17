@@ -65,12 +65,24 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             }
             out << endl;
 
-            out << '_' << time << '_';
+            out << '_' << time.substr(0, 5) << '_';
+            if (!entry.archive_uri.empty())
+            {
+                out << " (link:" << entry.archive_uri << "[archived version])";
+            }
+            out << endl;
+
+            bool separator = false;
             for (const string &tag : entry.tags)
             {
                 if (tag.empty())
                 {
                     continue;
+                }
+                if (!separator)
+                {
+                    out << "| ";
+                    separator = true;
                 }
 
                 auto globaltag = alltags.find(tag);
@@ -83,22 +95,17 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                     alltags.insert({ tag, { entry } });
                 }
 
-                out << " xref:" << replace_spaces(tag) << '[' << tag << ']';
+                out << "xref:" << replace_spaces(tag) << "[" << tag << ']';
                 if (tag != *(entry.tags.rbegin()))
                 {
-                    out << ',';
+                    out << ", ";
                 }
-            }
-            out << endl;
-            if (!entry.archive_uri.empty())
-            {
-                out << " (" << entry.archive_uri << "[archived version])\n";
             }
             out << endl;
 
             if (!entry.description.empty())
             {
-                out << entry.description << endl << endl;
+                out << endl << entry.description << endl << endl;
             }
         }
 
