@@ -68,3 +68,5 @@ if(WITH_TESTS)
   target_link_libraries(${PROJECT_NAME}_testlib ${COMMON_LIBRARIES})
   include(tests.CMakeLists.txt)
 endif()
+
+include(packages.CMakeLists.txt)

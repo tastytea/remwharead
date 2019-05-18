@@ -202,7 +202,112 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
-- name: notify
+---
+kind: pipeline
+name: packages x86_64
+
+volumes:
+- name: debian-package-cache
+  host:
+    path: /var/cache/debian-package-cache
+- name: centos-package-cache
+  host:
+    path: /var/cache/centos-package-cache
+
+trigger:
+  event:
+    - tag
+
+steps:
+- name: download
+  image: plugins/download
+  settings:
+    source: https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
+    destination: src/popl.hpp
+
+- name: deb
+  image: debian:stretch-slim
+  pull: always
+  environment:
+    LANG: C.utf8
+    CXX: g++-6
+    CXXFLAGS: -pipe -O2
+  commands:
+  - rm /etc/apt/apt.conf.d/docker-clean
+  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
+  - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
+  - apt-get update -q
+  - apt-get install -qy g++-6 cmake pkg-config
+  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
+  - apt-get install -qy -t sid libcurlpp-dev
+  - apt-get install -qy build-essential file
+  - rm -rf build && mkdir -p build && cd build
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_DEB=YES ..
+  - make package
+  - cp -v remwharead_${DRONE_TAG}-0_amd64.deb ..
+  volumes:
+  - name: debian-package-cache
+    path: /var/cache/apt/archives
+
+- name: rpm
+  image: centos:7
+  pull: always
+  environment:
+    LANG: C.utf8
+    CXXFLAGS: -pipe -O2
+  commands:
+  - sed -i 's/keepcache=0/keepcache=1/' /etc/yum.conf
+  - curl -s -o /var/cache/yum/epel-release-latest-7.noarch.rpm http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  - rpm -i /var/cache/yum/epel-release-latest-7.noarch.rpm
+  - yum install -qy centos-release-scl
+  - yum install -qy devtoolset-6
+  - scl enable devtoolset-6 bash
+  - yum install -qy libcurl-devel rpm-build libxdg-basedir boost-devel boost-system boost-filesystem asciidoc
+  - yum --enablerepo=epel install -qy cmake3 vsqlite++-devel
+  - curl -s -o /var/cache/yum/curlpp-devel-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-devel-0.7.3-5.el6.x86_64.rpm
+  - curl -s -o /var/cache/yum/curlpp-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-0.7.3-5.el6.x86_64.rpm
+  - yum localinstall -qy /var/cache/yum/curlpp-*
+  - rm -rf build && mkdir -p build && cd build
+  - cmake3 -DCMAKE_INSTALL_PREFIX=/usr -DWITH_RPM=YES ..
+  - make package
+  - cp -v remwharead-${DRONE_TAG}-0.x86_64.rpm ..
+  volumes:
+  - name: centos-package-cache
+    path: /var/cache/yum
+
+- name: gitea_release
+  image: plugins/gitea-release
+  pull: always
+  settings:
+    base_url: https://schlomp.space
+    api_key:
+      from_secret: gitea_token
+    title: ${DRONE_TAG}
+    prerelease: true
+    files:
+      - remwharead_${DRONE_TAG}-0_amd64.deb
+      - remwharead-${DRONE_TAG}-0.x86_64.rpm
+    checksum:
+      - sha512
+
+---
+kind: pipeline
+name: notify
+
+depends_on:
+  - x86_64
+  - packages x86_64
+
+trigger:
+  status:
+  - success
+  - failure
+
+clone:
+  disable: true
+
+steps:
+- name: email
   image: drillster/drone-email
   pull: always
   settings:
