@@ -40,6 +40,7 @@ emerge -a www-misc/remwharead
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
 * https://github.com/badaix/popl[popl] (tested: 1.2)
 * http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)
+* http://www.curlpp.org/[curlpp] (tested: 0.8 / 0.7)
 * http://vsqlite.virtuosic-bytes.com/[vsqlite++] (tested: 0.3)
 * Optional:
 ** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
