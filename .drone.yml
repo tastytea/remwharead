@@ -263,32 +263,32 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
-- name: rpm
-  image: centos:7
-  pull: always
-  environment:
-    LANG: C.utf8
-    CXX: /opt/rh/devtoolset-6/root/usr/bin/g++
-    CXXFLAGS: -pipe -O2
-  commands:
-  - sed -i 's/keepcache=0/keepcache=1/' /etc/yum.conf
-  - curl -s -o /var/cache/yum/epel-release-latest-7.noarch.rpm http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-  - rpm -i /var/cache/yum/epel-release-latest-7.noarch.rpm
-  - yum install -qy centos-release-scl
-  - yum install -qy devtoolset-6
-  - scl enable devtoolset-6 bash
-  - yum install -qy libcurl-devel rpm-build libxdg-basedir boost-system boost-filesystem asciidoc
-  - yum --enablerepo=epel install -qy cmake3 vsqlite++-devel
-  - curl -s -o /var/cache/yum/curlpp-devel-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-devel-0.7.3-5.el6.x86_64.rpm
-  - curl -s -o /var/cache/yum/curlpp-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-0.7.3-5.el6.x86_64.rpm
-  - yum localinstall -qy /var/cache/yum/curlpp-*
-  - rm -rf build && mkdir -p build && cd build
-  - cmake3 -DCMAKE_INSTALL_PREFIX=/usr -DWITH_RPM=YES ..
-  - make package
-  - cp -v remwharead-${DRONE_TAG}-0.x86_64.rpm ..
-  volumes:
-  - name: centos-package-cache
-    path: /var/cache/yum
+# - name: rpm
+#   image: centos:7
+#   pull: always
+#   environment:
+#     LANG: C.utf8
+#     CXX: /opt/rh/devtoolset-6/root/usr/bin/g++
+#     CXXFLAGS: -pipe -O2
+#   commands:
+#   - sed -i 's/keepcache=0/keepcache=1/' /etc/yum.conf
+#   - curl -s -o /var/cache/yum/epel-release-latest-7.noarch.rpm http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#   - rpm -i /var/cache/yum/epel-release-latest-7.noarch.rpm
+#   - yum install -qy centos-release-scl
+#   - yum install -qy devtoolset-6
+#   - scl enable devtoolset-6 bash
+#   - yum install -qy libcurl-devel rpm-build libxdg-basedir-devel boost-system boost-filesystem asciidoc
+#   - yum --enablerepo=epel install -qy cmake3 vsqlite++-devel
+#   - curl -s -o /var/cache/yum/curlpp-devel-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-devel-0.7.3-5.el6.x86_64.rpm
+#   - curl -s -o /var/cache/yum/curlpp-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-0.7.3-5.el6.x86_64.rpm
+#   - yum localinstall -qy /var/cache/yum/curlpp-*
+#   - rm -rf build && mkdir -p build && cd build
+#   - cmake3 -DCMAKE_INSTALL_PREFIX=/usr -DWITH_RPM=YES ..
+#   - make package
+#   - cp -v remwharead-${DRONE_TAG}-0.x86_64.rpm ..
+#   volumes:
+#   - name: centos-package-cache
+#     path: /var/cache/yum
 
 - name: release
   image: plugins/gitea-release
@@ -301,7 +301,7 @@ steps:
     prerelease: true
     files:
       - remwharead_${DRONE_TAG}-0_amd64.deb
-      - remwharead-${DRONE_TAG}-0.x86_64.rpm
+      # - remwharead-${DRONE_TAG}-0.x86_64.rpm
     checksum:
       - sha512
 
