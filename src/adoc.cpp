@@ -70,7 +70,6 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             {
                 out << " (link:" << entry.archive_uri << "[archived version])";
             }
-            out << endl;
 
             bool separator = false;
             for (const string &tag : entry.tags)
@@ -81,7 +80,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 }
                 if (!separator)
                 {
-                    out << "| ";
+                    out << "\n| ";
                     separator = true;
                 }
 
@@ -101,11 +100,11 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                     out << ", ";
                 }
             }
-            out << endl;
+            out << endl << endl;
 
             if (!entry.description.empty())
             {
-                out << endl << entry.description << endl << endl;
+                out <<  entry.description << endl << endl;
             }
         }
 
