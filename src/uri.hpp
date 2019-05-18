@@ -18,6 +18,7 @@
 #define REMWHAREAD_URI_HPP
 
 #include <string>
+#include <curlpp/Easy.hpp>
 
 using std::string;
 
@@ -41,6 +42,7 @@ public:
 protected:
     string _uri;
 
+    void set_curlpp_options(curlpp::Easy &request);
     const string extract_title(const string &html);
     const string extract_description(const string &html);
     const string strip_html(const string &html);

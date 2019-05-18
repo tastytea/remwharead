@@ -21,7 +21,6 @@
 #include <locale>
 #include <codecvt>
 #include <curlpp/cURLpp.hpp>
-#include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/Exception.hpp>
 #include <curlpp/Infos.hpp>
@@ -48,10 +47,7 @@ const html_extract URI::get()
     {
         std::ostringstream oss;
         curlpp::Easy request;
-        request.setOpt<curlopts::UserAgent>(string("remwharead/")
-                                            + global::version);
-        request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
-        request.setOpt<curlopts::FollowLocation>(true);
+        set_curlpp_options(request);
         request.setOpt<curlopts::Url>(_uri);
         request.setOpt<curlopts::WriteStream>(&oss);
         request.perform();
@@ -78,6 +74,14 @@ const html_extract URI::get()
     }
 
     return { "", "", "" };
+}
+
+void URI::set_curlpp_options(curlpp::Easy &request)
+{
+    request.setOpt<curlopts::UserAgent>(string("remwharead/")
+                                        + global::version);
+    request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
+    request.setOpt<curlopts::FollowLocation>(true);
 }
 
 const string URI::extract_title(const string &html)
@@ -474,10 +478,7 @@ const string URI::archive()
     {
         std::ostringstream oss;
         curlpp::Easy request;
-        request.setOpt<curlopts::UserAgent>(string("remwharead/")
-                                            + global::version);
-        request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
-        request.setOpt<curlopts::FollowLocation>(true);
+        set_curlpp_options(request);
         request.setOpt<curlopts::Url>("https://web.archive.org/save/" + _uri);
         request.setOpt<curlopts::WriteStream>(&oss);
         request.setOpt<curlopts::NoBody>(true);        // Make a HEAD request.
