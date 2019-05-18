@@ -4,6 +4,12 @@
  an URI to the archived version, the current date and time, title, description,
  the full text of the page and optional tags.
 
+.AsciiDoc export formatted with Asciidoctor
+====
+image::https://doc.schlomp.space/remwharead/example_dates.png[Dates view, width=400, link="https://doc.schlomp.space/remwharead/example_dates.png", role=left]
+image::https://doc.schlomp.space/remwharead/example_tags.png[Tags view, width=400, link="https://doc.schlomp.space/remwharead/example_tags.png"]
+====
+
 == Usage
 
 See https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[manpage].
