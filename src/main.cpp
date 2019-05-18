@@ -50,6 +50,11 @@ int main(const int argc, const char *argv[])
     {
         URI uri(opts.uri);
         html_extract page = uri.get();
+        if (page.fulltext.empty())
+        {
+            cerr << "Error: Could not fetch page.";
+            return 4;
+        }
         db.store({opts.uri, uri.archive(), system_clock::now(), opts.tags,
                   page.title, page.description, page.fulltext});
     }
