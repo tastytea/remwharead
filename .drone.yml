@@ -1,5 +1,5 @@
 kind: pipeline
-name: x86_64
+name: build x86_64
 
 volumes:
 - name: debian-package-cache
@@ -275,7 +275,7 @@ steps:
   - name: centos-package-cache
     path: /var/cache/yum
 
-- name: gitea_release
+- name: release
   image: plugins/gitea-release
   pull: always
   settings:
@@ -295,7 +295,7 @@ kind: pipeline
 name: notify
 
 depends_on:
-  - x86_64
+  - build x86_64
   - packages x86_64
 
 trigger:
