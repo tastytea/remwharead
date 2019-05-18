@@ -268,6 +268,7 @@ steps:
   pull: always
   environment:
     LANG: C.utf8
+    CXX: /opt/rh/devtoolset-6/root/usr/bin/g++
     CXXFLAGS: -pipe -O2
   commands:
   - sed -i 's/keepcache=0/keepcache=1/' /etc/yum.conf
@@ -276,7 +277,7 @@ steps:
   - yum install -qy centos-release-scl
   - yum install -qy devtoolset-6
   - scl enable devtoolset-6 bash
-  - yum install -qy libcurl-devel rpm-build libxdg-basedir boost-devel boost-system boost-filesystem asciidoc
+  - yum install -qy libcurl-devel rpm-build libxdg-basedir boost-system boost-filesystem asciidoc
   - yum --enablerepo=epel install -qy cmake3 vsqlite++-devel
   - curl -s -o /var/cache/yum/curlpp-devel-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-devel-0.7.3-5.el6.x86_64.rpm
   - curl -s -o /var/cache/yum/curlpp-0.7.3-5.el6.x86_64.rpm https://download.fedoraproject.org/pub/epel/6/x86_64/Packages/c/curlpp-0.7.3-5.el6.x86_64.rpm
