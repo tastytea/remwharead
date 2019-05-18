@@ -116,7 +116,17 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             std::sort(sortedtags.begin(), sortedtags.end(),
                       [](const tagpair &a, tagpair &b)
                       {
-                          return a.second.size() > b.second.size();
+                          // return a.second.size() > b.second.size();
+                          if (a.second.size() != b.second.size())
+                          {   // Sort by number of occurrences if they are
+                              // different.
+                              return a.second.size() > b.second.size();
+                          }
+                          else
+                          {   // Sort alphabetically otherwise.
+                              // TODO: Does this work with non-latin languages?
+                              return a.first < b.first;
+                          }
                       });
 
             for (const auto &tag : sortedtags)
