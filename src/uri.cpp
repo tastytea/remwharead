@@ -55,8 +55,8 @@ const html_extract URI::get()
         const string answer = oss.str();
         if (answer.empty())
         {
-            const uint64_t ret = curlpp::infos::ResponseCode::get(request);
-            cerr << "Response code: " << ret << endl;
+            cerr << "Error: Could not download page. Response code: "
+                 << curlpp::infos::ResponseCode::get(request) << endl;
         }
         else
         {
@@ -490,6 +490,11 @@ const string URI::archive()
         if (regex_search(answer, match, regex("Content-Location: (.+)\r\n")))
         {
             return "https://web.archive.org" + match[1].str();
+        }
+        else
+        {
+            cerr << "Error: Could not archive page. HTTP status: "
+                 << curlpp::infos::ResponseCode::get(request) << endl;
         }
     }
     catch (const std::exception &e)
