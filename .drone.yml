@@ -202,6 +202,20 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
+- name: notify
+  image: drillster/drone-email
+  pull: always
+  settings:
+    host: cryptoparty-celle.de
+    from: drone@tzend.de
+    username:
+      from_secret: email_username
+    password:
+      from_secret: email_password
+  when:
+    status: [ changed, failure ]
+
+
 ---
 kind: pipeline
 name: packages x86_64
@@ -290,24 +304,7 @@ steps:
     checksum:
       - sha512
 
----
-kind: pipeline
-name: notify
-
-depends_on:
-  - build x86_64
-  - packages x86_64
-
-trigger:
-  status:
-  - success
-  - failure
-
-clone:
-  disable: true
-
-steps:
-- name: email
+- name: notify
   image: drillster/drone-email
   pull: always
   settings:
