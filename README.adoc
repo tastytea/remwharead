@@ -45,6 +45,8 @@ emerge -a www-misc/remwharead
 * Optional:
 ** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
 ** Tests: https://github.com/catchorg/Catch2[catch] (tested: 2.5 / 1.2)
+** DEB package: https://packages.qa.debian.org/dpkg[dpkg] (tested: 1.18)
+** RPM package: http://www.rpm.org[rpm-build] (tested: 4.11)
 
 .Install dependencies in Debian stretch.
 ====
@@ -90,9 +92,12 @@ cmake --build .
 * `-DCMAKE_BUILD_TYPE=Debug` for a debug build.
 * `-DWITH_MAN=NO` to not compile the manpage.
 * `WITH_TESTS=YES` to compile the tests.
+* One of:
+** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
+** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.
 
 You can run the tests with `ctest` inside the build directory. Install with
-`make install`.
+`make install`, generate binary packages with `make package`.
 
 == Copyright
 
