@@ -44,7 +44,7 @@ Example: `--span 2019-01-01,2019-02-10T12:30`.
 Search in tags. Format: _tag1 AND tag2 OR tag3_. See _SEARCH EXPRESSIONS_.
 
 *--search-all* _expression_::
-Search tags, title, description and full text.
+Search in tags, title, description and full text.
 
 *-h*, *--help*::
 Show help message.
