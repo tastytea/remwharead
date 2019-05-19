@@ -15,7 +15,7 @@ remwharead - Saves URIs of things you want to remember in a database
 
 *remwharead* [*-t* _tags_] _URI_
 
-*remwharead* *-e* _format_ [*-f* _file_] [*-S* _start_,_end_]
+*remwharead* *-e* _format_ [*-f* _file_] [*-S* _start_,_end_] [*-s* _expression_]
 
 == DESCRIPTION
 
@@ -40,6 +40,12 @@ are date and time representations according to ISO 8601
 (YYYY-MM-DDThh:mm:ss). Time zones are ignored.
 Example: `--span 2019-01-01,2019-02-10T12:30`.
 
+*-s* _expression_, *--search-tags* _expression_::
+Search in tags. Format: _tag1 AND tag2 OR tag3_. See _SEARCH EXPRESSIONS_.
+
+*--search-all* _expression_::
+Search tags, title, description and full text.
+
 *-h*, *--help*::
 Show help message.
 
@@ -63,6 +69,11 @@ Print version, copyright and license.
 `remwharead -e asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
 ====
 
+.Export all things about GRUB the boot-loader, but nothing about caterpillars.
+====
+`remwharead -e csv -s "grub AND boot"
+====
+
 == FORMATS
 
 === CSV
@@ -76,6 +87,13 @@ implementation follows RFC 4180 and the full MIME media type is
 
 AsciiDoc is a markup language that can be read as plain text or converted to
 HTML, PDF and many other formats.
+
+== SEARCH EXPRESSIONS
+
+A search expression is either a single term, or several terms separated by _AND_
+or _OR_. _AND_ takes precedence. The expression _Mountain AND Big OR Vegetable_
+finds all things that have either Mountain and Big or Vegetable in them. You can
+use _||_ instead of _OR_ and _&&_ instead of _AND_.
 
 == PROTOCOL SUPPORT
 
@@ -104,7 +122,6 @@ You can use proxy servers with the same environment variables as curl. See
 |    3 | File could not be opened.
 |    4 | Could not fetch URI.
 |==================================================
-
 
 == SEE ALSO
 
