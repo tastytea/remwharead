@@ -38,6 +38,7 @@ const options parse_options(const int argc, const char *argv[])
     string file;
     string span;
     string search_tags;
+    string search_all;
     options opts;
 
     try
@@ -56,6 +57,9 @@ const options parse_options(const int argc, const char *argv[])
             ("s", "search-tags",
              "Search for tags. Format: tag1 AND tag2 OR tag3.",
              "", &search_tags);
+        op.add<popl::Value<string>>
+            ("", "search-all",
+             "", "Search tags, title, description and full text.", &search_all);
         auto option_help = op.add<popl::Switch>
             ("h", "help", "Show this help message.");
         auto option_version = op.add<popl::Switch>
@@ -135,6 +139,8 @@ const options parse_options(const int argc, const char *argv[])
         }
 
         opts.search_tags = search_tags;
+
+        opts.search_all = search_all;
 
         if (op.non_option_args().size() > 0)
         {

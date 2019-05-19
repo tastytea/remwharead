@@ -24,8 +24,14 @@
 using std::vector;
 using std::string;
 
+const vector<vector<string>> parse_expression(string expression);
+
 //! Seach database entries for tags.
 const vector<Database::entry>
 search_tags(const vector<Database::entry> &entries, string expression);
+
+//! Search tags, title, description and full text.
+const vector<Database::entry>
+search_all(const vector<Database::entry> &entries, string expression);
 
 #endif  // REMWHAREAD_SEARCH_HPP

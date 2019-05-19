@@ -40,6 +40,7 @@ typedef struct options
     array<time_point, 2> span = {{ time_point(), system_clock::now() }};
     string uri;
     string search_tags;
+    string search_all;
     uint8_t status_code = 0;
 
     options();

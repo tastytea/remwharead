@@ -78,6 +78,10 @@ int main(const int argc, const char *argv[])
         {
             entries = search_tags(entries, opts.search_tags);
         }
+        else if (!opts.search_all.empty())
+        {
+            entries = search_all(entries, opts.search_all);
+        }
 
         switch (opts.format)
         {
