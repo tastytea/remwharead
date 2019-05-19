@@ -15,7 +15,7 @@ remwharead - Saves URIs of things you want to remember in a database
 
 *remwharead* [*-t* _tags_] _URI_
 
-*remwharead* *-e* _format_ [*-f* _file_] [*-S* _start_,_end_] [*-s* _expression_]
+*remwharead* *-e* _format_ [*-f* _file_] [*-S* _start_,_end_] [[*-s*|*--search-all*] _expression_]
 
 == DESCRIPTION
 

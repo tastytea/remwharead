@@ -71,7 +71,8 @@ const options parse_options(const int argc, const char *argv[])
         {
             cout << "Usage: " << argv[0] << " [-t tags] URI\n"
                  << "       " << argv[0]
-                 << " -e format [-f file] [-S start,end]\n";
+                 << " -e format [-f file] [-S start,end] "
+                 << "[[-s|--search-all] expression]\n";
             cout << op;
             return options(0);
         }
