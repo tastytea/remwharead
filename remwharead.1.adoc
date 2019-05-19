@@ -92,9 +92,9 @@ HTML, PDF and many other formats.
 
 A search expression is either a single term, or several terms separated by _AND_
 or _OR_. _AND_ takes precedence. The expression _Mountain AND Big OR Vegetable_
-finds all things that have either Mountain and Big or Vegetable in them. You can
+finds all things that have either Mountain and Big, or Vegetable in them. You can
 use _||_ instead of _OR_ and _&&_ instead of _AND_. Note that *--search-tags*
-only matches whole tags. Pill does not match Pillow.
+only matches whole tags, Pill does not match Pillow.
 
 == PROTOCOL SUPPORT
 
