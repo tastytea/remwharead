@@ -23,6 +23,7 @@
 #include "parse_options.hpp"
 #include "uri.hpp"
 #include "export.hpp"
+#include "search.hpp"
 
 using std::cout;
 using std::cerr;
@@ -69,39 +70,48 @@ int main(const int argc, const char *argv[])
             return 3;
         }
     }
-    switch (opts.format)
+    if (opts.format != export_format::undefined)
     {
-    case export_format::csv:
-    {
-        if (file.is_open())
+        vector<Database::entry> entries =
+            db.retrieve(opts.span[0], opts.span[1]);
+        if (!opts.search_tags.empty())
         {
-            export_csv(db.retrieve(opts.span[0], opts.span[1]), file);
-            file.close();
+            entries = search_tags(entries, opts.search_tags);
         }
-        else
+
+        switch (opts.format)
         {
-            export_csv(db.retrieve(opts.span[0], opts.span[1]));
-        }
-        break;
-    }
-    case export_format::asciidoc:
-    {
-        if (file.is_open())
+        case export_format::csv:
         {
-            export_adoc(db.retrieve(opts.span[0], opts.span[1]), file);
-            file.close();
+            if (file.is_open())
+            {
+                export_csv(entries, file);
+                file.close();
+            }
+            else
+            {
+                export_csv(entries);
+            }
+            break;
         }
-        else
+        case export_format::asciidoc:
         {
-            export_adoc(db.retrieve(opts.span[0], opts.span[1]));
+            if (file.is_open())
+            {
+                export_adoc(entries, file);
+                file.close();
+            }
+            else
+            {
+                export_adoc(entries);
+            }
+            break;
         }
-        break;
-    }
-    default:
-    {
-        // Do nothing.
-        break;
-    }
+        default:
+        {
+            break;
+        }
+        }
     }
 
     return 0;

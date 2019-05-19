@@ -39,6 +39,7 @@ typedef struct options
     string file;
     array<time_point, 2> span = {{ time_point(), system_clock::now() }};
     string uri;
+    string search_tags;
     uint8_t status_code = 0;
 
     options();

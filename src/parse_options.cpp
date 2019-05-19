@@ -37,6 +37,7 @@ const options parse_options(const int argc, const char *argv[])
     string format;
     string file;
     string span;
+    string search_tags;
     options opts;
 
     try
@@ -51,6 +52,10 @@ const options parse_options(const int argc, const char *argv[])
         op.add<popl::Value<string>>
             ("S", "span", "Only export entries between YYYY-MM-DD,YYYY-MM-DD.",
              "", &span);
+        op.add<popl::Value<string>>
+            ("s", "search-tags",
+             "Search for tags. Format: tag1 AND tag2 OR tag3.",
+             "", &search_tags);
         auto option_help = op.add<popl::Switch>
             ("h", "help", "Show this help message.");
         auto option_version = op.add<popl::Switch>
@@ -128,6 +133,8 @@ const options parse_options(const int argc, const char *argv[])
                 return options(1);
             }
         }
+
+        opts.search_tags = search_tags;
 
         if (op.non_option_args().size() > 0)
         {
