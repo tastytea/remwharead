@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-05-18
+:Date:          2019-05-19
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -15,7 +15,7 @@ remwharead - Saves URIs of things you want to remember in a database
 
 *remwharead* [*-t* _tags_] _URI_
 
-*remwharead* *-e* _format_ [*-f* _file_] [*-s* _start_,_end_]
+*remwharead* *-e* _format_ [*-f* _file_] [*-S* _start_,_end_]
 
 == DESCRIPTION
 
@@ -48,11 +48,20 @@ Print version, copyright and license.
 
 == EXAMPLES
 
+.Save a thing into the database, with tags.
+====
 `remwharead -t tag1,tag2 https://example.com/article.html`
+====
 
-`remwharead -e asciidoc -f out.adoc -s 2019-04-01,2019-05-31`
+.Export all things between and including 2019-04-01 and 2019-05-31 to a file.
+====
+`remwharead -e asciidoc -f out.adoc -S 2019-04-01,2019-05-31`
+====
 
+.Export all things to an HTML file.
+====
 `remwharead -e asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
+====
 
 == FORMATS
 
