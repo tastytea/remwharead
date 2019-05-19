@@ -76,14 +76,14 @@ Print version, copyright and license.
 
 == FORMATS
 
-=== CSV
+=== csv
 
 CSV is short for comma separated values. All fields are quoted and delimited by
 commas. Line breaks in the full text are converted to "\n". Our CSV
 implementation follows RFC 4180 and the full MIME media type is
 `text/csv;charset=utf-8;header=present`.
 
-=== AsciiDoc
+=== asciidoc
 
 AsciiDoc is a markup language that can be read as plain text or converted to
 HTML, PDF and many other formats.
