@@ -71,7 +71,7 @@ Print version, copyright and license.
 
 .Export all things about GRUB the boot-loader, but nothing about caterpillars.
 ====
-`remwharead -e csv -s "grub AND boot"
+`remwharead -e csv -s "grub AND boot"`
 ====
 
 == FORMATS
