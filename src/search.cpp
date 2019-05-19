@@ -102,6 +102,12 @@ search_all(const vector<Database::entry> &entries, string expression)
             bool matched_description = true;
             bool matched_fulltext = true;
 
+            const auto it = find(result.begin(), result.end(), entry);
+            if (it != result.end())
+            {                   // Skip if already in result list.
+                continue;
+            }
+
             for (const string &term : terms_or)
             {
                 if (entry.title.find(term) == std::string::npos)

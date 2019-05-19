@@ -63,6 +63,16 @@ Database::operator bool() const
     return _connected;
 }
 
+bool operator ==(const Database::entry &a, const Database::entry &b)
+{
+    if (a.datetime == b.datetime)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 const string Database::entry::fulltext_oneline() const
 {
     return regex_replace(fulltext, regex("\n"), "\\n");

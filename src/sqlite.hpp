@@ -44,6 +44,8 @@ public:
         string description;
         string fulltext;
 
+        friend bool operator ==(const Database::entry &a,
+                                const Database::entry &b);
         //! The full text in one line.
         const string fulltext_oneline() const;
     } entry;
