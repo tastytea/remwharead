@@ -18,6 +18,7 @@
 #include <regex>
 #include <algorithm>
 #include <utility>
+#include <locale>
 #include <curlpp/cURLpp.hpp>
 #include "version.hpp"
 #include "time.hpp"
@@ -116,16 +117,27 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             std::sort(sortedtags.begin(), sortedtags.end(),
                       [](const tagpair &a, tagpair &b)
                       {
-                          // return a.second.size() > b.second.size();
                           if (a.second.size() != b.second.size())
                           {   // Sort by number of occurrences if they are
                               // different.
                               return a.second.size() > b.second.size();
                           }
                           else
-                          {   // Sort alphabetically otherwise.
-                              // TODO: Does this work with non-latin languages?
-                              return a.first < b.first;
+                          {   // Sort by tag names otherwise.
+                              std::locale loc("");
+                              const std::collate<char> &coll =
+                                  std::use_facet<std::collate<char>>(loc);
+                              if (coll.compare(a.first.data(), a.first.data()
+                                               + a.first.length(),
+                                               b.first.data(), b.first.data()
+                                               + b.first.length()) == -1)
+                              { // -1 == less than
+                                  return true;
+                              }
+                              else
+                              {
+                                  return false;
+                              }
                           }
                       });
 
