@@ -1,0 +1,42 @@
+{
+    "manifest_version": 2,
+    "name": "remwharead",
+    "version": "0.1.0",
+
+    "description": "Integrates remwharead into your Browser.",
+    "homepage_url": "https://schlomp.space/tastytea/remwharead",
+
+    "applications":
+    {
+        "gecko":
+        {
+            "id": "remwharead@tastytea.de",
+            "strict_min_version": "50.0"
+        }
+    },
+
+    "permissions":
+    [
+        "activeTab",
+        "nativeMessaging"
+    ],
+
+    "browser_action":
+    {
+        "default_title": "remwharead",
+        "default_popup": "add_uri.html",
+        "browser_style": true
+    },
+
+    "commands":
+    {
+        "open_popup":
+        {
+            "suggested_key":
+            {
+                "default": "Ctrl+Shift+S"
+            },
+            "description": "Add URI to remwharead."
+        }
+    }
+}
