@@ -95,7 +95,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                     alltags.insert({ tag, { entry } });
                 }
 
-                out << "xref:" << replace_spaces(tag) << "[" << tag << ']';
+                out << "xref:" << replace_in_tags(tag) << "[" << tag << ']';
                 if (tag != *(entry.tags.rbegin()))
                 {
                     out << ", ";
@@ -143,7 +143,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
 
             for (const auto &tag : sortedtags)
             {
-                out << "=== [[" << replace_spaces(tag.first) << "]]"
+                out << "=== [[" << replace_in_tags(tag.first) << "]]"
                     << tag.first << endl;
                 for (const Database::entry &entry : tag.second)
                 {
@@ -161,7 +161,30 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
     }
 }
 
-const string replace_spaces(const string &text)
+const string replace_in_tags(string text)
 {
-    return regex_replace(text, regex(" "), "-");
+    // TODO: Find a better solution.
+    const std::map<const string, const string> searchreplace =
+        {
+            { " ", "-" },
+            { "₀", "0" }, { "⁰", "0" },
+            { "₁", "1" }, { "¹", "1" },
+            { "₂", "2" }, { "²", "2" },
+            { "₃", "3" }, { "³", "3" },
+            { "₄", "4" }, { "⁴", "4" },
+            { "₅", "5" }, { "⁵", "5" },
+            { "₆", "6" }, { "⁶", "6" },
+            { "₇", "7" }, { "⁷", "7" },
+            { "₈", "8" }, { "⁸", "8" },
+            { "₉", "9" }, { "⁹", "9" }
+        };
+    for (const std::pair<const string, const string> &sr : searchreplace)
+    {
+        size_t pos = 0;
+        while ((pos = text.find(sr.first, pos)) != std::string::npos)
+        {
+            text.replace(pos, sr.first.length(), sr.second);
+        }
+    }
+    return text;
 }

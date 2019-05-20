@@ -30,7 +30,7 @@ void export_csv(const vector<Database::entry> &entries, ostream &out = cout);
 const string quote_csv(const string &field);
 
 void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
-//! Replaces spaces with -.
-const string replace_spaces(const string &text);
+//! Replaces characters in tags that asciidoctor doesn't like.
+const string replace_in_tags(string text);
 
 #endif  // REMWHAREAD_EXPORT_HPP
