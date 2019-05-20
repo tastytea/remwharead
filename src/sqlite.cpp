@@ -17,7 +17,6 @@
 #include <exception>
 #include <iostream>
 #include <algorithm>
-#include <regex>
 #include <basedir.h>
 #include <sqlite/execute.hpp>
 #include <sqlite/query.hpp>
@@ -26,8 +25,6 @@
 
 using std::cerr;
 using std::endl;
-using std::regex;
-using std::regex_replace;
 
 Database::Database()
     : _connected(false)
@@ -75,7 +72,13 @@ bool operator ==(const Database::entry &a, const Database::entry &b)
 
 const string Database::entry::fulltext_oneline() const
 {
-    return regex_replace(fulltext, regex("\n"), "\\n");
+    string oneline = fulltext;
+    size_t pos = 0;
+    while ((pos = oneline.find('\n', pos)) != std::string::npos)
+    {
+        oneline.replace(pos, 1, "\\n");
+    }
+    return oneline;
 }
 
 void Database::store(const Database::entry &data) const

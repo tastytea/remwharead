@@ -27,7 +27,7 @@ using std::cout;
 
 void export_csv(const vector<Database::entry> &entries, ostream &out = cout);
 //! replaces " with "".
-const string quote_csv(const string &field);
+const string quote_csv(string field);
 
 void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
 //! Replaces characters in tags that asciidoctor doesn't like.

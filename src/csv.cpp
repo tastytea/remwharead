@@ -14,14 +14,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <regex>
 #include "time.hpp"
 #include "export.hpp"
 
 using std::cerr;
 using std::endl;
-using std::regex;
-using std::regex_replace;
 
 void export_csv(const vector<Database::entry> &entries, ostream &out)
 {
@@ -55,7 +52,12 @@ void export_csv(const vector<Database::entry> &entries, ostream &out)
     }
 }
 
-const string quote_csv(const string &field)
+const string quote_csv(string field)
 {
-    return regex_replace(field, regex("\""), "\"\"");
+    size_t pos = 0;
+    while ((pos = field.find('"', pos)) != std::string::npos)
+    {
+        field.replace(pos, 1, "\"\"");
+    }
+    return field;
 }

@@ -119,7 +119,7 @@ const string URI::strip_html(const string &html)
     out = remove_html_tags(out);            // Remove tags.
 
     size_t pos = 0;
-    while ((pos = out.find("\r")) != std::string::npos) // Remove CR.
+    while ((pos = out.find("\r", pos)) != std::string::npos) // Remove CR.
     {
         out.replace(pos, 1, "");
     }
