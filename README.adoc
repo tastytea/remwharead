@@ -5,7 +5,7 @@
  the full text of the page and optional tags.
 
 Archiving is done using the Wayback machine from the
-https://archive.org/[Internet Archive] Please
+https://archive.org/[Internet Archive]. Please
 https://archive.org/donate/[donate] to them if you can.
 
 .AsciiDoc export formatted with Asciidoctor.
