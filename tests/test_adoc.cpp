@@ -57,15 +57,15 @@ SCENARIO ("The AsciiDoc export works correctly")
                  ":TOC: +right\n\n");
             const regex re_dates
                 ("== 1970-01-01\n\n"
-                 "\\[\\[dt1970-01-01T\\d{2}:\\d{2}:\\d{2}\\]\\]\n"
+                 "\\[\\[dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}\\]\\]\n"
                  "\\.link:https://example\\.com/page\\.html\\[Nice title\\]\n"
                  "_\\d{2}:\\d{2}:\\d{2}_\n"
-                 "| xref:tag1\\[tag1\\], xref:tag2\\[tag2\\]\n\n"
+                 "| xref:t_tag1\\[tag1\\], xref:t_tag2\\[tag2\\]\n\n"
                  "Good description\\.\n");
             const regex re_tags
                 ("== Tags\n\n"
-                 "=== \\[\\[tag1\\]\\]tag1\n\n"
-                 "\\* xref:dt1970-01-01T\\d{2}:\\d{2}:\\d{2}"
+                 "=== \\[\\[t_tag1\\]\\]tag1\n\n"
+                 "\\* xref:dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}"
                  "\\[Nice title\\]\n\n");
 
             for (const regex &re : { re_header, re_dates, re_tags })

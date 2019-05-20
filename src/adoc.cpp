@@ -54,7 +54,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                 out << "== " << day << endl << endl;
             }
 
-            out << "[[dt" << datetime << "]]\n";
+            out << "[[dt_" << datetime << "]]\n";
             out << ".link:" << entry.uri;
             if (!entry.title.empty())
             {
@@ -95,7 +95,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                     alltags.insert({ tag, { entry } });
                 }
 
-                out << "xref:" << replace_in_tags(tag) << "[" << tag << ']';
+                out << "xref:t_" << replace_in_tags(tag) << "[" << tag << ']';
                 if (tag != *(entry.tags.rbegin()))
                 {
                     out << ", ";
@@ -143,11 +143,11 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
 
             for (const auto &tag : sortedtags)
             {
-                out << "=== [[" << replace_in_tags(tag.first) << "]]"
+                out << "=== [[t_" << replace_in_tags(tag.first) << "]]"
                     << tag.first << endl;
                 for (const Database::entry &entry : tag.second)
                 {
-                    out << endl << "* xref:dt"
+                    out << endl << "* xref:dt_"
                         << timepoint_to_string(entry.datetime)
                         << '[' << entry.title << ']' << endl;
                 }
@@ -166,7 +166,11 @@ const string replace_in_tags(string text)
     // TODO: Find a better solution.
     const std::map<const string, const string> searchreplace =
         {
-            { " ", "-" },
+            { " ", "-" }, { "§", "-" },
+            { "$", "-" }, { "%", "-" },
+            { "&", "-" }, { "/", "-" },
+            { "=", "-" }, { "^", "-" },
+            { "!", "-" }, { "?", "-" },
             { "₀", "0" }, { "⁰", "0" },
             { "₁", "1" }, { "¹", "1" },
             { "₂", "2" }, { "²", "2" },
