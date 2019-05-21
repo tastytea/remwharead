@@ -20,6 +20,7 @@ function get_tags()             // get tags from text input.
 function onResponse(response) {
     console.log("Received: " + response);
     document.getElementById("status").textContent = "";
+
     if (response == "Command successful.")
     {
         window.close();
@@ -33,6 +34,8 @@ function onResponse(response) {
 
 function onError(error) {
     console.log(`Error: ${error}`);
+    document.getElementById("error").textContent = "Could not launch remwharead.";
+    document.getElementById("status").textContent = "";
 }
 
 function launch()               // Launch wrapper and send tags + URL to stdin.
