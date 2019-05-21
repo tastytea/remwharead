@@ -104,6 +104,13 @@ cmake --build .
 You can run the tests with `ctest` inside the build directory. Install with
 `make install`, generate binary packages with `make package`.
 
+== Browser plugins
+
+The
+https://schlomp.space/tastytea/remwharead/src/branch/main/browser-plugins/webextension[WebExtension]
+works in Firefox and possibly other browsers with WebExtension support. You
+can install it from https://addons.mozilla.org/en-US/firefox/addon/remwharead/[addons.mozilla.org].
+
 == Copyright
 
 The icons of the plugins are from the
