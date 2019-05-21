@@ -19,6 +19,7 @@ function get_tags()             // get tags from text input.
 
 function onResponse(response) {
     console.log("Received: " + response);
+    document.getElementById("status").textContent = "";
     if (response == "Command successful.")
     {
         window.close();
@@ -36,6 +37,7 @@ function onError(error) {
 
 function launch()               // Launch wrapper and send tags + URL to stdin.
 {
+    document.getElementById("status").textContent = "Launching remwharead…";
     var arguments = get_tags() + taburl;
     console.log("Sending:  " + arguments + " to remwharead");
     var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
