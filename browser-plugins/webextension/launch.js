@@ -18,11 +18,21 @@ function get_tags()             // get tags from text input.
 }
 
 function onResponse(response) {
-  console.log("Received: " + response);
+    console.log("Received: " + response);
+    if (response == "Command successful.")
+    {
+        window.close();
+    }
+    else
+    {
+        document.getElementById("error").innerHTML =
+            "<strong>" + response +  "</strong>";
+    }
+
 }
 
 function onError(error) {
-  console.log(`Error: ${error}`);
+    console.log(`Error: ${error}`);
 }
 
 function launch()               // Launch wrapper and send tags + URL to stdin.
@@ -31,7 +41,6 @@ function launch()               // Launch wrapper and send tags + URL to stdin.
     console.log("Sending:  " + arguments + " to remwharead");
     var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
     sending.then(onResponse, onError);
-    window.close();
 }
 
 
