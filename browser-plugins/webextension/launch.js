@@ -25,8 +25,7 @@ function onResponse(response) {
     }
     else
     {
-        document.getElementById("error").innerHTML =
-            "<strong>" + response +  "</strong>";
+        document.getElementById("error").textContent = response;
     }
 
 }

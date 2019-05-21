@@ -16,7 +16,7 @@
         "gecko":
         {
             "id": "remwharead@tastytea.de",
-            "strict_min_version": "50.0"
+            "strict_min_version": "57.0"
         }
     },
 
