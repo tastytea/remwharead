@@ -147,9 +147,14 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                     << tag.first << endl;
                 for (const Database::entry &entry : tag.second)
                 {
+                    string title = entry.title;
+                    if (title.empty())
+                    {
+                        title = "++" + entry.uri + "++";
+                    }
                     out << endl << "* xref:dt_"
                         << timepoint_to_string(entry.datetime)
-                        << '[' << entry.title << ']' << endl;
+                        << '[' << title << ']' << endl;
                 }
                 out << endl;
             }
