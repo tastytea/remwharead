@@ -193,7 +193,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - apt-get install -qy build-essential file
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DWITH_DEB=YES ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DMOZILLA_NMH_DIR="lib/mozilla/native-messaging-hosts" -DWITH_DEB=YES ..
   - make package
   - cp -v remwharead_${DRONE_TAG}-0_amd64.deb ..
   volumes:
