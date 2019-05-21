@@ -18,7 +18,7 @@ function get_tags()             // get tags from text input.
 }
 
 function onResponse(response) {
-  console.log("Received " + response);
+  console.log("Received: " + response);
 }
 
 function onError(error) {

@@ -1,7 +1,7 @@
 {
   "name": "remwharead",
   "description": "Saves URIs of things you want to remember in a database.",
-  "path": "/usr/lib/mozilla/native-messaging-hosts/remwharead_wrapper.sh",
+  "path": "/usr/lib/mozilla/native-messaging-hosts/remwharead_wrapper",
   "type": "stdio",
   "allowed_extensions": [ "remwharead@tastytea.de" ]
 }

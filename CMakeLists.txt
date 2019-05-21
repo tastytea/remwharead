@@ -65,10 +65,7 @@ if (WITH_MAN)
 endif()
 
 if (WITH_MOZILLA)
-  install(FILES
-    browser-plugins/webextension/native-wrapper/remwharead.json
-    browser-plugins/webextension/native-wrapper/remwharead_wrapper.sh
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts")
+  add_subdirectory(browser-plugins/webextension/native-wrapper)
 endif()
 
 if(WITH_TESTS)
