@@ -96,6 +96,7 @@ cmake --build .
 * `-DCMAKE_BUILD_TYPE=Debug` for a debug build.
 * `-DWITH_MAN=NO` to not compile the manpage.
 * `WITH_TESTS=YES` to compile the tests.
+* `WITH_MOZILLA=YES` to install the helper script for the Mozilla extension.
 * One of:
 ** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
 ** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.
@@ -104,6 +105,10 @@ You can run the tests with `ctest` inside the build directory. Install with
 `make install`, generate binary packages with `make package`.
 
 == Copyright
+
+The icons of the plugins are from the
+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme[Papirus icon
+theme] with the license GPLv3.
 
 ----
 Copyright © 2019 tastytea <tastytea@tastytea.de>.
