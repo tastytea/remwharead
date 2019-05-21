@@ -1,27 +1,53 @@
 var taburl;
+var port;
 
-function onResponse(response)
-{
-    console.log(`Received ${response}`);
-}
-
-function onError(error)
-{
-    console.log(`Error: ${error}`);
-}
-
-function set_taburl(tabs)
+function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
     let tab = tabs[0];
     taburl = tab.url;
 }
 
-function launch()
+function get_tags()             // get tags from text input.
 {
     let tags = document.getElementById("tags").value;
-    var sending = browser.runtime.sendNativeMessage("remwharead", "-t " + tags + " " + taburl);
-    sending.then(onResponse, onError);
+    if (tags != "")
+    {
+        return "-t " + tags + " ";
+    }
+    return "";
 }
 
+function onResponse(response) {
+  console.log("Received " + response);
+}
+
+function onError(error) {
+  console.log(`Error: ${error}`);
+}
+
+function launch()               // Launch wrapper and send tags + URL to stdin.
+{
+    var arguments = get_tags() + taburl;
+    console.log("Sending:  " + arguments + " to remwharead");
+    var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
+    sending.then(onResponse, onError);
+    window.close();
+}
+
+
+// Call set_taburl() with current tab.
 browser.tabs.query({currentWindow: true, active: true}).then(set_taburl);
-add_uri.addEventListener("submit", launch);
+
+button.addEventListener("click", launch); // Call send() if submit is clicked.
+
+// Click button if enter is hit in text input.
+document.querySelector("#tags").addEventListener(
+    "keyup", event =>
+        {
+            if(event.key !== "Enter")
+            {
+                return;
+            }
+            document.querySelector("#button").click();
+            event.preventDefault();
+        });

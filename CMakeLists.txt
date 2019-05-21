@@ -6,6 +6,7 @@ project(remwharead
 
 set(WITH_MAN "YES" CACHE STRING "WITH_MAN defaults to \"YES\"")
 set(WITH_TESTS "NO" CACHE STRING "WITH_TESTS defaults to \"NO\"")
+set(WITH_MOZILLA "NO" CACHE STRING "WITH_MOZILLA defaults to \"NO\"")
 
 include(GNUInstallDirs)
 find_package(PkgConfig REQUIRED)
@@ -61,6 +62,13 @@ if (WITH_MAN)
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.1
     DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
+endif()
+
+if (WITH_MOZILLA)
+  install(FILES
+    browser-plugins/webextension/native-wrapper/remwharead.json
+    browser-plugins/webextension/native-wrapper/remwharead_wrapper.sh
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts")
 endif()
 
 if(WITH_TESTS)
