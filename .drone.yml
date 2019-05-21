@@ -46,7 +46,6 @@ steps:
   image: debian:stretch-slim
   pull: always
   environment:
-    LANG: C.utf8
     CXX: g++-5
     CXXFLAGS: -pipe -O2
   commands:
@@ -70,12 +69,11 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
-- name: gcc7
+- name: gcc9
   image: debian:stretch-slim
   pull: always
   environment:
-    LANG: C.utf8
-    CXX: g++-7
+    CXX: g++-9
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
@@ -87,35 +85,7 @@ steps:
   - gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x60c317803a41ba51845e371a1e9377a2ba9ef27f
   - gpg --armor --export 0x60c317803a41ba51845e371a1e9377a2ba9ef27f | apt-key add -
   - apt-get update -q
-  - apt-get install -qy -t xenial g++-7
-  - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
-  - apt-get install -qy -t sid libcurlpp-dev
-  - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1
-  volumes:
-  - name: debian-package-cache
-    path: /var/cache/apt/archives
-
-- name: gcc8
-  image: debian:stretch-slim
-  pull: always
-  environment:
-    LANG: C.utf8
-    CXX: g++-8
-    CXXFLAGS: -pipe -O2
-  commands:
-  - rm /etc/apt/apt.conf.d/docker-clean
-  - apt-get update -q
-  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
-  - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
-  - echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" >> /etc/apt/sources.list.d/ubuntu-toolchain-r.list
-  - apt-get install -qy gnupg
-  - gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x60c317803a41ba51845e371a1e9377a2ba9ef27f
-  - gpg --armor --export 0x60c317803a41ba51845e371a1e9377a2ba9ef27f | apt-key add -
-  - apt-get update -q
-  - apt-get install -qy -t xenial g++-8
+  - apt-get install -qy -t xenial g++-9
   - apt-get install -qy cmake pkg-config
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
@@ -130,7 +100,6 @@ steps:
   image: debian:stretch-slim
   pull: always
   environment:
-    LANG: C.utf8
     CXX: clang++
     CXXFLAGS: -pipe -O2
   commands:
@@ -148,35 +117,10 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
-- name: clang5
-  image: debian:stretch-slim
-  pull: always
-  environment:
-    LANG: C.utf8
-    CXX: clang++-5.0
-    CXXFLAGS: -pipe -O2
-  commands:
-  - rm /etc/apt/apt.conf.d/docker-clean
-  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
-  - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
-  - echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/stretch.list
-  - apt-get update -q
-  - apt-get install -qy -t stretch-backports clang-5.0
-  - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
-  - apt-get install -qy -t sid libcurlpp-dev
-  - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1
-  volumes:
-  - name: debian-package-cache
-    path: /var/cache/apt/archives
-
 - name: clang6
   image: debian:stretch-slim
   pull: always
   environment:
-    LANG: C.utf8
     CXX: clang++-6.0
     CXXFLAGS: -pipe -O2
   commands:
@@ -237,7 +181,6 @@ steps:
   image: debian:stretch-slim
   pull: always
   environment:
-    LANG: C.utf8
     CXX: g++-6
     CXXFLAGS: -pipe -O2
   commands:
@@ -261,7 +204,6 @@ steps:
 #   image: centos:7
 #   pull: always
 #   environment:
-#     LANG: C.utf8
 #     CXX: /opt/rh/devtoolset-6/root/usr/bin/g++
 #     CXXFLAGS: -pipe -O2
 #   commands:

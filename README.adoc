@@ -38,8 +38,8 @@ emerge -a www-misc/remwharead
 ==== Dependencies
 
 * Tested OS: Linux
-* C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/6/7/8,
-  https://llvm.org/[clang] 3/5/6)
+* C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/6/8/9,
+  https://llvm.org/[clang] 3/6)
 * https://cmake.org/[cmake] (at least: 3.2)
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
 * https://github.com/badaix/popl[popl] (tested: 1.2)
