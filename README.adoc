@@ -106,6 +106,10 @@ You can run the tests with `ctest` inside the build directory. Install with
 
 == Copyright
 
+The icons of the plugins are from the
+https://github.com/PapirusDevelopmentTeam/papirus-icon-theme[Papirus icon
+theme] with the license GPLv3.
+
 ----
 Copyright © 2019 tastytea <tastytea@tastytea.de>.
 License GPLv3: GNU GPL version 3 <https://www.gnu.org/licenses/gpl-3.0.html>.

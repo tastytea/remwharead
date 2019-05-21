@@ -1,10 +1,15 @@
 {
     "manifest_version": 2,
     "name": "remwharead",
-    "version": "0.1.2",
+    "version": "0.2.0",
 
     "description": "Integrates remwharead into your Browser.",
     "homepage_url": "https://schlomp.space/tastytea/remwharead",
+
+    "icons":
+    {
+        "16": "icon_dark.svg"
+    },
 
     "applications":
     {
@@ -25,7 +30,14 @@
     {
         "default_title": "remwharead",
         "default_popup": "add_uri.html",
-        "browser_style": true
+        "browser_style": true,
+        "default_icon": "icon_dark.svg",
+        "theme_icons":
+        [{                      // Dark means dark text in Firefox. 🙄
+            "dark": "icon_light.svg",
+            "light": "icon_dark.svg",
+            "size": 16
+        }]
     },
 
     "commands":
