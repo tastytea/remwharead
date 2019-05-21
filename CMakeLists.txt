@@ -71,7 +71,7 @@ endif()
 if(WITH_TESTS)
   add_library(${PROJECT_NAME}_testlib SHARED ${sources})
   target_link_libraries(${PROJECT_NAME}_testlib ${COMMON_LIBRARIES})
-  include(tests.CMakeLists.txt)
+  add_subdirectory(tests)
 endif()
 
 include(packages.CMakeLists.txt)
