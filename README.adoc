@@ -97,8 +97,8 @@ cmake --build .
 * `-DWITH_MAN=NO` to not compile the manpage.
 * `-DWITH_TESTS=YES` to compile the tests.
 * `-DWITH_MOZILLA=YES` to install the wrapper for the Mozilla extension.
-* `-DMOZILLA_NMH_DIR` lets you set the directory for the Mazilla
-  extension. Complete path is `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
+* `-DMOZILLA_NMH_DIR` lets you set the directory for the Mozilla
+  extension. The complete path is `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
 * One of:
 ** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
 ** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.
