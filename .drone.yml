@@ -34,7 +34,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   - make install DESTDIR=install
   - ctest -V
@@ -64,7 +64,7 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -92,7 +92,7 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -120,7 +120,7 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -142,7 +142,7 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -166,7 +166,7 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -190,7 +190,7 @@ steps:
   - apt-get install -qy libcurl4-openssl-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -250,7 +250,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - apt-get install -qy build-essential file
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_DEB=YES ..
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DWITH_DEB=YES ..
   - make package
   - cp -v remwharead_${DRONE_TAG}-0_amd64.deb ..
   volumes:
