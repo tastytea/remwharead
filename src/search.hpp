@@ -25,6 +25,7 @@ using std::vector;
 using std::string;
 
 const vector<vector<string>> parse_expression(string expression);
+const string to_lowercase(const string &str);
 
 //! Seach database entries for tags.
 const vector<Database::entry>

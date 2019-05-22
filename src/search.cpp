@@ -16,12 +16,15 @@
 
 #include <regex>
 #include <algorithm>
+#include <locale>
+#include <codecvt>
 #include "search.hpp"
 
 using std::regex;
 using std::regex_search;
 using std::smatch;
 using std::find;
+using std::find_if;
 
 const vector<vector<string>> parse_expression(string expression)
 {
@@ -46,15 +49,25 @@ const vector<vector<string>> parse_expression(string expression)
             vector<string> terms;
             while (regex_search(sub, match, re_and))
             {
-                terms.push_back(match[1].str());
+                terms.push_back(to_lowercase(match[1].str()));
                 sub = match.suffix().str();
             }
-            terms.push_back(sub);
+            terms.push_back(to_lowercase(sub));
             searchlist.push_back(terms);
         }
     }
 
     return searchlist;
+}
+
+const string to_lowercase(const string &str)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring in = converter.from_bytes(str);
+    std::wstring out;
+
+    std::transform(in.begin(), in.end(), std::back_inserter(out), ::towlower);
+    return converter.to_bytes(out);
 }
 
 const vector<Database::entry>
@@ -70,7 +83,9 @@ search_tags(const vector<Database::entry> &entries, string expression)
             bool matched = true;
             for (const string &tag : tags_or)
             {
-                const auto it = find(entry.tags.begin(), entry.tags.end(), tag);
+                const auto it = find_if(entry.tags.begin(), entry.tags.end(),
+                                        [&tag](const string &s)
+                                        { return to_lowercase(s) == tag; });
                 if (it == entry.tags.end())
                 {
                     matched = false;
@@ -110,17 +125,17 @@ search_all(const vector<Database::entry> &entries, string expression)
 
             for (const string &term : terms_or)
             {
-                if (entry.title.find(term) == std::string::npos)
+                if (to_lowercase(entry.title).find(term) == string::npos)
                 {
                     matched_title = false;
                 }
 
-                if (entry.description.find(term) == std::string::npos)
+                if (to_lowercase(entry.description).find(term) == string::npos)
                 {
                     matched_description = false;
                 }
 
-                if (entry.fulltext.find(term) == std::string::npos)
+                if (to_lowercase(entry.fulltext).find(term) == string::npos)
                 {
                     matched_fulltext = false;
                 }
