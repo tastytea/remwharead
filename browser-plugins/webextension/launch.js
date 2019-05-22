@@ -41,6 +41,7 @@ function onError(error) {
 function launch()               // Launch wrapper and send tags + URL to stdin.
 {
     document.getElementById("status").textContent = "Launching remwharead…";
+    document.getElementById("error").textContent = "";
     var arguments = get_tags() + taburl;
     console.log("Sending:  " + arguments + " to remwharead");
     var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
