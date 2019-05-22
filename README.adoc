@@ -111,10 +111,14 @@ You can run the tests with `ctest` inside the build directory. Install with
 
 == Browser plugins
 
+=== WebExtension
+
 The
 https://schlomp.space/tastytea/remwharead/src/branch/main/browser-plugins/webextension[WebExtension]
 works in Firefox and possibly other browsers with WebExtension support. You
-can install it from https://addons.mozilla.org/en-US/firefox/addon/remwharead/[addons.mozilla.org].
+can install it from
+https://addons.mozilla.org/en-US/firefox/addon/remwharead/[addons.mozilla.org]
+or build it yourself with `build_xpi.sh`.
 
 == Copyright
 
