@@ -12,7 +12,7 @@ function get_tags()             // get tags from text input.
     let tags = document.getElementById("tags").value;
     if (tags != "")
     {
-        return "-t " + tags + " ";
+        return "-t '" + tags + "' ";
     }
     return "";
 }
