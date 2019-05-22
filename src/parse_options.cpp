@@ -48,14 +48,14 @@ const options parse_options(const int argc, const char *argv[])
         op.add<popl::Value<string>>
             ("f", "file", "Save output to file.", "", &opts.file);
         op.add<popl::Value<string>>
-            ("S", "span", "Only export entries between YYYY-MM-DD,YYYY-MM-DD.",
-             "", &span);
+            ("T", "time-span",
+             "Only export entries between YYYY-MM-DD,YYYY-MM-DD.", "", &span);
         op.add<popl::Value<string>>
             ("s", "search-tags",
              "Search in tags. Format: tag1 AND tag2 OR tag3.",
              "", &opts.search_tags);
         op.add<popl::Value<string>>
-            ("", "search-all",
+            ("S", "search-all",
              "Search in tags, title, description and full text.",
              "", &opts.search_all);
         auto option_noarchive = op.add<popl::Switch>
@@ -68,10 +68,10 @@ const options parse_options(const int argc, const char *argv[])
 
         if (option_help->is_set())
         {
-            cout << "Usage: " << argv[0] << " [-t tags] URI\n"
+            cout << "Usage: " << argv[0] << " [-t tags] [-N] URI\n"
                  << "       " << argv[0]
-                 << " -e format [-f file] [-S start,end] "
-                 << "[[-s|--search-all] expression]\n";
+                 << " -e format [-f file] [-T start,end] "
+                 << "[[-s|-S] expression]\n";
             cout << op;
             return options(0);
         }
