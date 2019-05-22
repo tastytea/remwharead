@@ -43,7 +43,7 @@ function launch()               // Launch wrapper and send tags + URL to stdin.
     document.getElementById("status").textContent = "Launching remwharead…";
     document.getElementById("error").textContent = "";
     var arguments = get_tags() + taburl;
-    console.log("Sending:  " + arguments + " to remwharead");
+    console.log("Sending: " + arguments + " to remwharead");
     var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
     sending.then(onResponse, onError);
 }
@@ -52,7 +52,7 @@ function launch()               // Launch wrapper and send tags + URL to stdin.
 // Call set_taburl() with current tab.
 browser.tabs.query({currentWindow: true, active: true}).then(set_taburl);
 
-button.addEventListener("click", launch); // Call send() if submit is clicked.
+button.addEventListener("click", launch); // Call launch() if button is clicked.
 
 // Click button if enter is hit in text input.
 document.querySelector("#tags").addEventListener(
