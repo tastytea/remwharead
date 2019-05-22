@@ -99,8 +99,16 @@ const options parse_options(const int argc, const char *argv[])
             while (pos_end != std::string::npos)
             {
                 pos_end = tags.find(',', pos_start);
-                opts.tags.push_back
-                    (tags.substr(pos_start, pos_end - pos_start));
+                string buffer = tags.substr(pos_start, pos_end - pos_start);
+                while (*buffer.begin() == ' ') // Remove leading spaces.
+                {
+                    buffer.erase(buffer.begin());
+                }
+                while (*buffer.rbegin() == ' ') // Remove trailing spaces.
+                {
+                    buffer.erase(buffer.end() - 1);
+                }
+                opts.tags.push_back(buffer);
                 pos_start = pos_end + 1;
             }
         }
