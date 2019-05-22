@@ -23,6 +23,12 @@ remwharead - Saves URIs of things you want to remember in a database
  an URI to the archived version, the current date and time, title, description,
  the full text of the page and optional tags.
 
+The database can be filtered by time, tags and full text and exported to CSV or
+AsciiDoc.
+
+Archiving is done using the Wayback machine from the
+https://archive.org/[Internet Archive].
+
 == OPTIONS
 
 *-t* _tags_, *--tags* _tags_::
