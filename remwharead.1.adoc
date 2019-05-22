@@ -52,6 +52,9 @@ Search in tags. Format: _tag1 AND tag2 OR tag3_. See _SEARCH EXPRESSIONS_.
 *--search-all* _expression_::
 Search in tags, title, description and full text.
 
+*-N*, *--no-archive*::
+Do not archive URI.
+
 *-h*, *--help*::
 Show help message.
 

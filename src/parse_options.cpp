@@ -35,10 +35,7 @@ const options parse_options(const int argc, const char *argv[])
 {
     string tags;
     string format;
-    string file;
     string span;
-    string search_tags;
-    string search_all;
     options opts;
 
     try
@@ -49,18 +46,20 @@ const options parse_options(const int argc, const char *argv[])
         op.add<popl::Value<string>>
             ("e", "export", "Export to format.", "", &format);
         op.add<popl::Value<string>>
-            ("f", "file", "Save output to file.", "", &file);
+            ("f", "file", "Save output to file.", "", &opts.file);
         op.add<popl::Value<string>>
             ("S", "span", "Only export entries between YYYY-MM-DD,YYYY-MM-DD.",
              "", &span);
         op.add<popl::Value<string>>
             ("s", "search-tags",
              "Search in tags. Format: tag1 AND tag2 OR tag3.",
-             "", &search_tags);
+             "", &opts.search_tags);
         op.add<popl::Value<string>>
             ("", "search-all",
              "Search in tags, title, description and full text.",
-             "", &search_all);
+             "", &opts.search_all);
+        auto option_noarchive = op.add<popl::Switch>
+            ("N", "no-archive", "Do not archive URI.");
         auto option_help = op.add<popl::Switch>
             ("h", "help", "Show this help message.");
         auto option_version = op.add<popl::Switch>
@@ -86,6 +85,11 @@ const options parse_options(const int argc, const char *argv[])
     "This program comes with ABSOLUTELY NO WARRANTY. This is free software,\n"
     "and you are welcome to redistribute it under certain conditions.\n";
             return options(0);
+        }
+
+        if (option_noarchive->is_set())
+        {
+            opts.archive = false;
         }
 
         if (!tags.empty())
@@ -119,8 +123,6 @@ const options parse_options(const int argc, const char *argv[])
             }
         }
 
-        opts.file = file;
-
         if (!span.empty())
         {
             size_t pos = span.find(',');
@@ -139,10 +141,6 @@ const options parse_options(const int argc, const char *argv[])
                 return options(1);
             }
         }
-
-        opts.search_tags = search_tags;
-
-        opts.search_all = search_all;
 
         if (op.non_option_args().size() > 0)
         {

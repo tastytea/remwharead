@@ -41,6 +41,7 @@ typedef struct options
     string uri;
     string search_tags;
     string search_all;
+    bool archive = true;
     uint8_t status_code = 0;
 
     options();

@@ -56,7 +56,12 @@ int main(const int argc, const char *argv[])
             cerr << "Error: Could not fetch page.\n";
             return 4;
         }
-        db.store({opts.uri, uri.archive(), system_clock::now(), opts.tags,
+        string archive_uri;
+        if (opts.archive)
+        {
+            archive_uri = uri.archive();
+        }
+        db.store({opts.uri, archive_uri, system_clock::now(), opts.tags,
                   page.title, page.description, page.fulltext});
     }
 
