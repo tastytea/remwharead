@@ -124,20 +124,14 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                           }
                           else
                           {   // Sort by tag names otherwise.
-                              std::locale loc("");
+                              std::locale loc;
                               const std::collate<char> &coll =
                                   std::use_facet<std::collate<char>>(loc);
-                              if (coll.compare(a.first.data(), a.first.data()
-                                               + a.first.length(),
-                                               b.first.data(), b.first.data()
-                                               + b.first.length()) == -1)
-                              { // -1 == less than
-                                  return true;
-                              }
-                              else
-                              {
-                                  return false;
-                              }
+                              return (coll.compare(
+                                          a.first.data(), a.first.data()
+                                          + a.first.length(),
+                                          b.first.data(), b.first.data()
+                                          + b.first.length()) == -1);
                           }
                       });
 

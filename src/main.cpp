@@ -19,6 +19,7 @@
 #include <chrono>
 #include <fstream>
 #include <memory>
+#include <locale>
 #include "sqlite.hpp"
 #include "parse_options.hpp"
 #include "uri.hpp"
@@ -33,6 +34,8 @@ using std::chrono::system_clock;
 
 int main(const int argc, const char *argv[])
 {
+    std::locale::global(std::locale("")); // Set locale globally.
+
     options opts = parse_options(argc, argv);
     if (opts.status_code != 0)
     {
