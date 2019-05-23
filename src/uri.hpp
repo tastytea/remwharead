@@ -49,7 +49,8 @@ protected:
     //! Remove all HTML tags. If tag is not empty, remove tag and its content.
     const string remove_html_tags(const string &html, const string &tag = "");
     const string unescape_html(const string &html);
-    const string remove_newlines(const string &text);
+    //! Replace newlines with spaces.
+    const string remove_newlines(string text);
 };
 
 #endif  // REMWHAREAD_URI_HPP

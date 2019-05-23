@@ -505,7 +505,13 @@ const string URI::archive()
     return "";
 }
 
-const string URI::remove_newlines(const string &text)
+const string URI::remove_newlines(string text)
 {
-    return regex_replace(text, regex("\n"), " ");
+    size_t pos = 0;
+    while ((pos = text.find("\n", pos)) != std::string::npos)
+    {
+        text.replace(pos, 1, " ");
+        ++pos;
+    }
+    return text;
 }
