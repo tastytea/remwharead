@@ -55,7 +55,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             }
 
             out << "[[dt_" << datetime << "]]\n";
-            out << ".link:" << entry.uri;
+            out << "* link:" << entry.uri;
             if (!entry.title.empty())
             {
                 out << '[' << entry.title << ']';
@@ -64,7 +64,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
             {
                 out << "[]";
             }
-            out << endl;
+            out << " +" << endl;
 
             out << '_' << time.substr(0, 5) << '_';
             if (!entry.archive_uri.empty())
@@ -101,12 +101,12 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
                     out << ", ";
                 }
             }
-            out << endl << endl;
 
             if (!entry.description.empty())
             {
-                out <<  entry.description << endl << endl;
+                out << " +" << endl << entry.description;
             }
+            out << endl << endl;
         }
 
         if (!alltags.empty())
