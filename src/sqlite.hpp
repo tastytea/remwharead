@@ -44,6 +44,7 @@ public:
         string description;
         string fulltext;
 
+        //! Returns true if date & time are equal.
         friend bool operator ==(const Database::entry &a,
                                 const Database::entry &b);
         //! The full text in one line.
