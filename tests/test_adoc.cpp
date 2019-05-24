@@ -66,7 +66,7 @@ SCENARIO ("The AsciiDoc export works correctly")
                 ("== Tags\n\n"
                  "=== \\[\\[t_tag1\\]\\]tag1\n\n"
                  "\\* xref:dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}"
-                 "\\[Nice title\\]\n\n");
+                 "\\[Nice title\\] _\\(1970-01-01\\)_\n\n");
 
             for (const regex &re : { re_header, re_dates, re_tags })
             {
