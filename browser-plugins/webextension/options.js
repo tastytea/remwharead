@@ -12,7 +12,10 @@ function restore_options()
     var item = browser.storage.sync.get('archive');
     item.then((res) =>
               {
-                  document.querySelector("#archive").checked = res.archive;
+                  if (res.archive === false)
+                  {
+                      document.querySelector("#archive").checked = false;
+                  }
               });
 }
 
