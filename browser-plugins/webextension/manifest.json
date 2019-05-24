@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "remwharead",
-    "version": "0.2.2",
+    "version": "0.3.0",
 
     "description": "Integrates remwharead into your Browser.",
     "homepage_url": "https://schlomp.space/tastytea/remwharead",
@@ -23,7 +23,8 @@
     "permissions":
     [
         "activeTab",
-        "nativeMessaging"
+        "nativeMessaging",
+        "storage"
     ],
 
     "browser_action":
@@ -38,6 +39,12 @@
             "light": "icon_dark.svg",
             "size": 16
         }]
+    },
+
+    "options_ui":
+    {
+        "page": "options.html",
+        "browser_style": true
     },
 
     "commands":

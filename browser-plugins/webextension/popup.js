@@ -1,5 +1,5 @@
-var taburl;
-var port;
+var taburl = "";
+var archive = "";
 
 function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
@@ -15,6 +15,18 @@ function get_tags()             // get tags from text input.
         return "-t '" + tags + "' ";
     }
     return "";
+}
+
+function read_options()
+{
+    var item = browser.storage.sync.get('archive');
+    item.then((res) =>
+              {
+                  if (res.archive === false)
+                  {
+                      archive = "--no-archive ";
+                  }
+              });
 }
 
 function onResponse(response) {
@@ -42,19 +54,20 @@ function launch()               // Launch wrapper and send tags + URL to stdin.
 {
     document.getElementById("status").textContent = "Launching remwharead…";
     document.getElementById("error").textContent = "";
-    var arguments = get_tags() + taburl;
+    var arguments = get_tags() + archive + taburl;
     console.log("Sending: " + arguments + " to remwharead");
     var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
     sending.then(onResponse, onError);
 }
 
+read_options();
 
 // Call set_taburl() with current tab.
 browser.tabs.query({currentWindow: true, active: true}).then(set_taburl);
 
 button.addEventListener("click", launch); // Call launch() if button is clicked.
 
-// Click button if enter is hit in text input.
+// Call launch if enter is hit in text input.
 document.querySelector("#tags").addEventListener(
     "keyup", event =>
         {
@@ -62,6 +75,6 @@ document.querySelector("#tags").addEventListener(
             {
                 return;
             }
-            document.querySelector("#button").click();
+            launch();
             event.preventDefault();
         });
