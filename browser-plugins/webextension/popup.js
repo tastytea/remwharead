@@ -9,7 +9,7 @@ function set_taburl(tabs)       // Set taburl to URL of current tab.
 
 function get_tags()             // get tags from text input.
 {
-    let tags = document.getElementById("tags").value;
+    let tags = txttags.value;
     if (tags != "")
     {
         return "-t '" + tags + "' ";
@@ -31,7 +31,7 @@ function read_options()
 
 function onResponse(response) {
     console.log("Received: " + response);
-    document.getElementById("status").textContent = "";
+    msgstatus.textContent = "";
 
     if (response == "Command successful.")
     {
@@ -39,25 +39,30 @@ function onResponse(response) {
     }
     else
     {
-        document.getElementById("error").textContent = response;
+        msgerror.textContent = response;
     }
 
 }
 
 function onError(error) {
     console.log(`Error: ${error}`);
-    document.getElementById("error").textContent = "Could not launch remwharead.";
-    document.getElementById("status").textContent = "";
+    msgerror.textContent = "Could not launch remwharead.";
+    msgstatus.textContent = "";
 }
 
-function launch()               // Launch wrapper and send tags + URL to stdin.
+function launch(args)           // Launch wrapper and send tags + URL to stdin.
 {
-    document.getElementById("status").textContent = "Launching remwharead…";
-    document.getElementById("error").textContent = "";
-    var arguments = get_tags() + archive + taburl;
-    console.log("Sending: " + arguments + " to remwharead");
-    var sending = browser.runtime.sendNativeMessage("remwharead", arguments);
+    msgstatus.textContent = "Launching remwharead…";
+    msgerror.textContent = "";
+    console.log("Sending: " + args + " to remwharead");
+    var sending = browser.runtime.sendNativeMessage("remwharead", args);
     sending.then(onResponse, onError);
+}
+
+function add()
+{
+    var arguments = get_tags() + archive + taburl;
+    launch(arguments);
 }
 
 read_options();
@@ -65,10 +70,9 @@ read_options();
 // Call set_taburl() with current tab.
 browser.tabs.query({currentWindow: true, active: true}).then(set_taburl);
 
-button.addEventListener("click", launch); // Call launch() if button is clicked.
+btnadd.addEventListener("click", launch);
 
-// Call launch if enter is hit in text input.
-document.querySelector("#tags").addEventListener(
+txttags.addEventListener(       // Call launch() if enter is hit in text input.
     "keyup", event =>
         {
             if(event.key !== "Enter")
