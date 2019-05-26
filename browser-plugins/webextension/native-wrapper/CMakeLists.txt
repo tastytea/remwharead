@@ -4,6 +4,7 @@ set(INSTALL_MOZILLA_NMH_DIR
   "${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}")
 
 add_executable(${PROJECT_NAME}_wrapper ${PROJECT_NAME}_wrapper.cpp)
+target_link_libraries(${PROJECT_NAME}_wrapper stdc++fs)
 install(TARGETS ${PROJECT_NAME}_wrapper DESTINATION ${MOZILLA_NMH_DIR})
 
 add_custom_command(
