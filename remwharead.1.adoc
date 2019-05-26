@@ -23,8 +23,8 @@ remwharead - Saves URIs of things you want to remember in a database
  an URI to the archived version, the current date and time, title, description,
  the full text of the page and optional tags.
 
-The database can be filtered by time, tags and full text and exported to CSV or
-AsciiDoc.
+The database can be filtered by time, tags and full text and exported to CSV,
+AsciiDoc or a bookmarks file.
 
 Archiving is done using the Wayback machine from the
 https://archive.org/[Internet Archive].
@@ -86,6 +86,19 @@ Print version, copyright and license.
 `remwharead -e csv -s "grub AND boot"`
 ====
 
+=== Display database
+
+*remwharead* does not provide an interface to display the database. However, you
+can periodically generate an HTML file with cron and display it in the browser.
+
+.Line from crontab: Generate an HTML file of the last 6 months every 30 minutes.
+====
+[source,crontab]
+----
+*/30 * * * * remwharead -e asciidoc -T $(date -d "-6 months" -I),$(date -I) | asciidoctor --backend=html5 --out-file=${HOME}/remwharead.html -
+----
+====
+
 == FORMATS
 
 === csv
@@ -117,9 +130,9 @@ only matches whole tags, Pill does not match Pillow.
 
 == PROTOCOL SUPPORT
 
-Since remwharead is built on libcurl, it supports the same protocols. See
-*curl*(1), section _DESCRIPTION_. Titles and descriptions are currently only extracted
-when using HTTP(S).
+Since *remwharead* is built on libcurl, it supports the same protocols. See
+*curl*(1), section _DESCRIPTION_. Titles and descriptions are currently only
+extracted when using HTTP(S).
 
 == ENVIRONMENT
 
@@ -145,7 +158,7 @@ You can use proxy servers with the same environment variables as curl. See
 
 == SEE ALSO
 
-*curl*(1)
+*curl*(1), *crontab*(1), *crontab*(5)
 
 == REPORTING BUGS
 
