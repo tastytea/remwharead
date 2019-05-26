@@ -21,7 +21,8 @@ enum class export_format
 {
     undefined,
     csv,
-    asciidoc
+    asciidoc,
+    bookmarks
 };
 
 #endif  // REMWHAREAD_TYPES_HPP

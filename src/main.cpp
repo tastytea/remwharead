@@ -23,6 +23,7 @@
 #include "sqlite.hpp"
 #include "parse_options.hpp"
 #include "uri.hpp"
+#include "types.hpp"
 #include "export.hpp"
 #include "search.hpp"
 
@@ -116,6 +117,19 @@ int main(const int argc, const char *argv[])
             else
             {
                 export_adoc(entries);
+            }
+            break;
+        }
+        case export_format::bookmarks:
+        {
+            if (file.is_open())
+            {
+                export_bookmarks(entries, file);
+                file.close();
+            }
+            else
+            {
+                export_bookmarks(entries);
             }
             break;
         }

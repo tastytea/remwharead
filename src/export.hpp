@@ -33,4 +33,8 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
 //! Replaces characters in tags that asciidoctor doesn't like.
 const string replace_in_tags(string text);
 
+
+//! Export as Netscape bookmark file.
+void export_bookmarks(const vector<Database::entry> &entries,
+                      ostream &out = cout);
 #endif  // REMWHAREAD_EXPORT_HPP

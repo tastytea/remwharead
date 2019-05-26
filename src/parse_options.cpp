@@ -123,10 +123,15 @@ const options parse_options(const int argc, const char *argv[])
             {
                 opts.format = export_format::asciidoc;
             }
+            else if (format == "bookmarks")
+            {
+                opts.format = export_format::bookmarks;
+            }
             else
             {
                 opts.format = export_format::undefined;
-                cerr << "Error: Export format must be csv or asciidoc.\n";
+                cerr << "Error: Export format must be "
+                     << "csv, asciidoc or bookmarks.\n";
                 return options(1);
             }
         }
