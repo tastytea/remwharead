@@ -37,7 +37,7 @@ steps:
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   - make install DESTDIR=install
-  - ctest -V
+  - cd tests && ctest -V
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives

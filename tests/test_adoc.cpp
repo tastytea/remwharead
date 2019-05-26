@@ -58,9 +58,9 @@ SCENARIO ("The AsciiDoc export works correctly")
             const regex re_dates
                 ("== 1970-01-01\n\n"
                  "\\[\\[dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}\\]\\]\n"
-                 "\\.link:https://example\\.com/page\\.html\\[Nice title\\]\n"
-                 "_\\d{2}:\\d{2}:\\d{2}_\n"
-                 "| xref:t_tag1\\[tag1\\], xref:t_tag2\\[tag2\\]\n\n"
+                 "\\* link:https://example\\.com/page\\.html\\[Nice title\\]"
+                 " \\+\n_\\d{2}:\\d{2}_\n"
+                 "| xref:t_tag1\\[tag1\\], xref:t_tag2\\[tag2\\] +\n"
                  "Good description\\.\n");
             const regex re_tags
                 ("== Tags\n\n"
@@ -73,6 +73,7 @@ SCENARIO ("The AsciiDoc export works correctly")
                 if (!regex_search(adoc, re))
                 {
                     adoc_ok = false;
+                    break;
                 }
             }
         }

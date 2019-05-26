@@ -58,14 +58,15 @@ SCENARIO ("The Bookmarks export works correctly")
                 "<DL><p>\n<DT><H3>remwharead</H3>\n<DL><p>");
             const regex re_bottom(
                 "<DT><A HREF=\"https://example.com/page.html\" "
-                "ADD_DATE=\"\\d{10,}\">Nice title</A>\n"
-                "</DL><p>\n</DL><p>\n$");
+                "ADD_DATE=\"\\d+\">Nice title</A>\n"
+                "</DL><p>\n</DL><p>\n");
 
             for (const regex &re : { re_top, re_bottom })
             {
                 if (!regex_search(bookmarks, re))
                 {
                     bookmarks_ok = false;
+                    break;
                 }
             }
         }

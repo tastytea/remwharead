@@ -106,8 +106,8 @@ cmake --build .
 ** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
 ** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.
 
-You can run the tests with `ctest` inside the build directory. Install with
-`make install`, generate binary packages with `make package`.
+You can run the tests with `cd tests && ctest`. Install with `make install`,
+generate binary packages with `make package`.
 
 == Browser plugins
 
