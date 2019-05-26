@@ -36,6 +36,13 @@ emaint sync -r tastytea
 emerge -a www-misc/remwharead
 ----
 
+=== Debian and Debian based
+
+Download the `.deb`-package from
+https://schlomp.space/tastytea/remwharead/releases[schlomp.space] and install
+with `apt install ./rewharead_*.deb`. The package works for 64 bit installations
+only.
+
 === From source
 
 ==== Dependencies
