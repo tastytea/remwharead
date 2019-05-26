@@ -26,6 +26,7 @@ steps:
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
+  - rm /var/cache/apt/archives/lock
   - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
   - apt-get update -q
@@ -50,6 +51,7 @@ steps:
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
+  - rm /var/cache/apt/archives/lock
   - apt-get update -q
   - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
@@ -77,6 +79,7 @@ steps:
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
+  - rm /var/cache/apt/archives/lock
   - apt-get update -q
   - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
@@ -104,6 +107,7 @@ steps:
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
+  - rm /var/cache/apt/archives/lock
   - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
   - apt-get update -q
@@ -125,6 +129,7 @@ steps:
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
+  - rm /var/cache/apt/archives/lock
   - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
   - echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/stretch.list
@@ -185,6 +190,7 @@ steps:
     CXXFLAGS: -pipe -O2
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
+  - rm /var/cache/apt/archives/lock
   - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
   - apt-get update -q
