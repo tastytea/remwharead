@@ -8,8 +8,7 @@ The database can be filtered by time, tags and full text and exported to CSV or
 AsciiDoc.
 
 Archiving is done using the Wayback machine from the
-https://archive.org/[Internet Archive]. Please
-https://archive.org/donate/[donate] to them if you can.
+https://archive.org/[Internet Archive].
 
 .AsciiDoc export formatted with Asciidoctor.
 ====
