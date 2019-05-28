@@ -14,7 +14,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <map>
 #include <regex>
 #include <algorithm>
 #include <utility>
@@ -35,10 +34,11 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
     try
     {
         out << "= Visited things\n"
-            << ":Author: remwharead " << global::version << endl
-            << ":Date:   " << timepoint_to_string(system_clock::now()) << endl
-            << ":TOC:    right" << endl
-            // << ":toc-title:" << endl
+            << ":Author:    remwharead " << global::version << endl
+            << ":Date:      "
+            << timepoint_to_string(system_clock::now()) << endl
+            << ":TOC:       right" << endl
+            << ":TOCLevels: 2" << endl
             << endl;
 
         std::map<string,vector<Database::entry>> alltags;
@@ -111,48 +111,7 @@ void export_adoc(const vector<Database::entry> &entries, ostream &out)
 
         if (!alltags.empty())
         {
-            out << "== Tags\n\n";
-            vector<tagpair> sortedtags(alltags.size());
-            std::move(alltags.begin(), alltags.end(), sortedtags.begin());
-            std::sort(sortedtags.begin(), sortedtags.end(),
-                      [](const tagpair &a, tagpair &b)
-                      {
-                          if (a.second.size() != b.second.size())
-                          {   // Sort by number of occurrences if they are
-                              // different.
-                              return a.second.size() > b.second.size();
-                          }
-                          else
-                          {   // Sort by tag names otherwise.
-                              std::locale loc;
-                              const std::collate<char> &coll =
-                                  std::use_facet<std::collate<char>>(loc);
-                              return (coll.compare(
-                                          a.first.data(), a.first.data()
-                                          + a.first.length(),
-                                          b.first.data(), b.first.data()
-                                          + b.first.length()) == -1);
-                          }
-                      });
-
-            for (const auto &tag : sortedtags)
-            {
-                out << "=== [[t_" << replace_in_tags(tag.first) << "]]"
-                    << tag.first << endl;
-                for (const Database::entry &entry : tag.second)
-                {
-                    const string datetime = timepoint_to_string(entry.datetime);
-                    const string date = datetime.substr(0, datetime.find('T'));
-                    string title = entry.title;
-                    if (title.empty())
-                    {
-                        title = "++" + entry.uri + "++";
-                    }
-                    out << endl << "* xref:dt_" << datetime
-                        << '[' << title << "] _(" << date << ")_" << endl;
-                }
-                out << endl;
-            }
+            adoc_print_tags(alltags, out);
         }
     }
     catch (std::exception &e)
@@ -191,4 +150,62 @@ const string replace_in_tags(string text)
         }
     }
     return text;
+}
+
+void adoc_print_tags(const std::map<string,vector<Database::entry>> &tags,
+                     ostream &out)
+{
+    out << "== Tags\n\n";
+    vector<tagpair> sortedtags(tags.size());
+    std::move(tags.begin(), tags.end(), sortedtags.begin());
+    std::sort(sortedtags.begin(), sortedtags.end(),
+              [](const tagpair &a, tagpair &b)
+              {
+                  if (a.second.size() != b.second.size())
+                  {   // Sort by number of occurrences if they are different.
+                      return a.second.size() > b.second.size();
+                  }
+                  else
+                  {   // Sort by tag names otherwise.
+                      std::locale loc;
+                      const std::collate<char> &coll =
+                          std::use_facet<std::collate<char>>(loc);
+                      return (coll.compare(
+                                  a.first.data(), a.first.data()
+                                  + a.first.length(),
+                                  b.first.data(), b.first.data()
+                                  + b.first.length()) == -1);
+                  }
+              });
+
+    bool othertags = false;
+    for (const auto &tag : sortedtags)
+    {
+        if (tag.second.size() == 1)
+        {
+            if (!othertags)
+            {
+                out << "=== Less used tags\n\n";
+                othertags = true;
+            }
+            out << "=";
+        }
+
+        out << "=== [[t_" << replace_in_tags(tag.first) << "]]"
+            << tag.first << endl;
+        for (const Database::entry &entry : tag.second)
+        {
+            const string datetime = timepoint_to_string(entry.datetime);
+            const string date = datetime.substr(0, datetime.find('T'));
+            string title = entry.title;
+            if (title.empty())
+            {
+                title = "++" + entry.uri + "++";
+            }
+            out << endl << "* xref:dt_" << datetime
+                << '[' << title << "] _(" << date << ")_" << endl;
+        }
+        out << endl;
+    }
+    out << endl;
 }

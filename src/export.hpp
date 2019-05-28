@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <iostream>
+#include <map>
 #include "sqlite.hpp"
 
 using std::vector;
@@ -32,9 +33,12 @@ const string quote_csv(string field);
 void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
 //! Replaces characters in tags that asciidoctor doesn't like.
 const string replace_in_tags(string text);
+void adoc_print_tags(const std::map<string,vector<Database::entry>> &tags,
+                     ostream &out = cout);
 
 
 //! Export as Netscape bookmark file.
 void export_bookmarks(const vector<Database::entry> &entries,
                       ostream &out = cout);
+
 #endif  // REMWHAREAD_EXPORT_HPP

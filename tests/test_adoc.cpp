@@ -54,7 +54,8 @@ SCENARIO ("The AsciiDoc export works correctly")
                 ("^= Visited things\n"
                  ":Author: +remwharead \\d+\\.\\d+\\.\\d+\n"
                  ":Date: +\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\n"
-                 ":TOC: +right\n\n");
+                 ":TOC: +right\n"
+                 ":TOCLevels: +2\n\n");
             const regex re_dates
                 ("== 1970-01-01\n\n"
                  "\\[\\[dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}\\]\\]\n"
@@ -64,7 +65,8 @@ SCENARIO ("The AsciiDoc export works correctly")
                  "Good description\\.\n");
             const regex re_tags
                 ("== Tags\n\n"
-                 "=== \\[\\[t_tag1\\]\\]tag1\n\n"
+                 "=== Less used tags\n\n"
+                 "==== \\[\\[t_tag1\\]\\]tag1\n\n"
                  "\\* xref:dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}"
                  "\\[Nice title\\] _\\(1970-01-01\\)_\n\n");
 
