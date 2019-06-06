@@ -24,7 +24,9 @@
 #include "parse_options.hpp"
 #include "uri.hpp"
 #include "types.hpp"
-#include "export.hpp"
+#include "csv.hpp"
+#include "adoc.hpp"
+#include "bookmarks.hpp"
 #include "search.hpp"
 
 using std::cout;

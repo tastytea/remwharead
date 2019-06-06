@@ -14,14 +14,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
+#include <string>
 #include <regex>
 #include <algorithm>
 #include <utility>
 #include <locale>
 #include <curlpp/cURLpp.hpp>
 #include "version.hpp"
-#include "export.hpp"
+#include "time.hpp"
+#include "adoc.hpp"
 
+using std::string;
 using std::cerr;
 using std::endl;
 using std::regex;

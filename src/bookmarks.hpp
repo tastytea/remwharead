@@ -14,31 +14,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_EXPORT_HPP
-#define REMWHAREAD_EXPORT_HPP
+#ifndef REMWHAREAD_BOOKMARKS_HPP
+#define REMWHAREAD_BOOKMARKS_HPP
 
-#include <vector>
-#include <iostream>
-#include "sqlite.hpp"
-
-using std::vector;
-using std::ostream;
-using std::cout;
+#include "export.hpp"
 
 namespace Export
 {
-    class ExportBase
+    //! Export as Netscape bookmark file.
+    class Bookmarks : protected ExportBase
     {
     public:
-        explicit ExportBase(const vector<Database::entry> &entries,
-                            ostream &out = cout);
-
-        virtual void print() const = 0;
-
-    protected:
-        const vector<Database::entry> &_entries;
-        ostream &_out;
+        using ExportBase::ExportBase;
+        virtual void print() const override;
     };
 }
 
-#endif  // REMWHAREAD_EXPORT_HPP
+#endif  // REMWHAREAD_BOOKMARKS_HPP
