@@ -35,6 +35,8 @@ namespace Export
         explicit ExportBase(const vector<Database::entry> &entries,
                             ostream &out = cout);
 
+        virtual void print() const = 0;
+
     protected:
         const vector<Database::entry> &_entries;
         ostream &_out;
@@ -45,19 +47,20 @@ namespace Export
     public:
         using ExportBase::ExportBase;
 
-        void print() const;
+        virtual void print() const override;
 
     private:
         //! replaces " with "".
         const string quote(string field) const;
     };
 
+
     class AsciiDoc : protected ExportBase
     {
     public:
         using ExportBase::ExportBase;
 
-        void print() const;
+        void print() const override;
 
     private:
         using tagmap = std::map<string,vector<Database::entry>>;
@@ -72,12 +75,14 @@ namespace Export
         const string get_day(const Database::entry &entry) const;
         const string get_time(const Database::entry &entry) const;
     };
+
+    //! Export as Netscape bookmark file.
+    class Bookmarks : protected ExportBase
+    {
+    public:
+        using ExportBase::ExportBase;
+        virtual void print() const override;
+    };
 }
-
-
-
-//! Export as Netscape bookmark file.
-void export_bookmarks(const vector<Database::entry> &entries,
-                      ostream &out = cout);
 
 #endif  // REMWHAREAD_EXPORT_HPP

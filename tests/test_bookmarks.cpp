@@ -46,7 +46,7 @@ SCENARIO ("The Bookmarks export works correctly")
         try
         {
             std::ostringstream output;
-            export_bookmarks({ entry }, output);
+            Export::Bookmarks({ entry }, output).print();
             const string bookmarks = output.str();
 
             const regex re_top(

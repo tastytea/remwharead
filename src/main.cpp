@@ -124,12 +124,12 @@ int main(const int argc, const char *argv[])
         {
             if (file.is_open())
             {
-                export_bookmarks(entries, file);
+                Export::Bookmarks(entries, file).print();
                 file.close();
             }
             else
             {
-                export_bookmarks(entries);
+                Export::Bookmarks(entries).print();
             }
             break;
         }
