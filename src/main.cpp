@@ -98,12 +98,12 @@ int main(const int argc, const char *argv[])
         {
             if (file.is_open())
             {
-                export_csv(entries, file);
+                Export::CSV(entries, file).print();
                 file.close();
             }
             else
             {
-                export_csv(entries);
+                Export::CSV(entries).print();
             }
             break;
         }

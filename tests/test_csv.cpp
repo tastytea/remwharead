@@ -47,7 +47,7 @@ SCENARIO ("The CSV export works correctly")
         try
         {
             std::ostringstream output;
-            export_csv({ entry }, output);
+            Export::CSV({ entry }, output).print();
             const string csv = output.str();
 
             const regex re

@@ -26,9 +26,30 @@ using std::vector;
 using std::ostream;
 using std::cout;
 
-void export_csv(const vector<Database::entry> &entries, ostream &out = cout);
-//! replaces " with "".
-const string quote_csv(string field);
+namespace Export
+{
+    class ExportBase
+    {
+    public:
+        explicit ExportBase(const vector<Database::entry> &entries,
+                            ostream &out = cout);
+
+    protected:
+        const vector<Database::entry> &_entries;
+        ostream &_out;
+    };
+
+    class CSV : protected ExportBase
+    {
+    public:
+        using ExportBase::ExportBase;
+
+        void print() const;
+        //! replaces " with "".
+        const string quote(string field) const;
+    };
+}
+
 
 void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
 //! Replaces characters in tags that asciidoctor doesn't like.

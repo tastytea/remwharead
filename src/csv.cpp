@@ -20,44 +20,47 @@
 using std::cerr;
 using std::endl;
 
-void export_csv(const vector<Database::entry> &entries, ostream &out)
+namespace Export
 {
-    try
+    void CSV::print() const
     {
-        out << "\"URI\",\"Archived URI\",\"Date & time\",\"Tags\","
-            << "\"Title\",\"Description\",\"Full text\"\r\n";
-        for (const Database::entry &entry : entries)
+        try
         {
-            string strtags;
-            for (const string &tag : entry.tags)
+            _out << "\"URI\",\"Archived URI\",\"Date & time\",\"Tags\","
+                 << "\"Title\",\"Description\",\"Full text\"\r\n";
+            for (const Database::entry &entry : _entries)
             {
-                strtags += tag;
-                if (tag != *(entry.tags.rbegin()))
+                string strtags;
+                for (const string &tag : entry.tags)
                 {
-                    strtags += ",";
+                    strtags += tag;
+                    if (tag != *(entry.tags.rbegin()))
+                    {
+                        strtags += ",";
+                    }
                 }
+                _out << '"' << quote(entry.uri) << "\",\""
+                     << quote(entry.archive_uri) << "\",\""
+                     << timepoint_to_string(entry.datetime) << "\",\""
+                     << quote(strtags) << "\",\""
+                     << quote(entry.title) << "\",\""
+                     << quote(entry.description) << "\",\""
+                     << quote(entry.fulltext_oneline()) << '"'<< "\r\n";
             }
-            out << '"' << quote_csv(entry.uri) << "\",\""
-                << quote_csv(entry.archive_uri) << "\",\""
-                << timepoint_to_string(entry.datetime) << "\",\""
-                << quote_csv(strtags) << "\",\""
-                << quote_csv(entry.title) << "\",\""
-                << quote_csv(entry.description) << "\",\""
-                << quote_csv(entry.fulltext_oneline()) << '"'<< "\r\n";
+        }
+        catch (std::exception &e)
+        {
+            cerr << "Error in " << __func__ << ": " << e.what() << endl;
         }
     }
-    catch (std::exception &e)
-    {
-        cerr << "Error in " << __func__ << ": " << e.what() << endl;
-    }
-}
 
-const string quote_csv(string field)
-{
-    size_t pos = 0;
-    while ((pos = field.find('"', pos)) != std::string::npos)
+    const string CSV::quote(string field) const
     {
-        field.replace(pos, 1, "\"\"");
+        size_t pos = 0;
+        while ((pos = field.find('"', pos)) != std::string::npos)
+        {
+            field.replace(pos, 1, "\"\"");
+        }
+        return field;
     }
-    return field;
 }
