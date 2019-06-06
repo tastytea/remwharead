@@ -65,8 +65,7 @@ SCENARIO ("The AsciiDoc export works correctly")
                  "Good description\\.\n");
             const regex re_tags
                 ("== Tags\n\n"
-                 "=== Less used tags\n\n"
-                 "==== \\[\\[t_tag1\\]\\]tag1\n\n"
+                 "=== \\[\\[t_tag1\\]\\]tag1\n\n"
                  "\\* xref:dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}"
                  "\\[Nice title\\] _\\(1970-01-01\\)_\n\n");
 

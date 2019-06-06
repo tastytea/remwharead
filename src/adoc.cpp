@@ -188,10 +188,12 @@ void Export::AsciiDoc::print_tags(const tagmap &tags) const
                   }
               });
 
-    bool othertags = false;
+    bool othertags = false;     // Have we printed “Less used tags” already?
     for (const auto &tag : sortedtags)
     {
-        if (tag.second.size() == 1)
+        // If we have more than 20 tags, group all tags that occur only 1 time
+        // under the section “Less used tags”.
+        if (sortedtags.size() > 20 && tag.second.size() == 1)
         {
             if (!othertags)
             {
