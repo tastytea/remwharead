@@ -20,6 +20,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include "time.hpp"
 #include "sqlite.hpp"
 
 using std::vector;
@@ -59,9 +60,17 @@ namespace Export
         void print() const;
 
     private:
+        using tagmap = std::map<string,vector<Database::entry>>;
+        using replacemap = const std::map<const string, const string>;
+
+        const string replace(string text, const replacemap &replacements) const;
         //! Replaces characters in tags that asciidoctor doesn't like.
-        const string replace_in_tags(string text) const;
-        void print_tags(const std::map<string,vector<Database::entry>> &tags) const;
+        const string replace_in_tag(const string &text) const;
+        //! Replaces characters in title that asciidoctor doesn't like.
+        const string replace_in_title(const string &text) const;
+        void print_tags(const tagmap &tags) const;
+        const string get_day(const Database::entry &entry) const;
+        const string get_time(const Database::entry &entry) const;
     };
 }
 
