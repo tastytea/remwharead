@@ -47,7 +47,7 @@ SCENARIO ("The AsciiDoc export works correctly")
         try
         {
             std::ostringstream output;
-            export_adoc({ entry }, output);
+            Export::AsciiDoc({ entry }, output).print();
             const string adoc = output.str();
 
             const regex re_header

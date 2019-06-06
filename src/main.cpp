@@ -111,12 +111,12 @@ int main(const int argc, const char *argv[])
         {
             if (file.is_open())
             {
-                export_adoc(entries, file);
+                Export::AsciiDoc(entries, file).print();
                 file.close();
             }
             else
             {
-                export_adoc(entries);
+                Export::AsciiDoc(entries).print();
             }
             break;
         }

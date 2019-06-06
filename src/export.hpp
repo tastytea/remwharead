@@ -45,17 +45,26 @@ namespace Export
         using ExportBase::ExportBase;
 
         void print() const;
+
+    private:
         //! replaces " with "".
         const string quote(string field) const;
     };
+
+    class AsciiDoc : protected ExportBase
+    {
+    public:
+        using ExportBase::ExportBase;
+
+        void print() const;
+
+    private:
+        //! Replaces characters in tags that asciidoctor doesn't like.
+        const string replace_in_tags(string text) const;
+        void print_tags(const std::map<string,vector<Database::entry>> &tags) const;
+    };
 }
 
-
-void export_adoc(const vector<Database::entry> &entries, ostream &out = cout);
-//! Replaces characters in tags that asciidoctor doesn't like.
-const string replace_in_tags(string text);
-void adoc_print_tags(const std::map<string,vector<Database::entry>> &tags,
-                     ostream &out = cout);
 
 
 //! Export as Netscape bookmark file.
