@@ -15,11 +15,14 @@
  */
 
 #include <chrono>
-#include "export.hpp"
+#include <string>
+#include "sqlite.hpp"
+#include "bookmarks.hpp"
 
 using std::chrono::system_clock;
 using std::chrono::duration_cast;
 using std::chrono::seconds;
+using std::string;
 
 void Export::Bookmarks::print() const
 {

@@ -14,31 +14,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_EXPORT_HPP
-#define REMWHAREAD_EXPORT_HPP
+#ifndef REMWHAREAD_CSV_HPP
+#define REMWHAREAD_CSV_HPP
 
-#include <vector>
-#include <iostream>
-#include "sqlite.hpp"
+#include <string>
+#include "export.hpp"
 
-using std::vector;
-using std::ostream;
-using std::cout;
+using std::string;
 
 namespace Export
 {
-    class ExportBase
+    class CSV : protected ExportBase
     {
     public:
-        explicit ExportBase(const vector<Database::entry> &entries,
-                            ostream &out = cout);
+        using ExportBase::ExportBase;
 
-        virtual void print() const = 0;
+        virtual void print() const override;
 
-    protected:
-        const vector<Database::entry> &_entries;
-        ostream &_out;
+    private:
+        //! replaces " with "".
+        const string quote(string field) const;
     };
 }
 
-#endif  // REMWHAREAD_EXPORT_HPP
+#endif  // REMWHAREAD_CSV_HPP

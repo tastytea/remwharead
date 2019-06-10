@@ -35,6 +35,7 @@ using std::regex;
 using std::regex_replace;
 using std::regex_search;
 using std::smatch;
+using std::regex_constants::icase;
 
 URI::URI(const string &uri)
     :_uri(uri)
@@ -90,7 +91,7 @@ const string URI::extract_title(const string &html)
     if (_uri.substr(0, 4) == "http" || regex_search(_uri, re_htmlfile))
     {
         smatch match;
-        regex_search(html, match, regex("<title>([^<]+)"));
+        regex_search(html, match, regex("<title>([^<]+)", icase));
         return remove_newlines(match[1].str());
     }
 
@@ -103,7 +104,8 @@ const string URI::extract_description(const string &html)
     if (_uri.substr(0, 4) == "http" || regex_search(_uri, re_htmlfile))
     {
         smatch match;
-        regex_search(html, match, regex("description\"[^>]+content=\"([^\"]+)"));
+        const regex re("description\"[^>]+content=\"([^\"]+)", icase);
+        regex_search(html, match, re);
         return remove_newlines(match[1].str());
     }
 
