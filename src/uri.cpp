@@ -64,7 +64,7 @@ const html_extract URI::get()
             return
                 {
                     extract_title(answer),
-                    extract_description(answer),
+                    strip_html(extract_description(answer)),
                     strip_html(answer)
                 };
         }
