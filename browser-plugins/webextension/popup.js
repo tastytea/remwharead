@@ -1,5 +1,11 @@
 let taburl = "";
-let archive = "";
+
+const txttags = document.getElementById("txttags");
+const chkarchive = document.getElementById("chkarchive");
+const btnadd = document.getElementById("btnadd");
+const msgstatus = document.getElementById("msgstatus");
+const msgerror = document.getElementById("msgerror");
+
 
 function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
@@ -24,7 +30,7 @@ function read_options()
               {
                   if (res.archive === false)
                   {
-                      archive = "--no-archive ";
+                      chkarchive.checked = false;
                   }
               });
 }
@@ -61,8 +67,14 @@ function launch(args)           // Launch wrapper and send tags + URL to stdin.
 
 function add()
 {
-    let arguments = get_tags() + archive + taburl;
-    launch(arguments);
+    let archive = "";
+    if (chkarchive.checked === false)
+    {
+        archive = "--no-archive ";
+    }
+    const args = get_tags() + archive + taburl;
+    console.log(args);
+    launch(args);
 }
 
 read_options();
@@ -70,7 +82,7 @@ read_options();
 // Call set_taburl() with current tab.
 browser.tabs.query({currentWindow: true, active: true}).then(set_taburl);
 
-btnadd.addEventListener("click", launch);
+btnadd.addEventListener("click", add);
 
 txttags.addEventListener(       // Call launch() if enter is hit in text input.
     "keyup", event =>
@@ -79,6 +91,6 @@ txttags.addEventListener(       // Call launch() if enter is hit in text input.
             {
                 return;
             }
-            launch();
+            add();
             event.preventDefault();
         });

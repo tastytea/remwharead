@@ -7,8 +7,14 @@
         <!-- I did not use a form here because I want to display status and
              error messages inside the popup. -->
         <label for="txttags">Tags, comma separated:</label>
-        <input type="text" id="txttags" autofocus>
-        <input type="button" id="btnadd" value="Add URI">
+        <input type="text" id="txttags" autofocus/>
+        <div>
+            <label>
+                <input type="checkbox" id="chkarchive" value="archive" checked/>
+                Archive
+            </label>
+            <input type="button" id="btnadd" value="Add URI" style="float:right;"/>
+        </div>
         <em id="msgstatus"></em>
         <strong id="msgerror"></strong>
 
