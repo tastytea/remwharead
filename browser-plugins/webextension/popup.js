@@ -1,15 +1,15 @@
-var taburl = "";
-var archive = "";
+let taburl = "";
+let archive = "";
 
 function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
-    let tab = tabs[0];
+    const tab = tabs[0];
     taburl = tab.url;
 }
 
 function get_tags()             // get tags from text input.
 {
-    let tags = txttags.value;
+    const tags = txttags.value;
     if (tags != "")
     {
         return "-t '" + tags + "' ";
@@ -19,7 +19,7 @@ function get_tags()             // get tags from text input.
 
 function read_options()
 {
-    var item = browser.storage.sync.get('archive');
+    const item = browser.storage.sync.get('archive');
     item.then((res) =>
               {
                   if (res.archive === false)
@@ -55,13 +55,13 @@ function launch(args)           // Launch wrapper and send tags + URL to stdin.
     msgstatus.textContent = "Launching remwharead…";
     msgerror.textContent = "";
     console.log("Sending: " + args + " to remwharead");
-    var sending = browser.runtime.sendNativeMessage("remwharead", args);
+    const sending = browser.runtime.sendNativeMessage("remwharead", args);
     sending.then(onResponse, onError);
 }
 
 function add()
 {
-    var arguments = get_tags() + archive + taburl;
+    let arguments = get_tags() + archive + taburl;
     launch(arguments);
 }
 

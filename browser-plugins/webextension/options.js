@@ -9,7 +9,7 @@ function save_options(e)
 
 function restore_options()
 {
-    var item = browser.storage.sync.get('archive');
+    const item = browser.storage.sync.get('archive');
     item.then((res) =>
               {
                   if (res.archive === false)
@@ -24,10 +24,10 @@ function info_commands(commands)
     commands.forEach(
         function(command)
         {
-            var element = document.querySelector("#shortcuts");
-            var para = document.createElement("p");
+            const element = document.querySelector("#shortcuts");
+            const para = document.createElement("p");
 
-            var text = document.createElement("strong");
+            const text = document.createElement("strong");
             text.appendChild(document.createTextNode(command.shortcut + ": "));
             para.appendChild(text);
             para.appendChild(document.createTextNode(command.description));
@@ -39,5 +39,5 @@ function info_commands(commands)
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector("#archive").addEventListener("change", save_options);
 
-var get_commands = browser.commands.getAll();
+const get_commands = browser.commands.getAll();
 get_commands.then(info_commands);
