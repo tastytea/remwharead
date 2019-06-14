@@ -1,15 +1,21 @@
-var taburl = "";
-var archive = "";
+let taburl = "";
+
+const txttags = document.getElementById("txttags");
+const chkarchive = document.getElementById("chkarchive");
+const btnadd = document.getElementById("btnadd");
+const msgstatus = document.getElementById("msgstatus");
+const msgerror = document.getElementById("msgerror");
+
 
 function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
-    let tab = tabs[0];
+    const tab = tabs[0];
     taburl = tab.url;
 }
 
 function get_tags()             // get tags from text input.
 {
-    let tags = txttags.value;
+    const tags = txttags.value;
     if (tags != "")
     {
         return "-t '" + tags + "' ";
@@ -19,12 +25,12 @@ function get_tags()             // get tags from text input.
 
 function read_options()
 {
-    var item = browser.storage.sync.get('archive');
+    const item = browser.storage.sync.get('archive');
     item.then((res) =>
               {
                   if (res.archive === false)
                   {
-                      archive = "--no-archive ";
+                      chkarchive.checked = false;
                   }
               });
 }
@@ -55,14 +61,20 @@ function launch(args)           // Launch wrapper and send tags + URL to stdin.
     msgstatus.textContent = "Launching remwharead…";
     msgerror.textContent = "";
     console.log("Sending: " + args + " to remwharead");
-    var sending = browser.runtime.sendNativeMessage("remwharead", args);
+    const sending = browser.runtime.sendNativeMessage("remwharead", args);
     sending.then(onResponse, onError);
 }
 
 function add()
 {
-    var arguments = get_tags() + archive + taburl;
-    launch(arguments);
+    let archive = "";
+    if (chkarchive.checked === false)
+    {
+        archive = "--no-archive ";
+    }
+    const args = get_tags() + archive + taburl;
+    console.log(args);
+    launch(args);
 }
 
 read_options();
@@ -70,7 +82,7 @@ read_options();
 // Call set_taburl() with current tab.
 browser.tabs.query({currentWindow: true, active: true}).then(set_taburl);
 
-btnadd.addEventListener("click", launch);
+btnadd.addEventListener("click", add);
 
 txttags.addEventListener(       // Call launch() if enter is hit in text input.
     "keyup", event =>
@@ -79,6 +91,6 @@ txttags.addEventListener(       // Call launch() if enter is hit in text input.
             {
                 return;
             }
-            launch();
+            add();
             event.preventDefault();
         });
