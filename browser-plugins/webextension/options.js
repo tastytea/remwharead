@@ -1,3 +1,5 @@
+/* globals browser */
+
 function save_options(e)
 {
     browser.storage.sync.set(

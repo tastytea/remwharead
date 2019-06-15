@@ -1,3 +1,5 @@
+/* globals browser */
+
 let taburl = "";
 
 const txttags = document.getElementById("txttags");
