@@ -40,9 +40,9 @@ void Export::AsciiDoc::print() const
              << ":Author:    remwharead " << global::version << endl
              << ":Date:      "
              << timepoint_to_string(system_clock::now()) << endl
-             << ":TOC:       right" << endl
-             << ":TOCLevels: 2" << endl
-             << endl;
+             << ":TOC:       right\n"
+             << ":TOCLevels: 2\n"
+             << ":!webfonts:\n\n";
 
         tagmap alltags;
         string day;
