@@ -27,6 +27,7 @@
 #include "csv.hpp"
 #include "adoc.hpp"
 #include "bookmarks.hpp"
+#include "simple.hpp"
 #include "search.hpp"
 
 using std::cout;
@@ -132,6 +133,19 @@ int main(const int argc, const char *argv[])
             else
             {
                 Export::Bookmarks(entries).print();
+            }
+            break;
+        }
+        case export_format::simple:
+        {
+            if (file.is_open())
+            {
+                Export::Simple(entries, file).print();
+                file.close();
+            }
+            else
+            {
+                Export::Simple(entries).print();
             }
             break;
         }

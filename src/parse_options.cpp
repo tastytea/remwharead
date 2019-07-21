@@ -43,8 +43,8 @@ const options parse_options(const int argc, const char *argv[])
         popl::OptionParser op("Available options");
         op.add<popl::Value<string>>
             ("t", "tags", "Add tags to URI, delimited by commas.", "", &tags);
-        op.add<popl::Value<string>>
-            ("e", "export", "Export to format.", "", &format);
+        auto option_export = op.add<popl::Implicit<string>>
+            ("e", "export", "Export to format.", "simple", &format);
         op.add<popl::Value<string>>
             ("f", "file", "Save output to file.", "", &opts.file);
         op.add<popl::Value<string>>
@@ -113,7 +113,7 @@ const options parse_options(const int argc, const char *argv[])
             }
         }
 
-        if (!format.empty())
+        if (option_export->is_set())
         {
             if (format == "csv")
             {
@@ -127,11 +127,15 @@ const options parse_options(const int argc, const char *argv[])
             {
                 opts.format = export_format::bookmarks;
             }
+            else if (format == "simple")
+            {
+                opts.format = export_format::simple;
+            }
             else
             {
                 opts.format = export_format::undefined;
                 cerr << "Error: Export format must be "
-                     << "csv, asciidoc or bookmarks.\n";
+                     << "csv, asciidoc, bookmarks or simple.\n";
                 return options(1);
             }
         }

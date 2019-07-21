@@ -14,16 +14,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_TYPES_HPP
-#define REMWHAREAD_TYPES_HPP
+#include <string>
+#include "sqlite.hpp"
+#include "time.hpp"
+#include "simple.hpp"
 
-enum class export_format
+using std::string;
+
+void Export::Simple::print() const
 {
-    undefined,
-    csv,
-    asciidoc,
-    bookmarks,
-    simple
-};
+    for (const Database::entry & entry : _entries)
+    {
+        const string timestring = timepoint_to_string(entry.datetime);
+        _out << timestring.substr(0, timestring.find('T')) << ": ";
+        if (!entry.title.empty())
+        {
+            _out << entry.title << '\n';
+            _out << "            ";
+        }
 
-#endif  // REMWHAREAD_TYPES_HPP
+        _out << "<" << entry.uri << ">\n";
+    }
+}
