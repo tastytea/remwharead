@@ -52,7 +52,7 @@ Search in tags. Format: _tag1 AND tag2 OR tag3_. See _SEARCH EXPRESSIONS_. Case
 insensitive.
 
 *-S* _expression_, *--search-all* _expression_::
-Search in tags, title, description and full text. See _SEARCH EXPESSIONS_. Case
+Search in tags, title, description and full text. See _SEARCH EXPRESSIONS_. Case
 insensitive.
 
 *-N*, *--no-archive*::
