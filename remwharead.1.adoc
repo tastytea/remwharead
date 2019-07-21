@@ -15,7 +15,7 @@ remwharead - Saves URIs of things you want to remember in a database
 
 *remwharead* [*-t* _tags_] [*-N*] _URI_
 
-*remwharead* *-e* [_format_] [*-f* _file_] [*-T* _start_,_end_] [[*-s*|*-S*] _expression_]
+*remwharead* *-e* _format_ [*-f* _file_] [*-T* _start_,_end_] [[*-s*|*-S*] _expression_]
 
 == DESCRIPTION
 
@@ -36,7 +36,7 @@ Add tags to _URI_, delimited by commas.
 
 *-e* _format_, *--export* _format_::
 Export to _format_. Possible values are _csv_, _asciidoc_, _bookmarks_ or
-_simple_ (default). See _FORMATS_.
+_simple_. See _FORMATS_.
 
 *-f* _file_, *--file* _file_::
 Save output to _file_. Default is stdout.
