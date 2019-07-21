@@ -92,7 +92,7 @@ const string URI::extract_title(const string &html)
     {
         smatch match;
         regex_search(html, match, regex("<title>([^<]+)", icase));
-        return remove_newlines(match[1].str());
+        return remove_newlines(unescape_html(match[1].str()));
     }
 
     return "";
