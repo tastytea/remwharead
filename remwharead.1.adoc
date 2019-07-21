@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-05-26
+:Date:          2019-07-21
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
