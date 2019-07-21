@@ -64,7 +64,7 @@ const html_extract URI::get()
             return
                 {
                     extract_title(answer),
-                    strip_html(extract_description(answer)),
+                    extract_description(answer),
                     strip_html(answer)
                 };
         }
@@ -106,7 +106,7 @@ const string URI::extract_description(const string &html)
         smatch match;
         const regex re("description\"[^>]+content=\"([^\"]+)", icase);
         regex_search(html, match, re);
-        return remove_newlines(match[1].str());
+        return remove_newlines(strip_html(match[1].str()));
     }
 
     return "";
@@ -509,11 +509,18 @@ const string URI::archive()
 
 const string URI::remove_newlines(string text)
 {
-    size_t pos = 0;
-    while ((pos = text.find("\n", pos)) != std::string::npos)
+    size_t posn = 0;
+    while ((posn = text.find('\n', posn)) != std::string::npos)
     {
-        text.replace(pos, 1, " ");
-        ++pos;
+        text.replace(posn, 1, " ");
+
+        size_t posr = posn - 1;
+        if (text[posr] == '\r')
+        {
+            text.replace(posr, 1, " ");
+        }
+        ++posn;
     }
+
     return text;
 }

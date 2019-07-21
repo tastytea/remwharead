@@ -43,6 +43,8 @@ namespace Export
         const string replace_in_tag(const string &text) const;
         //! Replaces characters in title that asciidoctor doesn't like.
         const string replace_in_title(const string &text) const;
+        //! Replaces characters in URI that asciidoctor doesn't like.
+        const string replace_in_uri(const string &text) const;
         void print_tags(const tagmap &tags) const;
         const string get_day(const Database::entry &entry) const;
         const string get_time(const Database::entry &entry) const;

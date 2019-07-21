@@ -40,9 +40,9 @@ void Export::AsciiDoc::print() const
              << ":Author:    remwharead " << global::version << endl
              << ":Date:      "
              << timepoint_to_string(system_clock::now()) << endl
-             << ":TOC:       right" << endl
-             << ":TOCLevels: 2" << endl
-             << endl;
+             << ":TOC:       right\n"
+             << ":TOCLevels: 2\n"
+             << ":!webfonts:\n\n";
 
         tagmap alltags;
         string day;
@@ -57,7 +57,7 @@ void Export::AsciiDoc::print() const
             }
 
             _out << "[[dt_" << timepoint_to_string(entry.datetime) << "]]\n";
-            _out << "* link:" << entry.uri;
+            _out << "* link:" << replace_in_uri(entry.uri);
             if (!entry.title.empty())
             {
                 _out << '[' << replace_in_title(entry.title) << ']';
@@ -71,7 +71,8 @@ void Export::AsciiDoc::print() const
             _out << '_' << get_time(entry).substr(0, 5) << '_';
             if (!entry.archive_uri.empty())
             {
-                _out << " (link:" << entry.archive_uri << "[archived version])";
+                _out << " (link:" << replace_in_uri(entry.archive_uri)
+                     << "[archived version])";
             }
 
             bool separator = false;
@@ -146,6 +147,9 @@ const string Export::AsciiDoc::replace_in_tag(const string &text) const
             { "&", "-" }, { "/", "-" },
             { "=", "-" }, { "^", "-" },
             { "!", "-" }, { "?", "-" },
+            { "'", "-" }, { "\"", "-" },
+            { "´", "-" }, { "`", "-" },
+            { "’", "-" }, { "#", "-" },
             { "₀", "0" }, { "⁰", "0" },
             { "₁", "1" }, { "¹", "1" },
             { "₂", "2" }, { "²", "2" },
@@ -165,6 +169,14 @@ const string Export::AsciiDoc::replace_in_title(const string &text) const
 {
     // [ is implicitly escaped if the corresponding ] is.
     return replace(text, {{ "]", "\\]" }});
+}
+
+const string Export::AsciiDoc::replace_in_uri(const string &text) const
+{
+    return replace(text,
+                   {
+                       { "[", "%5B" }, { "]", "%5D" }
+                   });
 }
 
 void Export::AsciiDoc::print_tags(const tagmap &tags) const

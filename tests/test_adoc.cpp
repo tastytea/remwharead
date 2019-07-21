@@ -55,7 +55,8 @@ SCENARIO ("The AsciiDoc export works correctly")
                  ":Author: +remwharead \\d+\\.\\d+\\.\\d+\n"
                  ":Date: +\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\n"
                  ":TOC: +right\n"
-                 ":TOCLevels: +2\n\n");
+                 ":TOCLevels: +2\n"
+                 ":!webfonts:\n\n");
             const regex re_dates
                 ("== 1970-01-01\n\n"
                  "\\[\\[dt_1970-01-01T\\d{2}:\\d{2}:\\d{2}\\]\\]\n"
