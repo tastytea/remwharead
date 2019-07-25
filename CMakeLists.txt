@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.2)
 project(remwharead
-  VERSION 0.6.0
+  VERSION 0.6.1
   LANGUAGES CXX
 )
 
@@ -17,6 +17,7 @@ pkg_check_modules(LIBXDG_BASEDIR REQUIRED libxdg-basedir)
 # because the sqlite3 in Debian jessie doesn't come with a pkg-config module.
 pkg_check_modules(SQLITE3 sqlite3)
 pkg_check_modules(CURLPP REQUIRED curlpp)
+find_package(ICU COMPONENTS uc i18n REQUIRED)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -32,13 +33,16 @@ Include_directories(${PROJECT_BINARY_DIR})
 include_directories(${LIBXDG_BASEDIR_INCLUDE_DIRS})
 include_directories(${SQLITE3_INCLUDE_DIRS})
 include_directories(${CURLPP_INCLUDE_DIRS})
+include_directories(${ICU_INCLUDE_DIRS})
 
 link_directories(${LIBXDG_BASEDIR_LIBRARY_DIRS})
 link_directories(${SQLITE3_LIBRARY_DIRS})
 link_directories(${CURLPP_LIBRARY_DIRS})
+link_directories(${ICU_LIBRARY_DIRS})
 
 set(COMMON_LIBRARIES
-  ${LIBXDG_BASEDIR_LIBRARIES} vsqlitepp stdc++fs ${CURLPP_LIBRARIES})
+  ${LIBXDG_BASEDIR_LIBRARIES} vsqlitepp stdc++fs ${CURLPP_LIBRARIES}
+  ${ICU_LIBRARIES})
 
 # Write version in header
 configure_file(

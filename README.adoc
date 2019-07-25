@@ -55,6 +55,7 @@ only.
 * http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)
 * http://www.curlpp.org/[curlpp] (tested: 0.8 / 0.7)
 * http://vsqlite.virtuosic-bytes.com/[vsqlite++] (tested: 0.3)
+* http://www.icu-project.org/[ICU] (tested: 64.2 / 57.1)
 * Optional:
 ** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
 ** Tests: https://github.com/catchorg/Catch2[catch] (tested: 2.5 / 1.2)

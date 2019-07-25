@@ -17,7 +17,7 @@
 #include <regex>
 #include <algorithm>
 #include <locale>
-#include <codecvt>
+#include <unicode/unistr.h>
 #include "search.hpp"
 
 using std::regex;
@@ -63,11 +63,9 @@ const vector<vector<string>> parse_expression(string expression)
 
 const string to_lowercase(const string &str)
 {
+    icu::UnicodeString uni(str.c_str());
     string out;
-    std::locale loc("");
-    const std::ctype<char>& ct = std::use_facet<std::ctype<char>>(loc);
-    std::transform(str.begin(), str.end(), std::back_inserter(out),
-                   std::bind1st(std::mem_fun(&std::ctype<char>::tolower), &ct));
+    uni.toLower().toUTF8String(out);
     return out;
 }
 
