@@ -21,7 +21,6 @@
 #include "search.hpp"
 
 using std::regex;
-using std::regex_constants::icase;
 using std::regex_search;
 using std::smatch;
 using std::find;
@@ -85,17 +84,17 @@ search_tags(const vector<Database::entry> &entries, string expression,
             for (const string &tag : tags_or)
             {
                 const auto it = find_if(entry.tags.begin(), entry.tags.end(),
-                                        [&tag, is_re](const string &s)
+                                        [&tag, is_re](string s)
                                         {
+                                            s = to_lowercase(s);
                                             if (is_re)
                                             {
-                                                const regex re("^" + tag + "$",
-                                                               icase);
+                                                const regex re("^" + tag + "$");
                                                 return regex_search(s, re);
                                             }
                                             else
                                             {
-                                                return to_lowercase(s) == tag;
+                                                return (s == tag);
                                             }
                                         });
                 if (it == entry.tags.end())
@@ -145,7 +144,7 @@ search_all(const vector<Database::entry> &entries, string expression,
                 // Set matched_* to false if term is not found.
                 if (is_re)
                 {
-                    const regex re(term, icase);
+                    const regex re(term);
 
                     if(!regex_search(title, re))
                     {
