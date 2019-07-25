@@ -62,12 +62,12 @@ const vector<vector<string>> parse_expression(string expression)
 
 const string to_lowercase(const string &str)
 {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring in = converter.from_bytes(str);
-    std::wstring out;
-
-    std::transform(in.begin(), in.end(), std::back_inserter(out), ::towlower);
-    return converter.to_bytes(out);
+    string out;
+    std::locale loc("");
+    const std::ctype<char>& ct = std::use_facet<std::ctype<char>>(loc);
+    std::transform(str.begin(), str.end(), std::back_inserter(out),
+                   std::bind1st(std::mem_fun(&std::ctype<char>::tolower), &ct));
+    return out;
 }
 
 const vector<Database::entry>
