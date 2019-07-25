@@ -21,6 +21,7 @@
 #include "search.hpp"
 
 using std::regex;
+using std::regex_constants::icase;
 using std::regex_search;
 using std::smatch;
 using std::find;
@@ -71,7 +72,8 @@ const string to_lowercase(const string &str)
 }
 
 const vector<Database::entry>
-search_tags(const vector<Database::entry> &entries, string expression)
+search_tags(const vector<Database::entry> &entries, string expression,
+            const bool is_re)
 {
     vector<vector<string>> searchlist = parse_expression(expression);
     vector<Database::entry> result;
@@ -81,11 +83,23 @@ search_tags(const vector<Database::entry> &entries, string expression)
         for (const Database::entry &entry : entries)
         {               // Add entry to result if all tags in an OR-slice match.
             bool matched = true;
+
             for (const string &tag : tags_or)
             {
                 const auto it = find_if(entry.tags.begin(), entry.tags.end(),
-                                        [&tag](const string &s)
-                                        { return to_lowercase(s) == tag; });
+                                        [&tag, is_re](const string &s)
+                                        {
+                                            if (is_re)
+                                            {
+                                                const regex re("^" + tag + "$",
+                                                               icase);
+                                                return regex_search(s, re);
+                                            }
+                                            else
+                                            {
+                                                return to_lowercase(s) == tag;
+                                            }
+                                        });
                 if (it == entry.tags.end())
                 {
                     matched = false;
@@ -102,10 +116,11 @@ search_tags(const vector<Database::entry> &entries, string expression)
 }
 
 const vector<Database::entry>
-search_all(const vector<Database::entry> &entries, string expression)
+search_all(const vector<Database::entry> &entries, string expression,
+           const bool is_re)
 {
     vector<vector<string>> searchlist = parse_expression(expression);
-    vector<Database::entry> result = search_tags(entries, expression);
+    vector<Database::entry> result = search_tags(entries, expression, is_re);
 
     for (const vector<string> &terms_or : searchlist)
     {
@@ -125,19 +140,46 @@ search_all(const vector<Database::entry> &entries, string expression)
 
             for (const string &term : terms_or)
             {
-                if (to_lowercase(entry.title).find(term) == string::npos)
-                {
-                    matched_title = false;
-                }
+                const string title = to_lowercase(entry.title);
+                const string description = to_lowercase(entry.description);
+                const string fulltext = to_lowercase(entry.fulltext);
 
-                if (to_lowercase(entry.description).find(term) == string::npos)
+                // Set matched_* to false if term is not found.
+                if (is_re)
                 {
-                    matched_description = false;
-                }
+                    const regex re(term, icase);
 
-                if (to_lowercase(entry.fulltext).find(term) == string::npos)
+                    if(!regex_search(title, re))
+                    {
+                        matched_title = false;
+                    }
+
+                    if(!regex_search(description, re))
+                    {
+                        matched_description = false;
+                    }
+
+                    if(!regex_search(fulltext, re))
+                    {
+                        matched_fulltext = false;
+                    }
+                }
+                else
                 {
-                    matched_fulltext = false;
+                    if (title.find(term) == string::npos)
+                    {
+                        matched_title = false;
+                    }
+
+                    if (description.find(term) == string::npos)
+                    {
+                        matched_description = false;
+                    }
+
+                    if (fulltext.find(term) == string::npos)
+                    {
+                        matched_fulltext = false;
+                    }
                 }
             }
             if (matched_title == true

@@ -29,10 +29,12 @@ const string to_lowercase(const string &str);
 
 //! Seach database entries for tags.
 const vector<Database::entry>
-search_tags(const vector<Database::entry> &entries, string expression);
+search_tags(const vector<Database::entry> &entries, string expression,
+            const bool is_re);
 
 //! Search tags, title, description and full text.
 const vector<Database::entry>
-search_all(const vector<Database::entry> &entries, string expression);
+search_all(const vector<Database::entry> &entries, string expression,
+    const bool is_re);
 
 #endif  // REMWHAREAD_SEARCH_HPP

@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-07-21
+:Date:          2019-07-25
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -15,7 +15,7 @@ remwharead - Saves URIs of things you want to remember in a database
 
 *remwharead* [*-t* _tags_] [*-N*] _URI_
 
-*remwharead* *-e* _format_ [*-f* _file_] [*-T* _start_,_end_] [[*-s*|*-S*] _expression_]
+*remwharead* *-e* _format_ [*-f* _file_] [*-T* _start_,_end_] [[*-s*|*-S*] _expression_] [*-r*]
 
 == DESCRIPTION
 
@@ -55,6 +55,10 @@ insensitive.
 Search in tags, title, description and full text. See _SEARCH EXPRESSIONS_. Case
 insensitive.
 
+*-r*, *--regex*::
+Use regular expressions for search, case insensitive. With *--search-tags*,
+every tag is enclosed by _^_ and _$_.
+
 *-N*, *--no-archive*::
 Do not archive URI.
 
@@ -84,6 +88,11 @@ Print version, copyright and license.
 .Export all things about GRUB the boot-loader, but nothing about caterpillars.
 ====
 `remwharead -e csv -s "grub AND boot"`
+====
+
+.Output all articles by Jan Müller, consider different spellings.
+====
+`remwharead -e simple -S 'Jan[[:space:]]+M(ü|ue)ller' -r`
 ====
 
 === Display database
