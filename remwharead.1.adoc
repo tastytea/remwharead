@@ -92,7 +92,7 @@ Print version, copyright and license.
 
 .Output all articles by Jan Müller, consider different spellings.
 ====
-`remwharead -e simple -S 'Jan[[:space:]]+M(ü|ue)ller' -r`
+`remwharead -e simple -S 'Jan\[[:space:]]+M(ü|ue)ller' -r`
 ====
 
 === Display database
