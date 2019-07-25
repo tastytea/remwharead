@@ -1,3 +1,4 @@
+# -*- fill-column: 1000 -*-
 kind: pipeline
 name: build x86_64
 
