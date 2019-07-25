@@ -88,11 +88,11 @@ int main(const int argc, const char *argv[])
             db.retrieve(opts.span[0], opts.span[1]);
         if (!opts.search_tags.empty())
         {
-            entries = search_tags(entries, opts.search_tags);
+            entries = search_tags(entries, opts.search_tags, opts.regex);
         }
         else if (!opts.search_all.empty())
         {
-            entries = search_all(entries, opts.search_all);
+            entries = search_all(entries, opts.search_all, opts.regex);
         }
 
         switch (opts.format)

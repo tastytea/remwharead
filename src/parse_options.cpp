@@ -58,6 +58,8 @@ const options parse_options(const int argc, const char *argv[])
             ("S", "search-all",
              "Search in tags, title, description and full text.",
              "", &opts.search_all);
+        op.add<popl::Switch>
+            ("r", "regex", "Use regular expression for search.", &opts.regex);
         auto option_noarchive = op.add<popl::Switch>
             ("N", "no-archive", "Do not archive URI.");
         auto option_help = op.add<popl::Switch>
@@ -71,7 +73,7 @@ const options parse_options(const int argc, const char *argv[])
             cout << "Usage: " << argv[0] << " [-t tags] [-N] URI\n"
                  << "       " << argv[0]
                  << " -e format [-f file] [-T start,end] "
-                 << "[[-s|-S] expression]\n";
+                 << "[[-s|-S] expression] [-r]\n";
             cout << op;
             return options(0);
         }
