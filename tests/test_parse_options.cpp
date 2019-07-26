@@ -90,7 +90,7 @@ SCENARIO ("The option parser works correctly")
 
         THEN ("No exception is thrown")
             AND_THEN ("status code is 0")
-            AND_THEN ("options.file is empty")
+            AND_THEN ("Tag and URI are right")
         {
             REQUIRE_FALSE(exception);
             REQUIRE(opts.status_code == 0);
@@ -126,7 +126,7 @@ SCENARIO ("The option parser works correctly")
 
         THEN ("No exception is thrown")
             AND_THEN ("status code is 0")
-            AND_THEN ("options.file is empty")
+            AND_THEN ("Tag and URI are right")
         {
             REQUIRE_FALSE(exception);
             REQUIRE(opts.status_code == 0);
