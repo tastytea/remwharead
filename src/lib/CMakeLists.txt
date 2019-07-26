@@ -18,7 +18,7 @@ link_directories(${SQLITE3_LIBRARY_DIRS})
 link_directories(${CURLPP_LIBRARY_DIRS})
 link_directories(${ICU_LIBRARY_DIRS})
 
-file(GLOB sources_lib *.cpp)
+file(GLOB sources_lib *.cpp export/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${sources_lib})
 target_link_libraries(${PROJECT_NAME} ${LIBXDG_BASEDIR_LIBRARIES}
   vsqlitepp stdc++fs ${CURLPP_LIBRARIES} ${ICU_LIBRARIES})
