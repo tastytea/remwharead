@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.2)
 project(remwharead
-  VERSION 0.6.2
+  VERSION 0.6.3
   LANGUAGES CXX
 )
 

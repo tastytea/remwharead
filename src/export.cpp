@@ -14,12 +14,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
 #include "export.hpp"
 
 namespace Export
 {
     ExportBase::ExportBase(const vector<Database::entry> &entries, ostream &out)
-        : _entries(entries)
+        : _entries(sort_entries(entries))
         , _out(out)
     {}
+
+    const vector<Database::entry>
+    ExportBase::sort_entries(vector<Database::entry> entries) const
+    {
+        std::sort(entries.begin(), entries.end(),
+                  [](const auto &a, const auto &b)
+                  {
+                      return (a.datetime > b.datetime);
+                  });
+        return entries;
+    }
 }

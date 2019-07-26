@@ -36,8 +36,12 @@ namespace Export
         virtual void print() const = 0;
 
     protected:
-        const vector<Database::entry> &_entries;
+        const vector<Database::entry> _entries;
         ostream &_out;
+
+        //! Sort entries from newest to oldest.
+        const vector<Database::entry>
+        sort_entries(vector<Database::entry> entries) const;
     };
 }
 
