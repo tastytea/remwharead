@@ -22,7 +22,7 @@
 #include <catch.hpp>
 #include "time.hpp"
 #include "sqlite.hpp"
-#include "csv.hpp"
+#include "export/csv.hpp"
 
 using std::string;
 using std::chrono::system_clock;

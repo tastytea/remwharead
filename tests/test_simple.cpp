@@ -21,7 +21,7 @@
 #include <chrono>
 #include <catch.hpp>
 #include "sqlite.hpp"
-#include "simple.hpp"
+#include "export/simple.hpp"
 
 using std::string;
 using std::chrono::system_clock;
