@@ -25,6 +25,7 @@ steps:
   environment:
     CXX: g++-6
     CXXFLAGS: -pipe -O2
+    LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
@@ -50,6 +51,7 @@ steps:
   environment:
     CXX: g++-5
     CXXFLAGS: -pipe -O2
+    LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
@@ -78,6 +80,7 @@ steps:
   environment:
     CXX: g++-9
     CXXFLAGS: -pipe -O2
+    LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
@@ -106,6 +109,7 @@ steps:
   environment:
     CXX: clang++
     CXXFLAGS: -pipe -O2
+    LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
@@ -128,6 +132,7 @@ steps:
   environment:
     CXX: clang++-6.0
     CXXFLAGS: -pipe -O2
+    LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
@@ -189,6 +194,7 @@ steps:
   environment:
     CXX: g++-6
     CXXFLAGS: -pipe -O2
+    LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
