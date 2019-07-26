@@ -70,7 +70,7 @@ echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_releas
 echo "deb http://deb.debian.org/debian sid main" >> /etc/apt/sources.list.d/sid.list
 apt-get update
 apt-get install g++-6 cmake pkg-config libcurl4-openssl-dev libxdg-basedir-dev \
-    libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc
+    libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc
 apt-get install -t sid libcurlpp-dev
 # Inside the source directory:
 wget -O src/popl.hpp https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
