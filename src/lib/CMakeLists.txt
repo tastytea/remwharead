@@ -19,6 +19,9 @@ link_directories(${CURLPP_LIBRARY_DIRS})
 link_directories(${ICU_LIBRARY_DIRS})
 
 file(GLOB sources_lib *.cpp export/*.cpp)
+file(GLOB headers_lib *.hpp)
+file(GLOB headers_lib_export export/*.hpp)
+
 add_library(${PROJECT_NAME} SHARED ${sources_lib})
 target_link_libraries(${PROJECT_NAME} ${LIBXDG_BASEDIR_LIBRARIES}
   vsqlitepp stdc++fs ${CURLPP_LIBRARIES} ${ICU_LIBRARIES})
@@ -26,6 +29,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION ${PROJECT_VERSION}
   SOVERSION ${${PROJECT_NAME}_VERSION_MAJOR}
   )
+
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-# install(FILES ???
-#   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+install(FILES ${headers_lib}
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+install(FILES ${headers_lib_export}
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/export)
