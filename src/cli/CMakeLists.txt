@@ -1,3 +1,5 @@
+include_directories(${PROJECT_SOURCE_DIR}/src/cli)
+
 file(GLOB sources_cli *.cpp)
 
 add_executable(${PROJECT_NAME}-cli ${sources_cli})
