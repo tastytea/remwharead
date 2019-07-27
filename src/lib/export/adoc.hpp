@@ -29,6 +29,7 @@ namespace Export
 {
     using std::string;
 
+    //! Export as %AsciiDoc document.
     class AsciiDoc : protected ExportBase
     {
     public:

@@ -29,6 +29,7 @@ namespace remwharead
 {
 namespace Export
 {
+    //! Base class for exports.
     class ExportBase
     {
     public:

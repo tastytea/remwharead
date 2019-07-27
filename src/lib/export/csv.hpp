@@ -26,6 +26,7 @@ namespace Export
 {
     using std::string;
 
+    //! Export as Comma Separated Values.
     class CSV : protected ExportBase
     {
     public:
