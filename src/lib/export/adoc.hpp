@@ -23,10 +23,12 @@
 #include "sqlite.hpp"
 #include "export.hpp"
 
-using std::string;
-
+namespace remwharead
+{
 namespace Export
 {
+    using std::string;
+
     class AsciiDoc : protected ExportBase
     {
     public:
@@ -49,6 +51,7 @@ namespace Export
         const string get_day(const Database::entry &entry) const;
         const string get_time(const Database::entry &entry) const;
     };
+}
 }
 
 #endif  // REMWHAREAD_ADOC_HPP

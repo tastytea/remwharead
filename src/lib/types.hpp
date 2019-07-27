@@ -17,13 +17,16 @@
 #ifndef REMWHAREAD_TYPES_HPP
 #define REMWHAREAD_TYPES_HPP
 
-enum class export_format
+namespace remwharead
 {
-    undefined,
-    csv,
-    asciidoc,
-    bookmarks,
-    simple
-};
+    enum class export_format
+    {
+        undefined,
+        csv,
+        asciidoc,
+        bookmarks,
+        simple
+    };
+}
 
 #endif  // REMWHAREAD_TYPES_HPP

@@ -19,20 +19,23 @@
 #include "time.hpp"
 #include "simple.hpp"
 
-using std::string;
-
-void Export::Simple::print() const
+namespace remwharead
 {
-    for (const Database::entry & entry : _entries)
-    {
-        const string timestring = timepoint_to_string(entry.datetime);
-        _out << timestring.substr(0, timestring.find('T')) << ": ";
-        if (!entry.title.empty())
-        {
-            _out << entry.title << '\n';
-            _out << "            ";
-        }
+    using std::string;
 
-        _out << "<" << entry.uri << ">\n";
+    void Export::Simple::print() const
+    {
+        for (const Database::entry & entry : _entries)
+        {
+            const string timestring = timepoint_to_string(entry.datetime);
+            _out << timestring.substr(0, timestring.find('T')) << ": ";
+            if (!entry.title.empty())
+            {
+                _out << entry.title << '\n';
+                _out << "            ";
+            }
+
+            _out << "<" << entry.uri << ">\n";
+        }
     }
 }

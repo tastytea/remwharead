@@ -25,6 +25,7 @@
 #include "types.hpp"
 #include "time.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::vector;
 using std::array;

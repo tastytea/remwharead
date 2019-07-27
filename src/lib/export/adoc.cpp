@@ -25,227 +25,231 @@
 #include "time.hpp"
 #include "adoc.hpp"
 
-using std::string;
-using std::cerr;
-using std::endl;
-using std::regex;
-using std::regex_replace;
-using tagpair = std::pair<string,vector<Database::entry>>;
-
-void Export::AsciiDoc::print() const
+namespace remwharead
 {
-    try
+    using std::string;
+    using std::cerr;
+    using std::endl;
+    using std::regex;
+    using std::regex_replace;
+    using tagpair = std::pair<string,vector<Database::entry>>;
+
+    void Export::AsciiDoc::print() const
     {
-        _out << "= Visited things\n"
-             << ":Author:    remwharead " << global::version << endl
-             << ":Date:      "
-             << timepoint_to_string(system_clock::now()) << endl
-             << ":TOC:       right\n"
-             << ":TOCLevels: 2\n"
-             << ":!webfonts:\n\n";
-
-        tagmap alltags;
-        string day;
-        for (const Database::entry &entry : _entries)
+        try
         {
-            const string newday = get_day(entry);
+            _out << "= Visited things\n"
+                 << ":Author:    remwharead " << global::version << endl
+                 << ":Date:      "
+                 << timepoint_to_string(system_clock::now()) << endl
+                 << ":TOC:       right\n"
+                 << ":TOCLevels: 2\n"
+                 << ":!webfonts:\n\n";
 
-            if (newday != day)
+            tagmap alltags;
+            string day;
+            for (const Database::entry &entry : _entries)
             {
-                day = newday;
-                _out << "== " << day << endl << endl;
-            }
+                const string newday = get_day(entry);
 
-            _out << "[[dt_" << timepoint_to_string(entry.datetime) << "]]\n";
-            _out << "* link:" << replace_in_uri(entry.uri);
-            if (!entry.title.empty())
-            {
-                _out << '[' << replace_in_title(entry.title) << ']';
-            }
-            else
-            {
-                _out << "[]";
-            }
-            _out << " +" << endl;
-
-            _out << '_' << get_time(entry).substr(0, 5) << '_';
-            if (!entry.archive_uri.empty())
-            {
-                _out << " (link:" << replace_in_uri(entry.archive_uri)
-                     << "[archived version])";
-            }
-
-            bool separator = false;
-            for (const string &tag : entry.tags)
-            {
-                if (tag.empty())
+                if (newday != day)
                 {
-                    continue;
-                }
-                if (!separator)
-                {
-                    _out << "\n| ";
-                    separator = true;
+                    day = newday;
+                    _out << "== " << day << endl << endl;
                 }
 
-                auto globaltag = alltags.find(tag);
-                if (globaltag != alltags.end())
+                _out << "[[dt_" << timepoint_to_string(entry.datetime)
+                     << "]]\n" << "* link:" << replace_in_uri(entry.uri);
+                if (!entry.title.empty())
                 {
-                    globaltag->second.push_back(entry);
+                    _out << '[' << replace_in_title(entry.title) << ']';
                 }
                 else
                 {
-                    alltags.insert({ tag, { entry } });
+                    _out << "[]";
                 }
+                _out << " +" << endl;
 
-                _out << "xref:t_" << replace_in_tag(tag) << "[" << tag << ']';
-                if (tag != *(entry.tags.rbegin()))
+                _out << '_' << get_time(entry).substr(0, 5) << '_';
+                if (!entry.archive_uri.empty())
                 {
-                    _out << ", ";
+                    _out << " (link:" << replace_in_uri(entry.archive_uri)
+                         << "[archived version])";
                 }
+
+                bool separator = false;
+                for (const string &tag : entry.tags)
+                {
+                    if (tag.empty())
+                    {
+                        continue;
+                    }
+                    if (!separator)
+                    {
+                        _out << "\n| ";
+                        separator = true;
+                    }
+
+                    auto globaltag = alltags.find(tag);
+                    if (globaltag != alltags.end())
+                    {
+                        globaltag->second.push_back(entry);
+                    }
+                    else
+                    {
+                        alltags.insert({ tag, { entry } });
+                    }
+
+                    _out << "xref:t_" << replace_in_tag(tag)
+                         << "[" << tag << ']';
+                    if (tag != *(entry.tags.rbegin()))
+                    {
+                        _out << ", ";
+                    }
+                }
+
+                if (!entry.description.empty())
+                {
+                    _out << " +" << endl << entry.description;
+                }
+                _out << endl << endl;
             }
 
-            if (!entry.description.empty())
+            if (!alltags.empty())
             {
-                _out << " +" << endl << entry.description;
+                print_tags(alltags);
             }
-            _out << endl << endl;
         }
-
-        if (!alltags.empty())
+        catch (std::exception &e)
         {
-            print_tags(alltags);
+            cerr << "Error in " << __func__ << ": " << e.what() << endl;
         }
     }
-    catch (std::exception &e)
+
+    const string Export::AsciiDoc::replace(string text,
+                                           const replacemap &replacements) const
     {
-        cerr << "Error in " << __func__ << ": " << e.what() << endl;
-    }
-}
-
-const string Export::AsciiDoc::replace(string text,
-                                       const replacemap &replacements) const
-{
-    for (const std::pair<const string, const string> &sr : replacements)
-    {
-        size_t pos = 0;
-        while ((pos = text.find(sr.first, pos)) != std::string::npos)
+        for (const std::pair<const string, const string> &sr : replacements)
         {
-            text.replace(pos, sr.first.length(), sr.second);
-            pos += sr.second.length();
-        }
-    }
-    return text;
-}
-const string Export::AsciiDoc::replace_in_tag(const string &text) const
-{
-    // TODO: Find a better solution.
-    const replacemap replacements =
-        {
-            { " ", "-" }, { "§", "-" },
-            { "$", "-" }, { "%", "-" },
-            { "&", "-" }, { "/", "-" },
-            { "=", "-" }, { "^", "-" },
-            { "!", "-" }, { "?", "-" },
-            { "'", "-" }, { "\"", "-" },
-            { "´", "-" }, { "`", "-" },
-            { "’", "-" }, { "#", "-" },
-            { "₀", "0" }, { "⁰", "0" },
-            { "₁", "1" }, { "¹", "1" },
-            { "₂", "2" }, { "²", "2" },
-            { "₃", "3" }, { "³", "3" },
-            { "₄", "4" }, { "⁴", "4" },
-            { "₅", "5" }, { "⁵", "5" },
-            { "₆", "6" }, { "⁶", "6" },
-            { "₇", "7" }, { "⁷", "7" },
-            { "₈", "8" }, { "⁸", "8" },
-            { "₉", "9" }, { "⁹", "9" }
-        };
-
-    return replace(text, replacements);
-}
-
-const string Export::AsciiDoc::replace_in_title(const string &text) const
-{
-    // [ is implicitly escaped if the corresponding ] is.
-    return replace(text, {{ "]", "\\]" }});
-}
-
-const string Export::AsciiDoc::replace_in_uri(const string &text) const
-{
-    return replace(text,
-                   {
-                       { "[", "%5B" }, { "]", "%5D" }
-                   });
-}
-
-void Export::AsciiDoc::print_tags(const tagmap &tags) const
-{
-    _out << "== Tags\n\n";
-    vector<tagpair> sortedtags(tags.size());
-    std::move(tags.begin(), tags.end(), sortedtags.begin());
-    std::sort(sortedtags.begin(), sortedtags.end(),
-              [](const tagpair &a, tagpair &b)
-              {
-                  if (a.second.size() != b.second.size())
-                  {   // Sort by number of occurrences if they are different.
-                      return a.second.size() > b.second.size();
-                  }
-                  else
-                  {   // Sort by tag names otherwise.
-                      std::locale loc;
-                      const std::collate<char> &coll =
-                          std::use_facet<std::collate<char>>(loc);
-                      return (coll.compare(
-                                  a.first.data(), a.first.data()
-                                  + a.first.length(),
-                                  b.first.data(), b.first.data()
-                                  + b.first.length()) == -1);
-                  }
-              });
-
-    bool othertags = false;     // Have we printed “Less used tags” already?
-    for (const auto &tag : sortedtags)
-    {
-        // If we have more than 20 tags, group all tags that occur only 1 time
-        // under the section “Less used tags”.
-        if (sortedtags.size() > 20 && tag.second.size() == 1)
-        {
-            if (!othertags)
+            size_t pos = 0;
+            while ((pos = text.find(sr.first, pos)) != std::string::npos)
             {
-                _out << "=== Less used tags\n\n";
-                othertags = true;
+                text.replace(pos, sr.first.length(), sr.second);
+                pos += sr.second.length();
             }
-            _out << "=";
         }
-
-        _out << "=== [[t_" << replace_in_tag(tag.first) << "]]"
-             << tag.first << endl;
-        for (const Database::entry &entry : tag.second)
-        {
-            const string datetime = timepoint_to_string(entry.datetime);
-            const string date = datetime.substr(0, datetime.find('T'));
-            string title = replace_in_title(entry.title);
-            if (title.empty())
+        return text;
+    }
+    const string Export::AsciiDoc::replace_in_tag(const string &text) const
+    {
+        // TODO: Find a better solution.
+        const replacemap replacements =
             {
-                title = "++" + entry.uri + "++";
+                { " ", "-" }, { "§", "-" },
+                { "$", "-" }, { "%", "-" },
+                { "&", "-" }, { "/", "-" },
+                { "=", "-" }, { "^", "-" },
+                { "!", "-" }, { "?", "-" },
+                { "'", "-" }, { "\"", "-" },
+                { "´", "-" }, { "`", "-" },
+                { "’", "-" }, { "#", "-" },
+                { "₀", "0" }, { "⁰", "0" },
+                { "₁", "1" }, { "¹", "1" },
+                { "₂", "2" }, { "²", "2" },
+                { "₃", "3" }, { "³", "3" },
+                { "₄", "4" }, { "⁴", "4" },
+                { "₅", "5" }, { "⁵", "5" },
+                { "₆", "6" }, { "⁶", "6" },
+                { "₇", "7" }, { "⁷", "7" },
+                { "₈", "8" }, { "⁸", "8" },
+                { "₉", "9" }, { "⁹", "9" }
+            };
+
+        return replace(text, replacements);
+    }
+
+    const string Export::AsciiDoc::replace_in_title(const string &text) const
+    {
+        // [ is implicitly escaped if the corresponding ] is.
+        return replace(text, {{ "]", "\\]" }});
+    }
+
+    const string Export::AsciiDoc::replace_in_uri(const string &text) const
+    {
+        return replace(text,
+                       {
+                           { "[", "%5B" }, { "]", "%5D" }
+                       });
+    }
+
+    void Export::AsciiDoc::print_tags(const tagmap &tags) const
+    {
+        _out << "== Tags\n\n";
+        vector<tagpair> sortedtags(tags.size());
+        std::move(tags.begin(), tags.end(), sortedtags.begin());
+        std::sort(sortedtags.begin(), sortedtags.end(),
+                  [](const tagpair &a, tagpair &b)
+                  {
+                      if (a.second.size() != b.second.size())
+                      {  // Sort by number of occurrences if they are different.
+                          return a.second.size() > b.second.size();
+                      }
+                      else
+                      {   // Sort by tag names otherwise.
+                          std::locale loc;
+                          const std::collate<char> &coll =
+                              std::use_facet<std::collate<char>>(loc);
+                          return (coll.compare(
+                                      a.first.data(), a.first.data()
+                                      + a.first.length(),
+                                      b.first.data(), b.first.data()
+                                      + b.first.length()) == -1);
+                      }
+                  });
+
+        bool othertags = false;     // Have we printed “Less used tags” already?
+        for (const auto &tag : sortedtags)
+        {
+            // If we have more than 20 tags, group all tags that occur only 1
+            // time under the section “Less used tags”.
+            if (sortedtags.size() > 20 && tag.second.size() == 1)
+            {
+                if (!othertags)
+                {
+                    _out << "=== Less used tags\n\n";
+                    othertags = true;
+                }
+                _out << "=";
             }
-            _out << endl << "* xref:dt_" << datetime
-                 << '[' << title << "] _(" << date << ")_" << endl;
+
+            _out << "=== [[t_" << replace_in_tag(tag.first) << "]]"
+                 << tag.first << endl;
+            for (const Database::entry &entry : tag.second)
+            {
+                const string datetime = timepoint_to_string(entry.datetime);
+                const string date = datetime.substr(0, datetime.find('T'));
+                string title = replace_in_title(entry.title);
+                if (title.empty())
+                {
+                    title = "++" + entry.uri + "++";
+                }
+                _out << endl << "* xref:dt_" << datetime
+                     << '[' << title << "] _(" << date << ")_" << endl;
+            }
+            _out << endl;
         }
         _out << endl;
     }
-    _out << endl;
-}
 
-const string Export::AsciiDoc::get_day(const Database::entry &entry) const
-{
-    const string datetime = timepoint_to_string(entry.datetime);
-    return datetime.substr(0, datetime.find('T'));
-}
+    const string Export::AsciiDoc::get_day(const Database::entry &entry) const
+    {
+        const string datetime = timepoint_to_string(entry.datetime);
+        return datetime.substr(0, datetime.find('T'));
+    }
 
-const string Export::AsciiDoc::get_time(const Database::entry &entry) const
-{
-    const string datetime = timepoint_to_string(entry.datetime);
-    return datetime.substr(datetime.find('T') + 1);
+    const string Export::AsciiDoc::get_time(const Database::entry &entry) const
+    {
+        const string datetime = timepoint_to_string(entry.datetime);
+        return datetime.substr(datetime.find('T') + 1);
+    }
 }

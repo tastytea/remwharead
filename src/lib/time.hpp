@@ -20,15 +20,18 @@
 #include <string>
 #include <chrono>
 
-using std::string;
-using std::chrono::system_clock;
-using time_point = system_clock::time_point;
+namespace remwharead
+{
+    using std::string;
+    using std::chrono::system_clock;
+    using time_point = system_clock::time_point;
 
-// Convert ISO 8601 time-string or SQLite time-string to time_point.
-const time_point string_to_timepoint(const string &strtime,
-                                     bool sqlite = false);
+    // Convert ISO 8601 time-string or SQLite time-string to time_point.
+    const time_point string_to_timepoint(const string &strtime,
+                                         bool sqlite = false);
 
-// Convert time_point to USO 8601 time-string or SQLite time-string.
-const string timepoint_to_string(const time_point &tp, bool sqlite = false);
+    // Convert time_point to USO 8601 time-string or SQLite time-string.
+    const string timepoint_to_string(const time_point &tp, bool sqlite = false);
+}
 
 #endif  // REMWHAREAD_TIME_HPP

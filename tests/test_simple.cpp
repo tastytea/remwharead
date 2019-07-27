@@ -23,6 +23,7 @@
 #include "sqlite.hpp"
 #include "export/simple.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::chrono::system_clock;
 using std::regex;

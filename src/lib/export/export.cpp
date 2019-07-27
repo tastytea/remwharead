@@ -17,6 +17,8 @@
 #include <algorithm>
 #include "export.hpp"
 
+namespace remwharead
+{
 namespace Export
 {
     ExportBase::ExportBase(const vector<Database::entry> &entries, ostream &out)
@@ -34,4 +36,5 @@ namespace Export
                   });
         return entries;
     }
+}
 }

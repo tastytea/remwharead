@@ -17,12 +17,12 @@
 #include "time.hpp"
 #include "csv.hpp"
 
-using std::cerr;
-using std::endl;
-
-namespace Export
+namespace remwharead
 {
-    void CSV::print() const
+    using std::cerr;
+    using std::endl;
+
+    void Export::CSV::print() const
     {
         try
         {
@@ -54,7 +54,7 @@ namespace Export
         }
     }
 
-    const string CSV::quote(string field) const
+    const string Export::CSV::quote(string field) const
     {
         size_t pos = 0;
         while ((pos = field.find('"', pos)) != std::string::npos)

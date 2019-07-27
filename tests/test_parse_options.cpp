@@ -20,6 +20,7 @@
 #include <catch.hpp>
 #include "parse_options.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::vector;
 

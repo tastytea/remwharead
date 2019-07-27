@@ -21,20 +21,23 @@
 #include <string>
 #include "sqlite.hpp"
 
-using std::vector;
-using std::string;
+namespace remwharead
+{
+    using std::vector;
+    using std::string;
 
-const vector<vector<string>> parse_expression(string expression);
-const string to_lowercase(const string &str);
+    const vector<vector<string>> parse_expression(string expression);
+    const string to_lowercase(const string &str);
 
-//! Seach database entries for tags.
-const vector<Database::entry>
-search_tags(const vector<Database::entry> &entries, string expression,
-            const bool is_re);
+    //! Seach database entries for tags.
+    const vector<Database::entry>
+    search_tags(const vector<Database::entry> &entries, string expression,
+                const bool is_re);
 
-//! Search tags, title, description and full text.
-const vector<Database::entry>
-search_all(const vector<Database::entry> &entries, string expression,
-    const bool is_re);
+    //! Search tags, title, description and full text.
+    const vector<Database::entry>
+    search_all(const vector<Database::entry> &entries, string expression,
+               const bool is_re);
+}
 
 #endif  // REMWHAREAD_SEARCH_HPP

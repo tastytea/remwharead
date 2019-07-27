@@ -25,47 +25,52 @@
 #include <sqlite/connection.hpp>
 #include "types.hpp"
 
-namespace fs = std::experimental::filesystem;
-using std::string;
-using std::vector;
-using std::chrono::system_clock;
-using time_point = system_clock::time_point;
-
-class Database
+namespace remwharead
 {
-public:
-    typedef struct entry
+    namespace fs = std::experimental::filesystem;
+    using std::string;
+    using std::vector;
+    using std::chrono::system_clock;
+    using time_point = system_clock::time_point;
+
+    class Database
     {
-        string uri;
-        string archive_uri;
-        time_point datetime;
-        vector<string> tags;
-        string title;
-        string description;
-        string fulltext;
+    public:
+        typedef struct entry
+        {
+            string uri;
+            string archive_uri;
+            time_point datetime;
+            vector<string> tags;
+            string title;
+            string description;
+            string fulltext;
 
-        //! Returns true if date & time are equal.
-        friend bool operator ==(const Database::entry &a,
-                                const Database::entry &b);
-        //! The full text in one line.
-        const string fulltext_oneline() const;
-    } entry;
+            //! Returns true if date & time are equal.
+            friend bool operator ==(const Database::entry &a,
+                                    const Database::entry &b);
+            //! The full text in one line.
+            const string fulltext_oneline() const;
+        } entry;
 
-    Database();
-    operator bool() const;
+        Database();
+        operator bool() const;
 
-    //! Store in database.
-    void store(const entry &data) const;
+        //! Store in database.
+        void store(const entry &data) const;
 
-    //! retrieve from database.
-    const vector<entry> retrieve(const time_point &start = time_point(),
-                                 const time_point &end = system_clock::now())
-        const;
+        //! retrieve from database.
+        const vector<entry> retrieve(
+            const time_point &start = time_point(),
+            const time_point &end = system_clock::now()) const;
 
-private:
-    fs::path _dbpath;
-    std::unique_ptr<sqlite::connection> _con;
-    bool _connected;
-};
+    private:
+        fs::path _dbpath;
+        std::unique_ptr<sqlite::connection> _con;
+        bool _connected;
+    };
+
+    using DB = Database;
+}
 
 #endif  // REMWHAREAD_SQLITE_HPP

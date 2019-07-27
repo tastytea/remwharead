@@ -30,6 +30,7 @@
 #include "export/simple.hpp"
 #include "search.hpp"
 
+using namespace remwharead;
 using std::cout;
 using std::cerr;
 using std::endl;

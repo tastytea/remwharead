@@ -20,37 +20,41 @@
 #include <string>
 #include <curlpp/Easy.hpp>
 
-using std::string;
-
-typedef struct html_extract
+namespace remwharead
 {
-    string title;
-    string description;
-    string fulltext;
-} html_extract;
+    using std::string;
 
-class URI
-{
-public:
-    explicit URI(const string &uri);
+    typedef struct html_extract
+    {
+        string title;
+        string description;
+        string fulltext;
+    } html_extract;
 
-    //! Download URI and extract title, description and full text.
-    const html_extract get();
-    //! Save URI in archive and return URI.
-    const string archive();
+    class URI
+    {
+    public:
+        explicit URI(const string &uri);
 
-protected:
-    string _uri;
+        //! Download URI and extract title, description and full text.
+        const html_extract get();
+        //! Save URI in archive and return URI.
+        const string archive();
 
-    void set_curlpp_options(curlpp::Easy &request);
-    const string extract_title(const string &html);
-    const string extract_description(const string &html);
-    const string strip_html(const string &html);
-    //! Remove all HTML tags. If tag is not empty, remove tag and its content.
-    const string remove_html_tags(const string &html, const string &tag = "");
-    const string unescape_html(const string &html);
-    //! Replace newlines with spaces.
-    const string remove_newlines(string text);
-};
+    protected:
+        string _uri;
+
+        void set_curlpp_options(curlpp::Easy &request);
+        const string extract_title(const string &html);
+        const string extract_description(const string &html);
+        const string strip_html(const string &html);
+        //! Remove all HTML tags. If tag is not empty, remove only this tag.
+        const string remove_html_tags(const string &html,
+                                      const string &tag = "");
+        const string unescape_html(const string &html);
+        //! Replace newlines with spaces.
+        const string remove_newlines(string text);
+    };
+}
 
 #endif  // REMWHAREAD_URI_HPP

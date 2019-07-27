@@ -19,6 +19,8 @@
 
 #include "export.hpp"
 
+namespace remwharead
+{
 namespace Export
 {
     //! Export as Netscape bookmark file.
@@ -28,6 +30,7 @@ namespace Export
         using ExportBase::ExportBase;
         virtual void print() const override;
     };
+}
 }
 
 #endif  // REMWHAREAD_BOOKMARKS_HPP

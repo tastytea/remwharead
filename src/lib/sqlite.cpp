@@ -23,138 +23,142 @@
 #include "time.hpp"
 #include "sqlite.hpp"
 
-using std::cerr;
-using std::endl;
-
-Database::Database()
-    : _connected(false)
+namespace remwharead
 {
-    try
-    {
-        xdgHandle xdg;
-        xdgInitHandle(&xdg);
-        _dbpath = xdgDataHome(&xdg) / fs::path("remwharead");
-        xdgWipeHandle(&xdg);
+    using std::cerr;
+    using std::endl;
 
-        if (!fs::exists(_dbpath))
+    Database::Database()
+        : _connected(false)
+    {
+        try
         {
-            fs::create_directories(_dbpath);
-        }
-        _dbpath /= "database.sqlite";
+            xdgHandle xdg;
+            xdgInitHandle(&xdg);
+            _dbpath = xdgDataHome(&xdg) / fs::path("remwharead");
+            xdgWipeHandle(&xdg);
 
-        _con = std::make_unique<sqlite::connection>(_dbpath);
-        sqlite::execute(*_con, "CREATE TABLE IF NOT EXISTS remwharead("
-                        "uri TEXT, archive_uri TEXT, datetime TEXT, tags TEXT, "
-                        "title TEXT, description TEXT, fulltext TEXT);", true);
-
-        _connected = true;
-    }
-    catch (std::exception &e)
-    {
-        cerr << "Error in " << __func__ << ": " << e.what() << endl;
-    }
-}
-
-Database::operator bool() const
-{
-    return _connected;
-}
-
-bool operator ==(const Database::entry &a, const Database::entry &b)
-{
-    if (a.datetime == b.datetime)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-const string Database::entry::fulltext_oneline() const
-{
-    string oneline = fulltext;
-    size_t pos = 0;
-    while ((pos = oneline.find('\n', pos)) != std::string::npos)
-    {
-        oneline.replace(pos, 1, "\\n");
-    }
-    return oneline;
-}
-
-void Database::store(const Database::entry &data) const
-{
-    try
-    {
-        const string strdatetime = timepoint_to_string(data.datetime, true);
-        string strtags;
-        for (const string &tag : data.tags)
-        {
-            strtags += tag;
-            if (tag != *(data.tags.rbegin()))
+            if (!fs::exists(_dbpath))
             {
-                strtags += ",";
+                fs::create_directories(_dbpath);
             }
+            _dbpath /= "database.sqlite";
+
+            _con = std::make_unique<sqlite::connection>(_dbpath);
+            sqlite::execute(*_con, "CREATE TABLE IF NOT EXISTS remwharead("
+                            "uri TEXT, archive_uri TEXT, datetime TEXT, "
+                            "tags TEXT, title TEXT, description TEXT, "
+                            "fulltext TEXT);", true);
+
+            _connected = true;
+        }
+        catch (std::exception &e)
+        {
+            cerr << "Error in " << __func__ << ": " << e.what() << endl;
+        }
+    }
+
+    Database::operator bool() const
+    {
+        return _connected;
+    }
+
+    bool operator ==(const Database::entry &a, const Database::entry &b)
+    {
+        if (a.datetime == b.datetime)
+        {
+            return true;
         }
 
-        sqlite::execute ins(*_con, "INSERT INTO remwharead "
-                            "VALUES(?, ?, ?, ?, ?, ?, ?);");
-        ins % data.uri % data.archive_uri % strdatetime % strtags
-            % data.title % data.description % data.fulltext;
-        ins();
+        return false;
     }
-    catch (std::exception &e)
+
+    const string Database::entry::fulltext_oneline() const
     {
-        cerr << "Error in " << __func__ << ": " << e.what() << endl;
-    }
-}
-
-const vector<Database::entry> Database::retrieve(const time_point &start,
-                                                 const time_point &end) const
-{
-    try
-    {
-        const string query = "SELECT * FROM remwharead WHERE datetime "
-            "BETWEEN '" + timepoint_to_string(start, true)
-            +  "' AND '" + timepoint_to_string(end, true)
-            + "' ORDER BY datetime DESC;";
-
-        sqlite::query q(*_con, query);
-        sqlite::result_type res = q.get_result();
-        vector<entry> entries;
-
-        while(res->next_row())
+        string oneline = fulltext;
+        size_t pos = 0;
+        while ((pos = oneline.find('\n', pos)) != std::string::npos)
         {
-            vector<string> tags;
-            const string strtags = res->get_string(3);
-            size_t pos = 0;
-            while (pos != std::string::npos)
+            oneline.replace(pos, 1, "\\n");
+        }
+        return oneline;
+    }
+
+    void Database::store(const Database::entry &data) const
+    {
+        try
+        {
+            const string strdatetime = timepoint_to_string(data.datetime, true);
+            string strtags;
+            for (const string &tag : data.tags)
             {
-                const size_t newpos = strtags.find(',', pos);
-                tags.push_back(strtags.substr(pos, newpos - pos));
-                pos = newpos;
-                if (pos != std::string::npos)
+                strtags += tag;
+                if (tag != *(data.tags.rbegin()))
                 {
-                    ++pos;
+                    strtags += ",";
                 }
             }
-            entries.push_back
-                ({
-                    res->get_string(0),
-                    res->get_string(1),
-                    string_to_timepoint(res->get_string(2), true),
-                    tags,
-                    res->get_string(4),
-                    res->get_string(5),
-                    res->get_string(6)
-                });
+
+            sqlite::execute ins(*_con, "INSERT INTO remwharead "
+                                "VALUES(?, ?, ?, ?, ?, ?, ?);");
+            ins % data.uri % data.archive_uri % strdatetime % strtags
+                % data.title % data.description % data.fulltext;
+            ins();
+        }
+        catch (std::exception &e)
+        {
+            cerr << "Error in " << __func__ << ": " << e.what() << endl;
+        }
+    }
+
+    const vector<Database::entry> Database::retrieve(
+        const time_point &start, const time_point &end) const
+    {
+        try
+        {
+            const string query = "SELECT * FROM remwharead WHERE datetime "
+                "BETWEEN '" + timepoint_to_string(start, true)
+                +  "' AND '" + timepoint_to_string(end, true)
+                + "' ORDER BY datetime DESC;";
+
+            sqlite::query q(*_con, query);
+            sqlite::result_type res = q.get_result();
+            vector<entry> entries;
+
+            while(res->next_row())
+            {
+                vector<string> tags;
+                const string strtags = res->get_string(3);
+                size_t pos = 0;
+                while (pos != std::string::npos)
+                {
+                    const size_t newpos = strtags.find(',', pos);
+                    tags.push_back(strtags.substr(pos, newpos - pos));
+                    pos = newpos;
+                    if (pos != std::string::npos)
+                    {
+                        ++pos;
+                    }
+                }
+                entries.push_back
+                    ({
+                        res->get_string(0),
+                        res->get_string(1),
+                        string_to_timepoint(res->get_string(2), true),
+                        tags,
+                        res->get_string(4),
+                        res->get_string(5),
+                        res->get_string(6)
+                    });
+            }
+
+            return entries;
+        }
+        catch (std::exception &e)
+        {
+            cerr << "Error in " << __func__ << ": " << e.what() << endl;
         }
 
-        return entries;
+        return {};
     }
-    catch (std::exception &e)
-    {
-        cerr << "Error in " << __func__ << ": " << e.what() << endl;
-    }
-
-    return {};
 }

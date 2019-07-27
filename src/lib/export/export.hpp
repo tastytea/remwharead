@@ -25,6 +25,8 @@ using std::vector;
 using std::ostream;
 using std::cout;
 
+namespace remwharead
+{
 namespace Export
 {
     class ExportBase
@@ -43,6 +45,7 @@ namespace Export
         const vector<Database::entry>
         sort_entries(vector<Database::entry> entries) const;
     };
+}
 }
 
 #endif  // REMWHAREAD_EXPORT_HPP

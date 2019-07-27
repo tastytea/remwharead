@@ -20,10 +20,12 @@
 #include <string>
 #include "export.hpp"
 
-using std::string;
-
+namespace remwharead
+{
 namespace Export
 {
+    using std::string;
+
     class CSV : protected ExportBase
     {
     public:
@@ -35,6 +37,7 @@ namespace Export
         //! replaces " with "".
         const string quote(string field) const;
     };
+}
 }
 
 #endif  // REMWHAREAD_CSV_HPP
