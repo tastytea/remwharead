@@ -20,17 +20,33 @@
 #include <string>
 #include <chrono>
 
+//! @file
+
 namespace remwharead
 {
     using std::string;
     using std::chrono::system_clock;
     using time_point = system_clock::time_point;
 
-    // Convert ISO 8601 time-string or SQLite time-string to time_point.
+    /*!
+     *  @brief   Convert ISO 8601 or SQLite time-string to time_point.
+     *
+     *  The SQLite format is *YY-MM-DD hh:mm:ss* instead of *YY-MM-DDThh:mm:ss*.
+     *
+     *  @param   strtime Time string in ISO 8601 or SQLite format.
+     *  @param   sqlite  Is the string in SQLite format?
+     */
     const time_point string_to_timepoint(const string &strtime,
                                          bool sqlite = false);
 
-    // Convert time_point to USO 8601 time-string or SQLite time-string.
+    /*!
+     *  @brief   Convert time_point to ISO 8601 or SQLite time-string.
+     *
+     *  The SQLite format is *YY-MM-DD hh:mm:ss* instead of *YY-MM-DDThh:mm:ss*.
+     *
+     *  @param   time_point The std::chrono::system_clock::time_point.
+     *  @param   sqlite     Is the string in SQLite format?
+     */
     const string timepoint_to_string(const time_point &tp, bool sqlite = false);
 }
 
