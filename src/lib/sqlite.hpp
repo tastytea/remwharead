@@ -33,9 +33,11 @@ namespace remwharead
     using std::chrono::system_clock;
     using time_point = system_clock::time_point;
 
+    //! Store and retrieve files from/to SQLite.
     class Database
     {
     public:
+        //! Describes a database entry.
         typedef struct entry
         {
             string uri;
@@ -46,20 +48,23 @@ namespace remwharead
             string description;
             string fulltext;
 
-            //! Returns true if date & time are equal.
+            //! Returns true if date and time are equal.
             friend bool operator ==(const Database::entry &a,
                                     const Database::entry &b);
             //! The full text in one line.
             const string fulltext_oneline() const;
         } entry;
 
+        //! Connects to the database and creates it if necessary.
         Database();
+
+        //! Returns true if connected to the database.
         operator bool() const;
 
-        //! Store in database.
+        //! Store a Database::entry in the database.
         void store(const entry &data) const;
 
-        //! retrieve from database.
+        //! Retrieve a vector of Database::entry from the database.
         const vector<entry> retrieve(
             const time_point &start = time_point(),
             const time_point &end = system_clock::now()) const;
