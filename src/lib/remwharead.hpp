@@ -28,6 +28,8 @@
  *  @code
  *  #include <remwharead/remwharead.hpp>
  *  @endcode
+ *
+ *  Compile your code with `g++ -lremwharead`.
  */
 
 #include "export/adoc.hpp"
