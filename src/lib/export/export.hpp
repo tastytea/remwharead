@@ -34,16 +34,16 @@ namespace Export
     {
     public:
         /*!
-         *  @brief   Export vector of Database::entry.
+         *  @brief  Export vector of Database::entry.
          *
-         *  @param   entries Vector of Database::entry to export.
-         *  @param   out     Output stream.
+         *  @param  entries Vector of Database::entry to export.
+         *  @param  out     Output stream.
          */
         explicit ExportBase(const vector<Database::entry> &entries,
                             ostream &out = cout);
 
         /*!
-         *  @brief   Print output to std::ostream.
+         *  @brief  Print output to std::ostream.
          */
         virtual void print() const = 0;
 
@@ -52,11 +52,11 @@ namespace Export
         ostream &_out;
 
         /*!
-         *  @brief   Sort entries from newest to oldest.
+         *  @brief  Sort entries from newest to oldest.
          *
-         *  @param   entries Vector of Database::entry to sort.
+         *  @param  entries Vector of Database::entry to sort.
          *
-         *  @return  Sorted vector of Database::entry.
+         *  @return Sorted vector of Database::entry.
          */
         const vector<Database::entry>
         sort_entries(vector<Database::entry> entries) const;

@@ -29,12 +29,12 @@ namespace remwharead
     using std::string;
 
     /*!
-     *  @brief   Split expression in subexpressions.
+     *  @brief  Split expression in subexpressions.
      *
      *  First it splits at `OR` or `||`, then it splits the subexpressions at
      *  `AND` or `&&`. The first vector contains all tags before the first `OR`.
      *
-     *  @return  Vector of `OR`-vectors of `AND`-tags.
+     *  @return Vector of `OR`-vectors of `AND`-tags.
      */
     const vector<vector<string>> parse_expression(string expression);
 
@@ -42,30 +42,30 @@ namespace remwharead
     const string to_lowercase(const string &str);
 
     /*!
-     *  @brief   Search in tags of database entries.
+     *  @brief  Search in tags of database entries.
      *
      *  Only matches whole tags, *Pill* does not match *Pillow*.
      *
-     *  @param   entries    Vector of Database::entry to search.
-     *  @param   expression Search expression.
-     *  @param   is_re      Is it a regular expression?
+     *  @param  entries    Vector of Database::entry to search.
+     *  @param  expression Search expression.
+     *  @param  is_re      Is it a regular expression?
      *
-     *  @return  Vector of matching Database::entry.
+     *  @return Vector of matching Database::entry.
      */
     const vector<Database::entry>
     search_tags(const vector<Database::entry> &entries, string expression,
                 const bool is_re);
 
     /*!
-     *  @brief   Search in full text of database entries.
+     *  @brief  Search in full text of database entries.
      *
      *  Searches in tags, title, description and full text.
      *
-     *  @param   entries    Vector of Database::entry to search.
-     *  @param   expression Search expression.
-     *  @param   is_re      Is it a regular expression?
+     *  @param  entries    Vector of Database::entry to search.
+     *  @param  expression Search expression.
+     *  @param  is_re      Is it a regular expression?
      *
-     *  @return  Vector of matching Database::entry.
+     *  @return Vector of matching Database::entry.
      */
     const vector<Database::entry>
     search_all(const vector<Database::entry> &entries, string expression,

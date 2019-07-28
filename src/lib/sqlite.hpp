@@ -23,7 +23,6 @@
 #include <vector>
 #include <chrono>
 #include <sqlite/connection.hpp>
-#include "types.hpp"
 
 namespace remwharead
 {
