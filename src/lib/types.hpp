@@ -17,8 +17,11 @@
 #ifndef REMWHAREAD_TYPES_HPP
 #define REMWHAREAD_TYPES_HPP
 
+//! @file
+
 namespace remwharead
 {
+    //! Format of the export.
     enum class export_format
     {
         undefined,
