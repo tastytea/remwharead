@@ -32,17 +32,17 @@ namespace remwharead
         string fulltext;
     } html_extract;
 
-    //! Download, archive and process an URI.
+    //! Download, archive and process an %URI.
     class URI
     {
     public:
         //! Construct object and set URL.
         explicit URI(const string &uri);
 
-        //! Download URI and extract title, description and full text.
+        //! Download %URI and extract title, description and full text.
         const html_extract get();
 
-        //! Save URI in archive and return archive-URI.
+        //! Save %URI in archive and return archive-URI.
         const string archive();
 
     protected:
