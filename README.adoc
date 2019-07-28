@@ -13,8 +13,8 @@ https://archive.org/[Internet Archive].
 
 .AsciiDoc export formatted with Asciidoctor.
 ====
-image::https://doc.schlomp.space/.remwharead/example_dates.png[Dates view, width=400, link="https://doc.schlomp.space/remwharead/example_dates.png", role=left]
-image::https://doc.schlomp.space/.remwharead/example_tags.png[Tags view, width=400, link="https://doc.schlomp.space/remwharead/example_tags.png"]
+image::https://doc.schlomp.space/.remwharead/example_dates.png[Dates view, height=250, link="https://doc.schlomp.space/.remwharead/example_dates.png", role=left]
+image::https://doc.schlomp.space/.remwharead/example_tags.png[Tags view, height=250, link="https://doc.schlomp.space/.remwharead/example_tags.png"]
 ====
 
 == Usage
