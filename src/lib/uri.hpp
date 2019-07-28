@@ -24,6 +24,7 @@ namespace remwharead
 {
     using std::string;
 
+    //! A processed HTML page.
     typedef struct html_extract
     {
         string title;
@@ -31,27 +32,46 @@ namespace remwharead
         string fulltext;
     } html_extract;
 
+    //! Download, archive and process an URI.
     class URI
     {
     public:
+        //! Construct object and set URL.
         explicit URI(const string &uri);
 
         //! Download URI and extract title, description and full text.
         const html_extract get();
-        //! Save URI in archive and return URI.
+
+        //! Save URI in archive and return archive-URI.
         const string archive();
 
     protected:
         string _uri;
 
+        //! Sets common curlpp options.
         void set_curlpp_options(curlpp::Easy &request);
+
+        //! Extract the title from an HTML page.
         const string extract_title(const string &html);
+
+        //! Extract the description from an HTML page.
         const string extract_description(const string &html);
+
+        //! Removes HTML tags and superflous spaces from an HTML page.
         const string strip_html(const string &html);
-        //! Remove all HTML tags. If tag is not empty, remove only this tag.
+
+        /*!
+         *  @brief  Remove HTML tags.
+         *
+         *  @param  html HTML page.
+         *  @param  tag  If set, only remove this tag.
+         */
         const string remove_html_tags(const string &html,
                                       const string &tag = "");
+
+        //! Convert HTML entities to UTF-8.
         const string unescape_html(const string &html);
+
         //! Replace newlines with spaces.
         const string remove_newlines(string text);
     };
