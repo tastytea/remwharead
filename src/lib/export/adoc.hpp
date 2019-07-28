@@ -23,10 +23,13 @@
 #include "sqlite.hpp"
 #include "export.hpp"
 
-using std::string;
-
+namespace remwharead
+{
 namespace Export
 {
+    using std::string;
+
+    //! Export as %AsciiDoc document.
     class AsciiDoc : protected ExportBase
     {
     public:
@@ -38,17 +41,28 @@ namespace Export
         using tagmap = std::map<string,vector<Database::entry>>;
         using replacemap = const std::map<const string, const string>;
 
+        //! Replace strings in text.
         const string replace(string text, const replacemap &replacements) const;
+
         //! Replaces characters in tags that asciidoctor doesn't like.
         const string replace_in_tag(const string &text) const;
+
         //! Replaces characters in title that asciidoctor doesn't like.
         const string replace_in_title(const string &text) const;
+
         //! Replaces characters in URI that asciidoctor doesn't like.
         const string replace_in_uri(const string &text) const;
+
+        //! Print things sorted by tag.
         void print_tags(const tagmap &tags) const;
+
+        //! Get ISO-8601 day from Database::entry.
         const string get_day(const Database::entry &entry) const;
+
+        //! Get ISO-8601 time from Database::entry.
         const string get_time(const Database::entry &entry) const;
     };
+}
 }
 
 #endif  // REMWHAREAD_ADOC_HPP

@@ -5,7 +5,8 @@ find_package(Catch2)
 if(Catch2_FOUND)    # Catch 2.x
   include(Catch)
   add_executable(all_tests main.cpp ${sources_tests})
-  target_link_libraries(all_tests Catch2::Catch2 ${PROJECT_NAME}_testlib)
+  target_link_libraries(all_tests
+    Catch2::Catch2 ${PROJECT_NAME} ${PROJECT_NAME}_testlib)
   target_include_directories(all_tests PRIVATE "/usr/include/catch2")
   catch_discover_tests(all_tests EXTRA_ARGS "${EXTRA_TEST_ARGS}")
 else()              # Catch 1.x
@@ -14,7 +15,7 @@ else()              # Catch 1.x
     foreach(src ${sources_tests})
       get_filename_component(bin ${src} NAME_WE)
       add_executable(${bin} main.cpp ${src})
-      target_link_libraries(${bin} ${PROJECT_NAME}_testlib)
+      target_link_libraries(${bin} ${PROJECT_NAME} ${PROJECT_NAME}_testlib)
       add_test(${bin} ${bin} "${EXTRA_TEST_ARGS}")
     endforeach()
   else()

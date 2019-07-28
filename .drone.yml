@@ -17,7 +17,7 @@ steps:
   image: plugins/download
   settings:
     source: https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
-    destination: src/popl.hpp
+    destination: src/cli/popl.hpp
 
 - name: gcc6
   image: debian:stretch-slim
@@ -186,7 +186,7 @@ steps:
   image: plugins/download
   settings:
     source: https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
-    destination: src/popl.hpp
+    destination: src/cli/popl.hpp
 
 - name: deb
   image: debian:stretch-slim

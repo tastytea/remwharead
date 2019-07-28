@@ -14,20 +14,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_SIMPLE_HPP
-#define REMWHAREAD_SIMPLE_HPP
+#ifndef REMWHAREAD_HPP
+#define REMWHAREAD_HPP
 
-#include "export.hpp"
+/*!
+ *  @mainpage remwharead Reference
+ *
+ *  @section using Using the library
+ *
+ *  The easiest way is to include remwharead.hpp, which then includes all other
+ *  headers.
+ *
+ *  @code
+ *  #include <remwharead/remwharead.hpp>
+ *  @endcode
+ *
+ *  Compile your code with `g++ -lremwharead`.
+ */
 
-namespace Export
-{
-    //! Export as simple list.
-    class Simple : protected ExportBase
-    {
-    public:
-        using ExportBase::ExportBase;
-        virtual void print() const override;
-    };
-}
+#include "export/adoc.hpp"
+#include "export/bookmarks.hpp"
+#include "export/csv.hpp"
+#include "export/export.hpp"
+#include "export/simple.hpp"
+#include "search.hpp"
+#include "sqlite.hpp"
+#include "time.hpp"
+#include "types.hpp"
+#include "uri.hpp"
 
-#endif  // REMWHAREAD_SIMPLE_HPP
+#endif  // REMWHAREAD_HPP

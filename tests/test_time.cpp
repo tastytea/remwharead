@@ -20,6 +20,7 @@
 #include <catch.hpp>
 #include "time.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::chrono::system_clock;
 using std::chrono::seconds;

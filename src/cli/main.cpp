@@ -24,12 +24,13 @@
 #include "parse_options.hpp"
 #include "uri.hpp"
 #include "types.hpp"
-#include "csv.hpp"
-#include "adoc.hpp"
-#include "bookmarks.hpp"
-#include "simple.hpp"
+#include "export/csv.hpp"
+#include "export/adoc.hpp"
+#include "export/bookmarks.hpp"
+#include "export/simple.hpp"
 #include "search.hpp"
 
+using namespace remwharead;
 using std::cout;
 using std::cerr;
 using std::endl;

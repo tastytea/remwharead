@@ -14,35 +14,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_EXPORT_HPP
-#define REMWHAREAD_EXPORT_HPP
+#ifndef REMWHAREAD_TYPES_HPP
+#define REMWHAREAD_TYPES_HPP
 
-#include <vector>
-#include <iostream>
-#include "sqlite.hpp"
+//! @file
 
-using std::vector;
-using std::ostream;
-using std::cout;
-
-namespace Export
+namespace remwharead
 {
-    class ExportBase
+    //! Format of the export.
+    enum class export_format
     {
-    public:
-        explicit ExportBase(const vector<Database::entry> &entries,
-                            ostream &out = cout);
-
-        virtual void print() const = 0;
-
-    protected:
-        const vector<Database::entry> _entries;
-        ostream &_out;
-
-        //! Sort entries from newest to oldest.
-        const vector<Database::entry>
-        sort_entries(vector<Database::entry> entries) const;
+        undefined,
+        csv,
+        asciidoc,
+        bookmarks,
+        simple
     };
 }
 
-#endif  // REMWHAREAD_EXPORT_HPP
+#endif  // REMWHAREAD_TYPES_HPP

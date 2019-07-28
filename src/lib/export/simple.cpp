@@ -14,20 +14,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_BOOKMARKS_HPP
-#define REMWHAREAD_BOOKMARKS_HPP
+#include <string>
+#include "sqlite.hpp"
+#include "time.hpp"
+#include "simple.hpp"
 
-#include "export.hpp"
-
-namespace Export
+namespace remwharead
 {
-    //! Export as Netscape bookmark file.
-    class Bookmarks : protected ExportBase
-    {
-    public:
-        using ExportBase::ExportBase;
-        virtual void print() const override;
-    };
-}
+    using std::string;
 
-#endif  // REMWHAREAD_BOOKMARKS_HPP
+    void Export::Simple::print() const
+    {
+        for (const Database::entry & entry : _entries)
+        {
+            const string timestring = timepoint_to_string(entry.datetime);
+            _out << timestring.substr(0, timestring.find('T')) << ": ";
+            if (!entry.title.empty())
+            {
+                _out << entry.title << '\n';
+                _out << "            ";
+            }
+
+            _out << "<" << entry.uri << ">\n";
+        }
+    }
+}

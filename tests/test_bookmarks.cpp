@@ -21,8 +21,9 @@
 #include <chrono>
 #include <catch.hpp>
 #include "sqlite.hpp"
-#include "bookmarks.hpp"
+#include "export/bookmarks.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::chrono::system_clock;
 using std::regex;

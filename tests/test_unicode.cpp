@@ -17,6 +17,7 @@
 #include <catch.hpp>
 #include "search.hpp"
 
+using namespace remwharead;
 
 SCENARIO ("Unicode is handled correctly")
 {

@@ -19,6 +19,7 @@
 #include <catch.hpp>
 #include "uri.hpp"
 
+using namespace remwharead;
 using std::string;
 
 SCENARIO ("URI works correctly")

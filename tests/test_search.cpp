@@ -22,6 +22,7 @@
 #include "sqlite.hpp"
 #include "search.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::chrono::system_clock;
 using std::vector;

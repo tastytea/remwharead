@@ -14,27 +14,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_SEARCH_HPP
-#define REMWHAREAD_SEARCH_HPP
+#include <algorithm>
+#include "export.hpp"
 
-#include <vector>
-#include <string>
-#include "sqlite.hpp"
+namespace remwharead
+{
+namespace Export
+{
+    ExportBase::ExportBase(const vector<Database::entry> &entries, ostream &out)
+        : _entries(sort_entries(entries))
+        , _out(out)
+    {}
 
-using std::vector;
-using std::string;
-
-const vector<vector<string>> parse_expression(string expression);
-const string to_lowercase(const string &str);
-
-//! Seach database entries for tags.
-const vector<Database::entry>
-search_tags(const vector<Database::entry> &entries, string expression,
-            const bool is_re);
-
-//! Search tags, title, description and full text.
-const vector<Database::entry>
-search_all(const vector<Database::entry> &entries, string expression,
-    const bool is_re);
-
-#endif  // REMWHAREAD_SEARCH_HPP
+    const vector<Database::entry>
+    ExportBase::sort_entries(vector<Database::entry> entries) const
+    {
+        std::sort(entries.begin(), entries.end(),
+                  [](const auto &a, const auto &b)
+                  {
+                      return (a.datetime > b.datetime);
+                  });
+        return entries;
+    }
+}
+}

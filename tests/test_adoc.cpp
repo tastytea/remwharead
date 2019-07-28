@@ -22,8 +22,9 @@
 #include <catch.hpp>
 #include "time.hpp"
 #include "sqlite.hpp"
-#include "adoc.hpp"
+#include "export/adoc.hpp"
 
+using namespace remwharead;
 using std::string;
 using std::chrono::system_clock;
 using std::regex;

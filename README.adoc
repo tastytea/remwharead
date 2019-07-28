@@ -1,4 +1,5 @@
 = remwharead
+:toc: preamble
 
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
@@ -18,7 +19,13 @@ image::https://doc.schlomp.space/.remwharead/example_tags.png[Tags view, width=4
 
 == Usage
 
-See https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[manpage].
+See
+https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[manpage].
+
+=== In your programs
+
+The complete functionality is implemented in a C++ library, libremwharead. Take
+a look at the https://doc.schlomp.space/remwharead/[reference] for more info.
 
 == Install
 
@@ -73,7 +80,7 @@ apt-get install g++-6 cmake pkg-config libcurl4-openssl-dev libxdg-basedir-dev \
     libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc
 apt-get install -t sid libcurlpp-dev
 # Inside the source directory:
-wget -O src/popl.hpp https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
+wget -O src/cli/popl.hpp https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
 export CXX="g++-6"
 ----
 ====
