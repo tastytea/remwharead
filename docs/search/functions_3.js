@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['get',['get',['../classremwharead_1_1URI.html#a8d6ac084a823749ed38c12e7bf8f3461',1,'remwharead::URI']]]
+  ['fulltext_5foneline',['fulltext_oneline',['../structremwharead_1_1Database_1_1entry.html#a0e19bad458eedf6ecdcf4b33ce319e8d',1,'remwharead::Database::entry']]]
 ];
