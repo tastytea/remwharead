@@ -65,12 +65,7 @@ namespace remwharead
 
     bool operator ==(const Database::entry &a, const Database::entry &b)
     {
-        if (a.datetime == b.datetime)
-        {
-            return true;
-        }
-
-        return false;
+        return (a.datetime == b.datetime);
     }
 
     const string Database::entry::fulltext_oneline() const
