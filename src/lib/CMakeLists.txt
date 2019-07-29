@@ -35,3 +35,8 @@ install(FILES ${headers_lib}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 install(FILES ${headers_lib_export}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/export)
+
+configure_file("${PROJECT_SOURCE_DIR}/remwharead.pc.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/remwharead.pc" @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/remwharead.pc"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")

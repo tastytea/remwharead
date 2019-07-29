@@ -29,7 +29,7 @@
  *  #include <remwharead/remwharead.hpp>
  *  @endcode
  *
- *  Compile your code with `g++ -lremwharead`.
+ *  Compile your code with `g++ $(pkg-config --cflags --libs remwharead)`.
  */
 
 #include "export/adoc.hpp"
