@@ -9,5 +9,5 @@ Description: Saves, archives and retrieves URIs of things you want to remember.
 Version: @PROJECT_VERSION@
 Libs: -L${libdir} -l${name}
 Cflags: -I${includedir}/${name}
-Requires.private: curlpp sqlite3 libxdg-basedir icu-uc icu-i18n
+Requires.private: curlpp, sqlite3, libxdg-basedir, icu-uc, icu-i18n
 Libs.private: -lvsqlitepp
