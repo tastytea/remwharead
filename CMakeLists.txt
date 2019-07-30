@@ -2,13 +2,7 @@ cmake_minimum_required (VERSION 3.2)
 project(remwharead
   VERSION 0.6.3
   LANGUAGES CXX
-)
-
-set(WITH_MAN "YES" CACHE STRING "WITH_MAN defaults to \"YES\"")
-set(WITH_TESTS "NO" CACHE STRING "WITH_TESTS defaults to \"NO\"")
-set(WITH_MOZILLA "NO" CACHE STRING "WITH_MOZILLA defaults to \"NO\"")
-
-include(GNUInstallDirs)
+  )
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,6 +11,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG
   "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Wpedantic -ftrapv \
 -fsanitize=undefined -g -Og -fno-omit-frame-pointer")
+
+set(WITH_MAN "YES" CACHE STRING "WITH_MAN defaults to \"YES\"")
+set(WITH_TESTS "NO" CACHE STRING "WITH_TESTS defaults to \"NO\"")
+set(WITH_MOZILLA "NO" CACHE STRING "WITH_MOZILLA defaults to \"NO\"")
+
+include(GNUInstallDirs)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/lib)
 Include_directories(${PROJECT_BINARY_DIR})
