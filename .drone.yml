@@ -38,7 +38,7 @@ steps:
   - locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1 --keep-going
+  - make VERBOSE=1
   - make install DESTDIR=install
   - cd tests && ctest -V
   volumes:
@@ -69,7 +69,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1 --keep-going
+  - make VERBOSE=1
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -98,7 +98,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1 --keep-going
+  - make VERBOSE=1
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -121,7 +121,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
-  - make  VERBOSE=1 --keep-going
+  - make VERBOSE=1
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -146,7 +146,7 @@ steps:
   - apt-get install -qy -t sid libcurlpp-dev
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1 --keep-going
+  - make VERBOSE=1
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -207,7 +207,7 @@ steps:
   - apt-get install -qy build-essential file
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DMOZILLA_NMH_DIR="lib/mozilla/native-messaging-hosts" -DWITH_DEB=YES ..
-  - make package --keep-going
+  - make package
   - cp -v remwharead_${DRONE_TAG}-0_amd64.deb ..
   volumes:
   - name: debian-package-cache
