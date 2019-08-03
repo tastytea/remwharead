@@ -17,7 +17,7 @@
 #include <chrono>
 #include <string>
 #include "sqlite.hpp"
-#include "bookmarks.hpp"
+#include "export/bookmarks.hpp"
 
 namespace remwharead
 {

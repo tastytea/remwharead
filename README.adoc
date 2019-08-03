@@ -20,7 +20,7 @@ image::https://doc.schlomp.space/.remwharead/example_tags.png[Tags view, height=
 == Usage
 
 See
-https://schlomp.space/tastytea/remwharead/src/branch/main/remwharead.1.adoc[manpage].
+https://schlomp.space/tastytea/remwharead/src/branch/main/man/remwharead.1.adoc[manpage].
 
 === In your programs
 
@@ -115,7 +115,8 @@ cmake --build .
 * `-DWITH_TESTS=YES` to compile the tests.
 * `-DWITH_MOZILLA=YES` to install the wrapper for the Mozilla extension.
 * `-DMOZILLA_NMH_DIR` lets you set the directory for the Mozilla
-  extension. The complete path is `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
+  extension wrapper. The complete path is
+  `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
 * One of:
 ** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
 ** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.

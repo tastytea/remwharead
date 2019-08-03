@@ -23,7 +23,7 @@
 #include <curlpp/cURLpp.hpp>
 #include "version.hpp"
 #include "time.hpp"
-#include "adoc.hpp"
+#include "export/adoc.hpp"
 
 namespace remwharead
 {

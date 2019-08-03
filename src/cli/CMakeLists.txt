@@ -1,10 +1,17 @@
-include_directories(${PROJECT_SOURCE_DIR}/src/cli)
+include(GNUInstallDirs)
 
 file(GLOB sources_cli *.cpp)
 
 add_executable(${PROJECT_NAME}-cli ${sources_cli})
-target_link_libraries(${PROJECT_NAME}-cli ${PROJECT_NAME})
+
 set_target_properties(${PROJECT_NAME}-cli
   PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
-install(TARGETS ${PROJECT_NAME}-cli DESTINATION ${CMAKE_INSTALL_BINDIR})
+target_include_directories(${PROJECT_NAME}-cli
+  PRIVATE "${PROJECT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+
+target_link_libraries(${PROJECT_NAME}-cli
+  PRIVATE ${PROJECT_NAME})
+
+install(TARGETS ${PROJECT_NAME}-cli
+  DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -1,0 +1,7 @@
+{
+  "name": "remwharead",
+  "description": "@PROJECT_DESCRIPTION@",
+  "path": "@INSTALL_MOZILLA_NMH_DIR@",
+  "type": "stdio",
+  "allowed_extensions": [ "remwharead@tastytea.de" ]
+}

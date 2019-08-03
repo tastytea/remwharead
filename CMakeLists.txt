@@ -1,47 +1,62 @@
-cmake_minimum_required (VERSION 3.2)
+# Support version 3.6 and above, but use policy settings up to 3.14.
+# 3.6 is needed because of IMPORTED_TARGET in pkg_check_modules().
+cmake_minimum_required(VERSION 3.6...3.14)
+# Ranges are supported from 3.12, set policy to current for < 3.12.
+if(${CMAKE_VERSION} VERSION_LESS 3.12)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+endif()
+
 project(remwharead
   VERSION 0.6.3
-  LANGUAGES CXX
-  )
+  LANGUAGES CXX)
+# DESCRIPTION was introduced in version 3.9.
+if(NOT (${CMAKE_VERSION} VERSION_LESS 3.9))
+  set(PROJECT_DESCRIPTION
+    "Saves URIs of things you want to remember in a database.")
+endif()
+
+include(GNUInstallDirs)
+
+# All custom build switches.
+option(WITH_MAN "Compile and install manpage." YES)
+option(WITH_TESTS "Compile tests." NO)
+option(WITH_MOZILLA "Build and install wrapper for Mozilla browsers." YES)
+option(BUILD_SHARED_LIBS "Build shared libraries." YES)
+set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
+  CACHE PATH "Directory for the Mozilla extension wrapper.")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_CXX_FLAGS_DEBUG
-  "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Wpedantic -ftrapv \
--fsanitize=undefined -g -Og -fno-omit-frame-pointer")
+set(DEBUG_CXXFLAGS
+  "-Wall"
+  "-Wextra"
+  "-Wpedantic"
+  "-ftrapv"
+  "-fsanitize=undefined"
+  "-g"
+  "-Og"
+  "-fno-omit-frame-pointer")
+set(DEBUG_LDFLAGS
+  "-fsanitize=undefined")
+add_compile_options("$<$<CONFIG:Debug>:${DEBUG_CXXFLAGS}>")
+# add_link_options was introduced in version 3.13.
+if(${CMAKE_VERSION} VERSION_LESS 3.13)
+  set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${DEBUG_LDFLAGS}")
+else()
+  add_link_options("$<$<CONFIG:Debug>:${DEBUG_LDFLAGS}>")
+endif()
 
-set(WITH_MAN "YES" CACHE STRING "WITH_MAN defaults to \"YES\"")
-set(WITH_TESTS "NO" CACHE STRING "WITH_TESTS defaults to \"NO\"")
-set(WITH_MOZILLA "NO" CACHE STRING "WITH_MOZILLA defaults to \"NO\"")
-
-include(GNUInstallDirs)
-
-include_directories(${PROJECT_SOURCE_DIR}/src/lib)
-Include_directories(${PROJECT_BINARY_DIR})
-
-# Write version in header
-configure_file(
-    "${PROJECT_SOURCE_DIR}/src/version.hpp.in"
-    "${PROJECT_BINARY_DIR}/version.hpp"
-)
-
+add_subdirectory(src)
 add_subdirectory(src/lib)
+add_subdirectory(include)
 add_subdirectory(src/cli)
+add_subdirectory(pkg-config)
+add_subdirectory(cmake)
 
 if (WITH_MAN)
-  add_custom_command(
-    OUTPUT "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.1"
-    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
-    DEPENDS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}.1.adoc"
-    COMMAND ${CMAKE_SOURCE_DIR}/build_manpage.sh
-    ARGS ${PROJECT_VERSION})
-  add_custom_target(man ALL DEPENDS "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.1")
-
-  install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
+  add_subdirectory(man)
 endif()
 
 if (WITH_MOZILLA)
@@ -49,8 +64,6 @@ if (WITH_MOZILLA)
 endif()
 
 if(WITH_TESTS)
-  include_directories(${PROJECT_SOURCE_DIR}/src/cli)
-  add_library(${PROJECT_NAME}_testlib SHARED src/cli/parse_options.cpp)
   add_subdirectory(tests)
 endif()
 

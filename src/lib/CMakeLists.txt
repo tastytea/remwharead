@@ -1,43 +1,32 @@
+include(GNUInstallDirs)
+
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBXDG_BASEDIR REQUIRED libxdg-basedir)
-# sqlite3 is not a direct dependency, but vsqlite++ has no cmake- or pkg-config
-# module. Since it installs in the same directories as sqlite3, I am adding the
-# module here to add the include- and link directories below. It is not REQUIRED
-# because the sqlite3 in Debian jessie doesn't come with a pkg-config module.
-pkg_check_modules(SQLITE3 sqlite3)
-pkg_check_modules(CURLPP REQUIRED curlpp)
+pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)
+pkg_check_modules(curlpp REQUIRED IMPORTED_TARGET curlpp)
 find_package(ICU COMPONENTS uc i18n REQUIRED)
 
-include_directories(${LIBXDG_BASEDIR_INCLUDE_DIRS})
-include_directories(${SQLITE3_INCLUDE_DIRS})
-include_directories(${CURLPP_INCLUDE_DIRS})
-include_directories(${ICU_INCLUDE_DIRS})
+file(GLOB_RECURSE sources_lib *.cpp)
+file(GLOB_RECURSE headers_lib ../../include/*.hpp)
 
-link_directories(${LIBXDG_BASEDIR_LIBRARY_DIRS})
-link_directories(${SQLITE3_LIBRARY_DIRS})
-link_directories(${CURLPP_LIBRARY_DIRS})
-link_directories(${ICU_LIBRARY_DIRS})
+add_library(${PROJECT_NAME} "${sources_lib}" "${headers_lib}")
 
-file(GLOB sources_lib *.cpp export/*.cpp)
-file(GLOB headers_lib *.hpp)
-file(GLOB headers_lib_export export/*.hpp)
-
-add_library(${PROJECT_NAME} SHARED ${sources_lib})
-target_link_libraries(${PROJECT_NAME} ${LIBXDG_BASEDIR_LIBRARIES}
-  vsqlitepp stdc++fs ${CURLPP_LIBRARIES} ${ICU_LIBRARIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES
   VERSION ${PROJECT_VERSION}
-  SOVERSION ${${PROJECT_NAME}_VERSION_MAJOR}
-  )
+  SOVERSION ${${PROJECT_NAME}_VERSION_MAJOR})
 
-install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-install(FILES ${headers_lib}
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
-install(FILES ${headers_lib_export}
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/export)
+target_include_directories(${PROJECT_NAME}
+  PRIVATE
+  "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>" # version.hpp
+  PUBLIC
+  "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
-configure_file("${PROJECT_SOURCE_DIR}/remwharead.pc.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/remwharead.pc" @ONLY)
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE PkgConfig::libxdg-basedir ICU::uc ICU::i18n
+  PUBLIC PkgConfig::curlpp vsqlitepp stdc++fs)
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/remwharead.pc"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+install(TARGETS ${PROJECT_NAME}
+  EXPORT "${PROJECT_NAME}Targets"
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+
