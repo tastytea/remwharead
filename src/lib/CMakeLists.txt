@@ -31,7 +31,7 @@ if(PocoNetSSL_FOUND)
     PRIVATE Poco::Net Poco::NetSSL Poco::Util)
 else()
   find_file(Poco_h NAMES "Poco/Poco.h"
-    PATHS ${CMAKE_INSTALL_INCLUDEDIR})
+    PATHS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
 
   if("${Poco_h}" STREQUAL "Poco_h-NOTFOUND")
     message(FATAL_ERROR "Could not find POCO.")

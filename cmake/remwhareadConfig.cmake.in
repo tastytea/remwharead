@@ -6,7 +6,7 @@ pkg_check_modules(libconfig++ REQUIRED IMPORTED_TARGET libconfig++)
 find_depencency(Poco COMPONENTS Net NetSSL Util CONFIG REQUIRED)
 
 find_file(vsqlitepp NAMES "sqlite/connection.hpp"
-  PATHS ${CMAKE_INSTALL_INCLUDEDIR})
+  PATHS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
 
 if("${vsqlitepp}" STREQUAL "vsqlitepp-NOTFOUND")
   message(FATAL_ERROR "Could not find vsqlite++.")
