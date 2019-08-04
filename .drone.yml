@@ -130,8 +130,8 @@ steps:
   - echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/stretch.list
   - apt-get update -q
   - apt-get install -qy -t stretch-backports clang-6.0
-  - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy -t stretch cmake pkg-config
+  - apt-get install -qy -t stretch libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
