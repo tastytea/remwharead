@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <utility>
 #include <locale>
-#include <curlpp/cURLpp.hpp>
 #include "version.hpp"
 #include "time.hpp"
 #include "export/adoc.hpp"

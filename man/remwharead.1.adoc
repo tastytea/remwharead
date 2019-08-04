@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-07-25
+:Date:          2019-08-04
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -141,16 +141,16 @@ finds all things that have either Mountain and Big, or Vegetable in them. You ca
 use _||_ instead of _OR_ and _&&_ instead of _AND_. Note that *--search-tags*
 only matches whole tags, Pill does not match Pillow.
 
-== PROTOCOL SUPPORT
+// == PROTOCOL SUPPORT
 
-Since *remwharead* is built on libcurl, it supports the same protocols. See
-*curl*(1), section _DESCRIPTION_. Titles and descriptions are currently only
-extracted when using HTTP(S).
+// Since *remwharead* is built on libcurl, it supports the same protocols. See
+// *curl*(1), section _DESCRIPTION_. Titles and descriptions are currently only
+// extracted when using HTTP(S).
 
-== ENVIRONMENT
+// == ENVIRONMENT
 
-You can use proxy servers with the same environment variables as curl. See
-*curl*(1), section _ENVIRONMENT_.
+// You can use proxy servers with the same environment variables as curl. See
+// *curl*(1), section _ENVIRONMENT_.
 
 == FILES
 
@@ -171,7 +171,7 @@ You can use proxy servers with the same environment variables as curl. See
 
 == SEE ALSO
 
-*curl*(1), *crontab*(1), *crontab*(5)
+*crontab*(1), *crontab*(5)
 
 == REPORTING BUGS
 

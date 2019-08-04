@@ -18,7 +18,6 @@
 #define REMWHAREAD_URI_HPP
 
 #include <string>
-#include <curlpp/Easy.hpp>
 
 namespace remwharead
 {
@@ -38,6 +37,7 @@ namespace remwharead
     public:
         //! Construct object and set URL.
         explicit URI(const string &uri);
+        ~URI();
 
         //! Download %URI and extract title, description and full text.
         const html_extract get();
@@ -48,8 +48,8 @@ namespace remwharead
     protected:
         string _uri;
 
-        //! Sets common curlpp options.
-        void set_curlpp_options(curlpp::Easy &request);
+        //! Make a HTTPS request.
+        const string https_request(const string &uri) const;
 
         //! Extract the title from an HTML page.
         const string extract_title(const string &html);

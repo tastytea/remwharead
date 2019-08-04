@@ -20,16 +20,17 @@
 #include <regex>
 #include <locale>
 #include <codecvt>
-#include <curlpp/cURLpp.hpp>
-#include <curlpp/Options.hpp>
-#include <curlpp/Exception.hpp>
-#include <curlpp/Infos.hpp>
-#include <version.hpp>
+#include "Poco/Net/HTTPSClientSession.h"
+#include "Poco/Net/HTTPRequest.h"
+#include "Poco/Net/HTTPResponse.h"
+#include "Poco/StreamCopier.h"
+#include "Poco/Path.h"
+#include "Poco/URI.h"
+#include "version.hpp"
 #include "uri.hpp"
 
 namespace remwharead
 {
-    namespace curlopts = curlpp::options;
     using std::uint64_t;
     using std::cerr;
     using std::endl;
@@ -39,10 +40,23 @@ namespace remwharead
     using std::smatch;
     using std::regex_constants::icase;
     using std::array;
+    using std::istream;
+    using Poco::Net::HTTPSClientSession;
+    using Poco::Net::HTTPRequest;
+    using Poco::Net::HTTPResponse;
+    using Poco::Net::HTTPMessage;
+    using Poco::StreamCopier;
+    using Poco::Path;
 
     URI::URI(const string &uri)
         :_uri(uri)
     {
+        Poco::Net::initializeSSL();
+    }
+
+    URI::~URI()
+    {
+        Poco::Net::uninitializeSSL();
     }
 
     const html_extract URI::get()
@@ -50,17 +64,11 @@ namespace remwharead
         try
         {
             std::ostringstream oss;
-            curlpp::Easy request;
-            set_curlpp_options(request);
-            request.setOpt<curlopts::Url>(_uri);
-            request.setOpt<curlopts::WriteStream>(&oss);
-            request.perform();
 
-            const string answer = oss.str();
+            const string answer = https_request(_uri);
             if (answer.empty())
             {
-                cerr << "Error: Could not download page. Response code: "
-                     << curlpp::infos::ResponseCode::get(request) << endl;
+                cerr << "Error: Could not download page.\n";
             }
             else
             {
@@ -74,18 +82,40 @@ namespace remwharead
         }
         catch (const std::exception &e)
         {
+            // Prints something like "SSL Exception", nothing specific.
             cerr << "Error in " << __func__ << ": " << e.what() << endl;
         }
 
         return { "", "", "" };
     }
 
-    void URI::set_curlpp_options(curlpp::Easy &request)
+    const string URI::https_request(const string &uri) const
     {
-        request.setOpt<curlopts::UserAgent>(string("remwharead/")
-                                            + global::version);
-        request.setOpt<curlopts::HttpHeader>({ "Connection: close" });
-        request.setOpt<curlopts::FollowLocation>(true);
+        Poco::URI poco_uri(uri);
+        string path = poco_uri.getPathAndQuery();
+        if (path.empty())
+        {
+            path = "/";
+        }
+        HTTPSClientSession session(poco_uri.getHost(), poco_uri.getPort());
+        HTTPRequest request(HTTPRequest::HTTP_GET, path,
+                            HTTPMessage::HTTP_1_1);
+        HTTPResponse response;
+        request.set("User-Agent", string("remwharead/") + global::version);
+
+        session.sendRequest(request);
+        istream &rs = session.receiveResponse(response);
+        if (response.getStatus() == HTTPResponse::HTTP_OK)
+        {
+            string answer;
+            StreamCopier::copyToString(rs, answer);
+            return answer;
+        }
+        else
+        {
+            cerr << response.getStatus() << " " << response.getReason() << endl;
+            return "";
+        }
     }
 
     const string URI::extract_title(const string &html)
@@ -481,31 +511,22 @@ namespace remwharead
 
         try
         {
-            std::ostringstream oss;
-            curlpp::Easy request;
-            set_curlpp_options(request);
-            request.setOpt<curlopts::Url>("https://web.archive.org/save/"
-                                          + _uri);
-            request.setOpt<curlopts::WriteStream>(&oss);
-            request.setOpt<curlopts::NoBody>(true);        // Make HEAD request.
-            request.setOpt<curlpp::options::Header>(true); // Keep headers.
-            request.perform();
+            const string answer = https_request("https://web.archive.org/save/"
+                                                + _uri);
 
             smatch match;
-            const string answer = oss.str();
             if (regex_search(answer, match, regex("Content-Location: (.+)\r")))
             {
                 return "https://web.archive.org" + match[1].str();
             }
             else
             {
-                cerr << "Error: Could not archive page. HTTP status: "
-                     << curlpp::infos::ResponseCode::get(request) << endl;
+                cerr << "Error: Could not archive page.\n";
             }
         }
         catch (const std::exception &e)
         {
-            cerr << "Error in " << __func__ << ": " << e.what() << endl;
+            cerr << "Error in " << __func__ << ": " << e.what() << ".\n";
         }
 
         return "";
