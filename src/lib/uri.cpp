@@ -156,13 +156,14 @@ namespace remwharead
         session->sendRequest(request);
         istream &rs = session->receiveResponse(response);
 
+        // Not using the constants because some are too new for Debian stretch.
         switch (response.getStatus())
         {
-        case HTTPResponse::HTTP_MOVED_PERMANENTLY:  // 301
-        case HTTPResponse::HTTP_PERMANENT_REDIRECT: // 308
-        case HTTPResponse::HTTP_FOUND:              // 302
-        case HTTPResponse::HTTP_SEE_OTHER:          // 303
-        case HTTPResponse::HTTP_TEMPORARY_REDIRECT: // 307
+        case 301:               // HTTPResponse::HTTP_MOVED_PERMANENTLY
+        case 308:               // HTTPResponse::HTTP_PERMANENT_REDIRECT
+        case 302:               // HTTPResponse::HTTP_FOUND
+        case 303:               // HTTPResponse::HTTP_SEE_OTHER
+        case 307:               // HTTPResponse::HTTP_TEMPORARY_REDIRECT
         {
             return make_request(response.get("Location"));
         }
