@@ -3,7 +3,8 @@ include(GNUInstallDirs)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)
 find_package(ICU COMPONENTS uc i18n REQUIRED)
-find_package(Poco COMPONENTS Net NetSSL Util CONFIG) # Not required, see below.
+# Some distributions do not contain Poco*Config.cmake recipes.
+find_package(Poco COMPONENTS Foundation Net NetSSL CONFIG)
 
 file(GLOB_RECURSE sources_lib *.cpp)
 file(GLOB_RECURSE headers_lib ../../include/*.hpp)
@@ -25,10 +26,10 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE PkgConfig::libxdg-basedir ICU::uc ICU::i18n
   PUBLIC vsqlitepp stdc++fs)
 
-# Debian Stretch does not contain Poco*Config.cmake recipes.
+# If no Poco*Config.cmake recipes are found, look for headers in standard dirs.
 if(PocoNetSSL_FOUND)
   target_link_libraries(${PROJECT_NAME}
-    PRIVATE Poco::Net Poco::NetSSL Poco::Util)
+    PRIVATE Poco::Foundation Poco::Net Poco::NetSSL)
 else()
   find_file(Poco_h NAMES "Poco/Poco.h"
     PATHS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
@@ -41,7 +42,7 @@ else()
       "but the files seem to be in the standard directories. "
       "Let's hope this works.")
     target_link_libraries(${PROJECT_NAME}
-      PRIVATE PocoNet PocoNetSSL PocoUtil)
+      PRIVATE PocoFoundation PocoNet PocoNetSSL)
   endif()
 endif()
 
