@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['search_2ehpp',['search.hpp',['../search_8hpp.html',1,'']]],
-  ['store',['store',['../classremwharead_1_1Database.html#ab3ea9062c5c0ef5d9f2b7eea6f0fd1bd',1,'remwharead::Database']]],
-  ['strip_5fhtml',['strip_html',['../classremwharead_1_1URI.html#ad6ad5351ecf2983e01f9f4a51c2057a5',1,'remwharead::URI']]]
+  ['operator_20bool',['operator bool',['../classremwharead_1_1Database.html#adf363243852b2a5fec1911139d4936c1',1,'remwharead::Database']]],
+  ['operator_3d_3d',['operator==',['../structremwharead_1_1Database_1_1entry.html#a67f257a407ec46c00d205fd4c9215846',1,'remwharead::Database::entry']]]
 ];

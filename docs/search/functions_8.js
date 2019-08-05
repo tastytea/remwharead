@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['store',['store',['../classremwharead_1_1Database.html#ab3ea9062c5c0ef5d9f2b7eea6f0fd1bd',1,'remwharead::Database']]],
-  ['strip_5fhtml',['strip_html',['../classremwharead_1_1URI.html#ad6ad5351ecf2983e01f9f4a51c2057a5',1,'remwharead::URI']]]
+  ['remove_5fhtml_5ftags',['remove_html_tags',['../classremwharead_1_1URI.html#a8b340b13ccf0bc3ae9059872ce48e06a',1,'remwharead::URI']]],
+  ['remove_5fnewlines',['remove_newlines',['../classremwharead_1_1URI.html#a9373cb28de198ae2db624980273ece4a',1,'remwharead::URI']]],
+  ['retrieve',['retrieve',['../classremwharead_1_1Database.html#abc9c9adf58b786342b0492baeef8f4ec',1,'remwharead::Database']]]
 ];
