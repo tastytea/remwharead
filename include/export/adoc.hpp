@@ -29,7 +29,13 @@ namespace Export
 {
     using std::string;
 
-    //! Export as %AsciiDoc document.
+    /*!
+     *  @brief  Export as %AsciiDoc document.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile adoc.hpp remwharead/export/adoc.hpp
+     */
     class AsciiDoc : protected ExportBase
     {
     public:

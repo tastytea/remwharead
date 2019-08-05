@@ -21,7 +21,13 @@
 
 namespace remwharead
 {
-    //! Format of the export.
+    /*!
+     *  @brief  Format of the export.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile types.hpp remwharead/types.hpp
+     */
     enum class export_format
     {
         undefined,

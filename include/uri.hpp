@@ -23,7 +23,13 @@ namespace remwharead
 {
     using std::string;
 
-    //! A processed HTML page.
+    /*!
+     *  @brief  A processed HTML page.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile uri.hpp remwharead/uri.hpp
+     */
     typedef struct html_extract
     {
         string title;
@@ -31,7 +37,13 @@ namespace remwharead
         string fulltext;
     } html_extract;
 
-    //! Download, archive and process an %URI.
+    /*!
+     *  @brief  Download, archive and process an %URI.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile uri.hpp remwharead/uri.hpp
+     */
     class URI
     {
     public:

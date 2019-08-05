@@ -23,7 +23,13 @@ namespace remwharead
 {
 namespace Export
 {
-    //! Export as Netscape bookmark file.
+    /*!
+     *  @brief  Export as Netscape bookmark file.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile bookmarks.hpp remwharead/export/bookmarks.hpp
+     */
     class Bookmarks : protected ExportBase
     {
     public:

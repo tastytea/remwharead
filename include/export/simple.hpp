@@ -23,7 +23,13 @@ namespace remwharead
 {
 namespace Export
 {
-    //! Export as simple list.
+    /*!
+     *  @brief  Export as simple list.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile simple.hpp remwharead/export/simple.hpp
+     */
     class Simple : protected ExportBase
     {
     public:

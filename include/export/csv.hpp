@@ -26,7 +26,13 @@ namespace Export
 {
     using std::string;
 
-    //! Export as Comma Separated Values.
+    /*!
+     *  @brief  Export as Comma Separated Values.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile csv.hpp remwharead/export/csv.hpp
+     */
     class CSV : protected ExportBase
     {
     public:

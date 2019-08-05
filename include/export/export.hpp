@@ -29,7 +29,13 @@ namespace remwharead
 {
 namespace Export
 {
-    //! Base class for exports.
+    /*!
+     *  @brief  Base class for exports.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile export.hpp remwharead/export/export.hpp
+     */
     class ExportBase
     {
     public:

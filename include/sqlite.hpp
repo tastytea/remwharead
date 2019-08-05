@@ -32,11 +32,23 @@ namespace remwharead
     using std::chrono::system_clock;
     using time_point = system_clock::time_point;
 
-    //! Store and retrieve files from/to SQLite.
+    /*!
+     *  @brief  Store and retrieve files from/to SQLite.
+     *
+     *  @since  0.6.0
+     *
+     *  @headerfile sqlite.hpp remwharead/sqlite.hpp
+     */
     class Database
     {
     public:
-        //! Describes a database entry.
+        /*!
+         *  @brief  Describes a database entry.
+         *
+         *  @since  0.6.0
+         *
+         *  @headerfile sqlite.hpp remwharead/sqlite.hpp
+         */
         typedef struct entry
         {
             string uri;

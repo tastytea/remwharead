@@ -40,7 +40,7 @@ namespace remwharead
                                          bool sqlite = false);
 
     /*!
-     *  @brief   Convert time_point to ISO 8601 or SQLite time-string.
+     *  @brief  Convert time_point to ISO 8601 or SQLite time-string.
      *
      *  The SQLite format is *YY-MM-DD hh:mm:ss* instead of *YY-MM-DDThh:mm:ss*.
      *
