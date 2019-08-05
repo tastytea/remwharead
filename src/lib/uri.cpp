@@ -20,13 +20,14 @@
 #include <regex>
 #include <locale>
 #include <codecvt>
-#include "Poco/Net/HTTPClientSession.h"
-#include "Poco/Net/HTTPSClientSession.h"
-#include "Poco/Net/HTTPRequest.h"
-#include "Poco/Net/HTTPResponse.h"
-#include "Poco/StreamCopier.h"
-#include "Poco/Path.h"
-#include "Poco/URI.h"
+#include <exception>
+#include <Poco/Net/HTTPClientSession.h>
+#include <Poco/Net/HTTPSClientSession.h>
+#include <Poco/Net/HTTPRequest.h>
+#include <Poco/Net/HTTPResponse.h>
+#include <Poco/StreamCopier.h>
+#include <Poco/URI.h>
+#include <Poco/Environment.h>
 #include "version.hpp"
 #include "uri.hpp"
 
@@ -50,12 +51,44 @@ namespace remwharead
     using Poco::Net::HTTPResponse;
     using Poco::Net::HTTPMessage;
     using Poco::StreamCopier;
-    using Poco::Path;
+    using Poco::Environment;
 
     URI::URI(const string &uri)
         :_uri(uri)
     {
         Poco::Net::initializeSSL();
+
+        try
+        {
+            HTTPClientSession::ProxyConfig proxy;
+            string proxy_env = Environment::get("http_proxy");
+            size_t pos;
+
+            // Only keep text between // and /.
+            if ((pos = proxy_env.find("//")) != string::npos)
+            {
+                proxy_env = proxy_env.substr(pos + 2);
+            }
+            if ((pos = proxy_env.find('/')) != string::npos)
+            {
+                proxy_env = proxy_env.substr(0, pos);
+            }
+            if ((pos = proxy_env.find(':')) != string::npos)
+            {
+                proxy.host = proxy_env.substr(0, pos);
+                proxy.port = std::stoi(proxy_env.substr(pos + 1));
+            }
+            else
+            {
+                proxy.host = proxy_env;
+            }
+
+            HTTPClientSession::setGlobalProxyConfig(proxy);
+        }
+        catch (const std::exception &)
+        {
+            // No proxy found, no problem.
+        }
     }
 
     URI::~URI()
