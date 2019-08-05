@@ -48,8 +48,8 @@ namespace remwharead
     protected:
         string _uri;
 
-        //! Make a HTTPS request.
-        const string https_request(const string &uri) const;
+        //! Make a HTTP(S) request.
+        const string make_request(const string &uri) const;
 
         //! Extract the title from an HTML page.
         const string extract_title(const string &html);

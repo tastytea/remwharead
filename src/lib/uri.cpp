@@ -20,6 +20,7 @@
 #include <regex>
 #include <locale>
 #include <codecvt>
+#include "Poco/Net/HTTPClientSession.h"
 #include "Poco/Net/HTTPSClientSession.h"
 #include "Poco/Net/HTTPRequest.h"
 #include "Poco/Net/HTTPResponse.h"
@@ -41,6 +42,9 @@ namespace remwharead
     using std::regex_constants::icase;
     using std::array;
     using std::istream;
+    using std::unique_ptr;
+    using std::make_unique;
+    using Poco::Net::HTTPClientSession;
     using Poco::Net::HTTPSClientSession;
     using Poco::Net::HTTPRequest;
     using Poco::Net::HTTPResponse;
@@ -65,7 +69,7 @@ namespace remwharead
         {
             std::ostringstream oss;
 
-            const string answer = https_request(_uri);
+            const string answer = make_request(_uri);
             if (answer.empty())
             {
                 cerr << "Error: Could not download page.\n";
@@ -89,7 +93,7 @@ namespace remwharead
         return { "", "", "" };
     }
 
-    const string URI::https_request(const string &uri) const
+    const string URI::make_request(const string &uri) const
     {
         Poco::URI poco_uri(uri);
         string path = poco_uri.getPathAndQuery();
@@ -97,24 +101,49 @@ namespace remwharead
         {
             path = "/";
         }
-        HTTPSClientSession session(poco_uri.getHost(), poco_uri.getPort());
+
+        unique_ptr<HTTPClientSession> session;
+        if (poco_uri.getScheme() == "https")
+        {
+            session = make_unique<HTTPSClientSession>(poco_uri.getHost(),
+                                                      poco_uri.getPort());
+        }
+        else if (poco_uri.getScheme() == "http")
+        {
+            session = make_unique<HTTPClientSession>(poco_uri.getHost(),
+                                                     poco_uri.getPort());
+        }
+
         HTTPRequest request(HTTPRequest::HTTP_GET, path,
                             HTTPMessage::HTTP_1_1);
-        HTTPResponse response;
         request.set("User-Agent", string("remwharead/") + global::version);
 
-        session.sendRequest(request);
-        istream &rs = session.receiveResponse(response);
-        if (response.getStatus() == HTTPResponse::HTTP_OK)
+        HTTPResponse response;
+
+        session->sendRequest(request);
+        istream &rs = session->receiveResponse(response);
+
+        switch (response.getStatus())
+        {
+        case HTTPResponse::HTTP_MOVED_PERMANENTLY:  // 301
+        case HTTPResponse::HTTP_PERMANENT_REDIRECT: // 308
+        case HTTPResponse::HTTP_FOUND:              // 302
+        case HTTPResponse::HTTP_SEE_OTHER:          // 303
+        case HTTPResponse::HTTP_TEMPORARY_REDIRECT: // 307
+        {
+            return make_request(response.get("Location"));
+        }
+        case HTTPResponse::HTTP_OK:
         {
             string answer;
             StreamCopier::copyToString(rs, answer);
             return answer;
         }
-        else
+        default:
         {
             cerr << response.getStatus() << " " << response.getReason() << endl;
             return "";
+        }
         }
     }
 
@@ -511,7 +540,7 @@ namespace remwharead
 
         try
         {
-            const string answer = https_request("https://web.archive.org/save/"
+            const string answer = make_request("https://web.archive.org/save/"
                                                 + _uri);
 
             smatch match;
