@@ -9,5 +9,5 @@ Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Cflags: -I${includedir}
 Libs: -L${libdir} -l${name} -lvsqlitepp -lstdc++fs
-Requires.private: libxdg-basedir, icu-uc, icu-i18n
-Libs.private: -lPocoNet -lPocoNetSSL -lPocoUtil
+Requires.private: icu-uc, icu-i18n
+Libs.private: -lPocoFoundation -lPocoNet -lPocoNetSSL

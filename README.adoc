@@ -57,9 +57,7 @@ only.
 * C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/6/8/9,
   https://llvm.org/[clang] 3/7)
 * https://cmake.org/[cmake] (at least: 3.2)
-* https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
 * https://github.com/badaix/popl[popl] (tested: 1.2)
-* http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)
 * https://pocoproject.org/[POCO] (tested: 1.9 / 1.7)
 * http://vsqlite.virtuosic-bytes.com/[vsqlite++] (tested: 0.3)
 * http://www.icu-project.org/[ICU] (tested: 64.2 / 57.1)
@@ -74,8 +72,7 @@ only.
 [source,zsh]
 ----
 apt-get update
-apt-get install g++-6 cmake pkg-config libpoco-dev libxdg-basedir-dev \
-    libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc
+apt-get install g++-6 cmake libpoco-dev libvsqlitepp-dev libicu-dev asciidoc
 # Inside the source directory:
 wget -O src/cli/popl.hpp https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
 export CXX="g++-6"
