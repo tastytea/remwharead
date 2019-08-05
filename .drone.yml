@@ -116,22 +116,19 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
-- name: clang6
-  image: debian:stretch-slim
+- name: clang7
+  image: debian:buster-slim
   pull: always
   environment:
-    CXX: clang++-6.0
+    CXX: clang++
     CXXFLAGS: -pipe -O2
     LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
-  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
-  - echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/stretch.list
   - apt-get update -q
-  - apt-get install -qy -t stretch-backports clang-6.0
-  - apt-get install -qy -t stretch cmake pkg-config
-  - apt-get install -qy -t stretch libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy clang cmake pkg-config
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1

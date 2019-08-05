@@ -55,7 +55,7 @@ only.
 
 * Tested OS: Linux
 * C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/6/8/9,
-  https://llvm.org/[clang] 3/6)
+  https://llvm.org/[clang] 3/7)
 * https://cmake.org/[cmake] (at least: 3.2)
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
 * https://github.com/badaix/popl[popl] (tested: 1.2)
