@@ -1,5 +1,7 @@
 include(GNUInstallDirs)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)
 find_package(ICU COMPONENTS uc i18n REQUIRED)
 # Some distributions do not contain Poco*Config.cmake recipes.
 find_package(Poco COMPONENTS Foundation Net NetSSL CONFIG)
@@ -21,7 +23,7 @@ target_include_directories(${PROJECT_NAME}
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 target_link_libraries(${PROJECT_NAME}
-  PRIVATE ICU::uc ICU::i18n
+  PRIVATE PkgConfig::libxdg-basedir ICU::uc ICU::i18n
   PUBLIC vsqlitepp stdc++fs)
 
 # If no Poco*Config.cmake recipes are found, look for headers in standard dirs.

@@ -17,7 +17,7 @@
 #include <exception>
 #include <iostream>
 #include <algorithm>
-#include <Poco/Path.h>
+#include <basedir.h>
 #include <sqlite/execute.hpp>
 #include <sqlite/query.hpp>
 #include "time.hpp"
@@ -33,7 +33,10 @@ namespace remwharead
     {
         try
         {
-            _dbpath = Poco::Path::dataHome() / fs::path("remwharead");
+            xdgHandle xdg;
+            xdgInitHandle(&xdg);
+            _dbpath = xdgDataHome(&xdg) / fs::path("remwharead");
+            xdgWipeHandle(&xdg);
 
             if (!fs::exists(_dbpath))
             {
