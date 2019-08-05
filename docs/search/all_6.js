@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['get',['get',['../classremwharead_1_1URI.html#a8d6ac084a823749ed38c12e7bf8f3461',1,'remwharead::URI']]]
+  ['make_5frequest',['make_request',['../classremwharead_1_1URI.html#a2eadd0b24e6a37c8c42d710707bbfedf',1,'remwharead::URI']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['database',['Database',['../classremwharead_1_1Database.html',1,'remwharead::Database'],['../classremwharead_1_1Database.html#a8576436b2cc1e3d8ecfdeabfc0ff88ca',1,'remwharead::Database::Database()']]]
+  ['fulltext_5foneline',['fulltext_oneline',['../structremwharead_1_1Database_1_1entry.html#a0e19bad458eedf6ecdcf4b33ce319e8d',1,'remwharead::Database::entry']]]
 ];
