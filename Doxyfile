@@ -1,7 +1,7 @@
 # -*- mode: conf-unix -*-
 PROJECT_NAME           = "remwharead"
 PROJECT_NUMBER         = 0.0.0
-INPUT                  = src/lib/ src/lib/export/
+INPUT                  = src/lib/ src/lib/export/ include/
 # EXAMPLE_PATH           = examples/
 EXAMPLE_RECURSIVE      = YES
 GENERATE_HTML          = YES

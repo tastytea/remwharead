@@ -29,7 +29,14 @@
  *  #include <remwharead/remwharead.hpp>
  *  @endcode
  *
- *  Compile your code with `g++ $(pkg-config --cflags --libs remwharead)`.
+ *  Use it in your CMake project like this:
+ *
+ *  @code
+ *  find_package(remwharead CONFIG REQUIRED)
+ *  target_link_libraries(MyProject remwharead::remwharead)
+ *  @endcode
+ *
+ *  Or compile your code with `g++ $(pkg-config --cflags --libs remwharead)`.
  */
 
 #include "export/adoc.hpp"
