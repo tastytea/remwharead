@@ -41,7 +41,7 @@ public:
 
 protected:
     void defineOptions(OptionSet& options);
-    void handle_info(const std::string &name, const std::string &value);
+    void handle_info(const std::string &name, const std::string &);
     void handle_options(const std::string &name, const std::string &value);
     void print_help();
     void print_version();
