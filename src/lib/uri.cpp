@@ -28,12 +28,12 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
 #include <Poco/Environment.h>
+#include "Poco/Exception.h"
 #include "version.hpp"
 #include "uri.hpp"
 
 namespace remwharead
 {
-    using std::uint64_t;
     using std::cerr;
     using std::endl;
     using std::regex;
@@ -52,6 +52,11 @@ namespace remwharead
     using Poco::Net::HTTPMessage;
     using Poco::StreamCopier;
     using Poco::Environment;
+
+    html_extract::operator bool()
+    {
+        return successful;
+    }
 
     URI::URI(const string &uri)
         :_uri(uri)
@@ -73,6 +78,7 @@ namespace remwharead
             {
                 proxy_env = proxy_env.substr(0, pos);
             }
+
             if ((pos = proxy_env.find(':')) != string::npos)
             {
                 proxy.host = proxy_env.substr(0, pos);
@@ -100,30 +106,25 @@ namespace remwharead
     {
         try
         {
-            std::ostringstream oss;
-
             const string answer = make_request(_uri);
-            if (answer.empty())
-            {
-                cerr << "Error: Could not download page.\n";
-            }
-            else
+            if (!answer.empty())
             {
                 return
                     {
+                        true,
+                        "",
                         extract_title(answer),
                         extract_description(answer),
                         strip_html(answer)
                     };
             }
         }
-        catch (const std::exception &e)
+        catch (const Poco::Exception &e)
         {
-            // Prints something like "SSL Exception", nothing specific.
-            cerr << "Error in " << __func__ << ": " << e.what() << endl;
+            return { false, e.displayText(), "", "", "" };
         }
 
-        return { "", "", "" };
+        return { false, "Unknown error.", "", "", "" };
     }
 
     const string URI::make_request(const string &uri) const

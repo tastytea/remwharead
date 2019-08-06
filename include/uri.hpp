@@ -26,15 +26,21 @@ namespace remwharead
     /*!
      *  @brief  A processed HTML page.
      *
-     *  @since  0.6.0
+     *  @return true if successful, when cast to bool.
+     *
+     *  @since  0.7.0
      *
      *  @headerfile uri.hpp remwharead/uri.hpp
      */
     typedef struct html_extract
     {
+        bool successful = false;
+        string error;
         string title;
         string description;
         string fulltext;
+
+        operator bool();
     } html_extract;
 
     /*!

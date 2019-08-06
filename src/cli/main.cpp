@@ -59,9 +59,10 @@ int main(const int argc, const char *argv[])
     {
         URI uri(opts.uri);
         html_extract page = uri.get();
-        if (page.fulltext.empty())
+        if (!page)
         {
             cerr << "Error: Could not fetch page.\n";
+            cerr << page.error << endl;
             return 4;
         }
         string archive_uri;
