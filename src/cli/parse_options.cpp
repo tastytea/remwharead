@@ -186,7 +186,7 @@ void App::print_help()
     HelpFormatter helpFormatter(options());
     helpFormatter.setCommand(commandName());
     helpFormatter.setUsage("[-t tags] [-N] URI\n"
-                           "-e format [-f file] [-T start,end]\n"
+                           "-e format [-f file] [-T start,end] "
                            "[[-s|-S] expression] [-r]");
     helpFormatter.format(cout);
 }
