@@ -31,7 +31,7 @@ else()
       "but the files seem to be in the standard directories. "
       "Let's hope this works.")
     target_link_libraries(${PROJECT_NAME}-cli
-      PRIVATE PocoUtil)
+      PRIVATE PocoFoundation PocoUtil)
   endif()
 endif()
 
