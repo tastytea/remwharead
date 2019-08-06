@@ -95,7 +95,7 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        const string to_lowercase(const string &str) const;
+        inline const string to_lowercase(const string &str) const;
     };
 }
 

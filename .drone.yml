@@ -31,7 +31,7 @@ steps:
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
   - apt-get install -qy g++-6 cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES -DWITH_MOZILLA=YES ..
@@ -61,7 +61,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t xenial g++-5
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -88,7 +88,7 @@ steps:
   - apt-get update -q
   - apt-get install -qy -t xenial g++-9
   - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -108,7 +108,7 @@ steps:
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
   - apt-get install -qy clang cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -128,7 +128,7 @@ steps:
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
   - apt-get install -qy clang cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -185,7 +185,7 @@ steps:
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
   - apt-get install -qy g++-6 cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev libicu-dev asciidoc catch
+  - apt-get install -qy libpoco-dev libxdg-basedir-dev libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc catch
   - apt-get install -qy build-essential file
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DMOZILLA_NMH_DIR="lib/mozilla/native-messaging-hosts" -DWITH_DEB=YES ..

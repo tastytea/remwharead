@@ -17,7 +17,7 @@
 #include <regex>
 #include <algorithm>
 #include <locale>
-#include <unicode/unistr.h>
+#include <Poco/UTF8String.h>
 #include "search.hpp"
 
 namespace remwharead
@@ -69,10 +69,7 @@ namespace remwharead
 
     const string Search::to_lowercase(const string &str) const
     {
-        icu::UnicodeString uni(str.c_str());
-        string out;
-        uni.toLower().toUTF8String(out);
-        return out;
+        return Poco::UTF8::toLower(str);
     }
 
     const vector<DB::entry> Search::search_tags(string expression,
