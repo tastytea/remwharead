@@ -169,7 +169,13 @@ namespace remwharead
         case 303:               // HTTPResponse::HTTP_SEE_OTHER
         case 307:               // HTTPResponse::HTTP_TEMPORARY_REDIRECT
         {
-            return make_request(response.get("Location"));
+            string location = response.get("Location");
+            if (location.substr(0, 4) != "http")
+            {
+                location = poco_uri.getScheme() + "://" + poco_uri.getHost()
+                    + location;
+            }
+            return make_request(location);
         }
         case HTTPResponse::HTTP_OK:
         {
