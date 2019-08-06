@@ -18,10 +18,9 @@
 #include <string>
 #include <chrono>
 #include <fstream>
-#include <memory>
 #include <locale>
 #include "sqlite.hpp"
-#include "parse_options.hpp"
+#include "remwharead_cli.hpp"
 #include "uri.hpp"
 #include "types.hpp"
 #include "export/csv.hpp"
@@ -31,42 +30,60 @@
 #include "search.hpp"
 
 using namespace remwharead;
-using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
 using std::chrono::system_clock;
+using std::ofstream;
 
-int main(const int argc, const char *argv[])
+int App::main(const std::vector<std::string> &args)
 {
     std::locale::global(std::locale("")); // Set locale globally.
 
-    options opts = parse_options(argc, argv);
-    if (opts.status_code != 0)
+    if (_version_requested)
     {
-        return opts.status_code;
+        print_version();
+    }
+    else if (_help_requested)
+    {
+        print_help();
+    }
+    else
+    {
+        if (_argument_error)
+        {
+            return Application::EXIT_USAGE;
+        }
+        if (args.size() > 0)
+        {
+            _uri = args[0];
+        }
+        if (_uri.empty() && _format == export_format::undefined)
+        {
+            cerr << "Error: You have to specify either URI or --export.\n";
+            return Application::EXIT_USAGE;
+        }
     }
 
     Database db;
-
     if (!db)
     {
         cerr << "Error: Database connection failed.\n";
-        return 2;
+        return Application::EXIT_IOERR;
     }
 
-    if (!opts.uri.empty())
+    if (!_uri.empty())
     {
-        URI uri(opts.uri);
+        URI uri(_uri);
         html_extract page = uri.get();
         if (!page)
         {
             cerr << "Error: Could not fetch page.\n";
             cerr << page.error << endl;
-            return 4;
+            return Application::EXIT_UNAVAILABLE;
         }
         archive_answer archive;
-        if (opts.archive)
+        if (_archive)
         {
             archive = uri.archive();
             if (!archive)
@@ -74,35 +91,36 @@ int main(const int argc, const char *argv[])
                 cerr << "Error archiving URL: " << archive.error << endl;
             }
         }
-        db.store({opts.uri, archive.uri, system_clock::now(), opts.tags,
+        db.store({_uri, archive.uri, system_clock::now(), _tags,
                   page.title, page.description, page.fulltext});
     }
 
-    std::ofstream file;
-    if (!opts.file.empty())
+    ofstream file;
+    if (!_file.empty())
     {
-        file.open(opts.file);
+        file.open(_file);
         if (!file.good())
         {
-            cerr << "Error: Could not open file: " << opts.file << endl;
-            return 3;
+            cerr << "Error: Could not open file: " << _file << endl;
+            return Application::EXIT_IOERR;
         }
     }
-    if (opts.format != export_format::undefined)
+
+    if (_format != export_format::undefined)
     {
         vector<Database::entry> entries;
-        Search search(db.retrieve(opts.span[0], opts.span[1]));
+        Search search(db.retrieve(_timespan[0], _timespan[1]));
 
-        if (!opts.search_tags.empty())
+        if (!_search_tags.empty())
         {
-            entries = search.search_tags(opts.search_tags, opts.regex);
+            entries = search.search_tags(_search_tags, _regex);
         }
-        else if (!opts.search_all.empty())
+        else if (!_search_all.empty())
         {
-            entries = search.search_all(opts.search_all, opts.regex);
+            entries = search.search_all(_search_all, _regex);
         }
 
-        switch (opts.format)
+        switch (_format)
         {
         case export_format::csv:
         {
@@ -163,5 +181,7 @@ int main(const int argc, const char *argv[])
         }
     }
 
-    return 0;
+    return Application::EXIT_OK;
 }
+
+POCO_APP_MAIN(App)

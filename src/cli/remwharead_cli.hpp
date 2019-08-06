@@ -21,7 +21,8 @@
 #include <vector>
 #include <array>
 #include <chrono>
-#include <cstdint>
+#include <Poco/Util/Application.h>
+#include <Poco/Util/OptionSet.h>
 #include "types.hpp"
 #include "time.hpp"
 
@@ -31,26 +32,34 @@ using std::vector;
 using std::array;
 using std::chrono::system_clock;
 using time_point = system_clock::time_point;
-using std::uint8_t;
+using Poco::Util::OptionSet;
 
-typedef struct options
+class App : public Poco::Util::Application
 {
-    vector<string> tags;
-    export_format format = export_format::undefined;
-    string file;
-    array<time_point, 2> span = {{ time_point(), system_clock::now() }};
-    string uri;
-    string search_tags;
-    string search_all;
-    bool regex = false;
-    bool archive = true;
-    uint8_t status_code = 0;
+public:
+    App();
 
-    options();
-    explicit options(const uint8_t &status);
-} options;
+protected:
+    void defineOptions(OptionSet& options);
+    void handle_info(const std::string &name, const std::string &value);
+    void handle_options(const std::string &name, const std::string &value);
+    void print_help();
+    void print_version();
+    int main(const std::vector<std::string> &args);
 
-// Parse command-line options.
-const options parse_options(const int argc, const char *argv[]);
+private:
+    bool _help_requested;
+    bool _version_requested;
+    bool _argument_error;
+    string _uri;
+    vector<string> _tags;
+    export_format _format;
+    string _file;
+    array<time_point, 2> _timespan;
+    string _search_tags;
+    string _search_all;
+    bool _archive;
+    bool _regex;
+};
 
 #endif  // REMWHAREAD_PARSE_OPTIONS_HPP

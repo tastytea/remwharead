@@ -13,12 +13,6 @@ trigger:
     - tag
 
 steps:
-- name: download
-  image: plugins/download
-  settings:
-    source: https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
-    destination: src/cli/popl.hpp
-
 - name: gcc6
   image: debian:stretch-slim
   pull: always
@@ -167,12 +161,6 @@ trigger:
     - tag
 
 steps:
-- name: download
-  image: plugins/download
-  settings:
-    source: https://raw.githubusercontent.com/badaix/popl/v1.2.0/include/popl.hpp
-    destination: src/cli/popl.hpp
-
 - name: deb
   image: debian:stretch-slim
   pull: always
