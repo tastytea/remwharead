@@ -49,30 +49,30 @@ void App::defineOptions(OptionSet& options)
         .callback(OptionCallback<App>(this, &App::handle_info)));
     options.addOption(
         Option("tags", "t", "Add tags to URI, delimited by commas.")
-        .argument("Tags")
+        .argument("tags")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("export", "e", "Export to format.")
-        .argument("Format")
+        .argument("format")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("file", "f", "Save output to file.")
-        .argument("File")
+        .argument("file")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("time-span", "T",
                "Only export entries between YYYY-MM-DD,YYYY-MM-DD.")
-        .argument("Times")
+        .argument("times")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("search-tags", "s",
                "Search in tags. Format: tag1 AND tag2 OR tag3.")
-        .argument("Expression")
+        .argument("expression")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("search-all", "S",
                "Search in tags, title, description and full text.")
-        .argument("Expression")
+        .argument("expression")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("regex", "r", "Use regular expression for search."));

@@ -60,7 +60,7 @@ int App::main(const std::vector<std::string> &args)
         }
         if (_uri.empty() && _format == export_format::undefined)
         {
-            cerr << "Error: You have to specify either URI or --export.\n";
+            cerr << "Error: You have to specify either an URI or --export.\n";
             return Application::EXIT_USAGE;
         }
     }
