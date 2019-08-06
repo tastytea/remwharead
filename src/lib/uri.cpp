@@ -130,9 +130,11 @@ namespace remwharead
         return { false, "Unknown error.", "", "", "" };
     }
 
-    const string URI::make_request(const string &uri) const
+    const string URI::make_request(const string &uri, bool archive) const
     {
         Poco::URI poco_uri(uri);
+        string method =
+            archive ? HTTPRequest::HTTP_HEAD : HTTPRequest::HTTP_GET;
         string path = poco_uri.getPathAndQuery();
         if (path.empty())
         {
@@ -151,8 +153,7 @@ namespace remwharead
                                                      poco_uri.getPort());
         }
 
-        HTTPRequest request(HTTPRequest::HTTP_GET, path,
-                            HTTPMessage::HTTP_1_1);
+        HTTPRequest request(method, path, HTTPMessage::HTTP_1_1);
         request.set("User-Agent", string("remwharead/") + global::version);
 
         HTTPResponse response;
@@ -180,7 +181,14 @@ namespace remwharead
         case HTTPResponse::HTTP_OK:
         {
             string answer;
-            StreamCopier::copyToString(rs, answer);
+            if (archive)
+            {
+                answer = response.get("Content-Location");
+            }
+            else
+            {
+                StreamCopier::copyToString(rs, answer);
+            }
             return answer;
         }
         default:
@@ -586,12 +594,11 @@ namespace remwharead
         try
         {
             const string answer = make_request("https://web.archive.org/save/"
-                                                + _uri);
+                                               + _uri, true);
 
-            smatch match;
-            if (regex_search(answer, match, regex("Content-Location: (.+)\r")))
+            if (!answer.empty())
             {
-                return { true, "", "https://web.archive.org" + match[1].str() };
+                return { true, "", "https://web.archive.org" + answer };
             }
         }
         catch (const Poco::Exception &e)

@@ -85,7 +85,8 @@ namespace remwharead
         string _uri;
 
         //! Make a HTTP(S) request.
-        const string make_request(const string &uri) const;
+        const string make_request(const string &uri,
+                                  bool archive = false) const;
 
         //! Extract the title from an HTML page.
         const string extract_title(const string &html);
