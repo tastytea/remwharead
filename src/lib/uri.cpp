@@ -34,8 +34,6 @@
 
 namespace remwharead
 {
-    using std::cerr;
-    using std::endl;
     using std::regex;
     using std::regex_replace;
     using std::regex_search;
@@ -54,6 +52,11 @@ namespace remwharead
     using Poco::Environment;
 
     html_extract::operator bool()
+    {
+        return successful;
+    }
+
+    archive_answer::operator bool()
     {
         return successful;
     }
@@ -176,7 +179,7 @@ namespace remwharead
         }
         default:
         {
-            cerr << response.getStatus() << " " << response.getReason() << endl;
+            throw Poco::Exception(response.getReason());
             return "";
         }
         }
@@ -228,6 +231,7 @@ namespace remwharead
 
         return unescape_html(out);
     }
+
     const string URI::remove_html_tags(const string &html, const string &tag)
     {
         // NOTE: I did this with regex_replace before, but libstdc++ segfaulted.
@@ -566,11 +570,11 @@ namespace remwharead
         return output;
     }
 
-    const string URI::archive()
+    const archive_answer URI::archive()
     {
         if (_uri.substr(0, 4) != "http")
         {
-            return "";
+            return { false, "Only HTTP(S) is archivable.", "" };
         }
 
         try
@@ -581,19 +585,15 @@ namespace remwharead
             smatch match;
             if (regex_search(answer, match, regex("Content-Location: (.+)\r")))
             {
-                return "https://web.archive.org" + match[1].str();
-            }
-            else
-            {
-                cerr << "Error: Could not archive page.\n";
+                return { true, "", "https://web.archive.org" + match[1].str() };
             }
         }
-        catch (const std::exception &e)
+        catch (const Poco::Exception &e)
         {
-            cerr << "Error in " << __func__ << ": " << e.what() << ".\n";
+            return { false, e.displayText(), "" };
         }
 
-        return "";
+        return { false, "Unknown error.", "" };
     }
 
     const string URI::remove_newlines(string text)

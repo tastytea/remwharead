@@ -65,12 +65,16 @@ int main(const int argc, const char *argv[])
             cerr << page.error << endl;
             return 4;
         }
-        string archive_uri;
+        archive_answer archive;
         if (opts.archive)
         {
-            archive_uri = uri.archive();
+            archive = uri.archive();
+            if (!archive)
+            {
+                cerr << "Error archiving URL: " << archive.error << endl;
+            }
         }
-        db.store({opts.uri, archive_uri, system_clock::now(), opts.tags,
+        db.store({opts.uri, archive.uri, system_clock::now(), opts.tags,
                   page.title, page.description, page.fulltext});
     }
 

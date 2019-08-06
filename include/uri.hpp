@@ -44,6 +44,24 @@ namespace remwharead
     } html_extract;
 
     /*!
+     *  @brief  The result of the call to the archive service.
+     *
+     *  @return true if successful, when cast to bool.
+     *
+     *  @since  0.7.0
+     *
+     *  @headerfile uri.hpp remwharead/uri.hpp
+     */
+    typedef struct archive_answer
+    {
+        bool successful = false;
+        string error;
+        string uri;
+
+        operator bool();
+    } archive_answer;
+
+    /*!
      *  @brief  Download, archive and process an %URI.
      *
      *  @since  0.6.0
@@ -61,7 +79,7 @@ namespace remwharead
         const html_extract get();
 
         //! Save %URI in archive and return archive-URI.
-        const string archive();
+        const archive_answer archive();
 
     protected:
         string _uri;
