@@ -79,35 +79,35 @@ int launch(const string &args)
 int main()
 {
     string args = read_input();
-    size_t pos = args.find("TEMPFILE");
-    string tmpfile;
+    // size_t pos = args.find("TEMPFILE");
+    // string tmpfile;
 
-    if (pos != string::npos)
-    {
-        try
-        {
-            tmpfile = fs::temp_directory_path() / "remwharead.html";
-            args.replace(pos, 8, tmpfile);
-        }
-        catch (const fs::filesystem_error &e)
-        {
-            send_message("Could not create temporary file.");
-            return 3;
-        }
-    }
+    // if (pos != string::npos)
+    // {
+    //     try
+    //     {
+    //         tmpfile = fs::temp_directory_path() / "remwharead.html";
+    //         args.replace(pos, 8, tmpfile);
+    //     }
+    //     catch (const fs::filesystem_error &e)
+    //     {
+    //         send_message("Could not create temporary file.");
+    //         return 3;
+    //     }
+    // }
 
     int ret = launch(args);
 
     if (ret == 0)
     {
-        if (!tmpfile.empty())
-        {
-            send_message("FILE:" + tmpfile);
-        }
-        else
-        {
+        // if (!tmpfile.empty())
+        // {
+        //     send_message("FILE:" + tmpfile);
+        // }
+        // else
+        // {
             send_message("Command successful.");
-        }
+        // }
     }
     else
     {
