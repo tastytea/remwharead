@@ -28,7 +28,12 @@ namespace remwharead
     using std::find;
     using std::find_if;
 
-    const vector<vector<string>> parse_expression(string expression)
+    Search::Search(const vector<Database::entry> &entries)
+        :_entries(entries)
+    {}
+
+    const vector<vector<string>> Search::parse_expression(string expression)
+        const
     {
         vector<vector<string>> searchlist;
         const regex re_or("(.+?) (OR|\\|\\|) ");
@@ -62,7 +67,7 @@ namespace remwharead
         return searchlist;
     }
 
-    const string to_lowercase(const string &str)
+    const string Search::to_lowercase(const string &str) const
     {
         icu::UnicodeString uni(str.c_str());
         string out;
@@ -70,15 +75,15 @@ namespace remwharead
         return out;
     }
 
-    const vector<DB::entry> search_tags(const vector<DB::entry> &entries,
-                                        string expression, const bool is_re)
+    const vector<DB::entry> Search::search_tags(string expression,
+                                                const bool is_re) const
     {
         vector<vector<string>> searchlist = parse_expression(expression);
         vector<DB::entry> result;
 
         for (const vector<string> &tags_or : searchlist)
         {
-            for (const DB::entry &entry : entries)
+            for (const DB::entry &entry : _entries)
             {           // Add entry to result if all tags in an OR-slice match.
                 bool matched = true;
 
@@ -86,7 +91,7 @@ namespace remwharead
                 {
                     const auto it = find_if(
                         entry.tags.begin(), entry.tags.end(),
-                        [&tag, is_re](string s)
+                        [&, is_re](string s)
                         {
                             s = to_lowercase(s);
                             if (is_re)
@@ -114,15 +119,15 @@ namespace remwharead
         return result;
     }
 
-    const vector<DB::entry> search_all(const vector<DB::entry> &entries,
-                                       string expression, const bool is_re)
+    const vector<DB::entry> Search::search_all(string expression,
+                                               const bool is_re) const
     {
         vector<vector<string>> searchlist = parse_expression(expression);
-        vector<DB::entry> result = search_tags(entries, expression, is_re);
+        vector<DB::entry> result = search_tags(expression, is_re);
 
         for (const vector<string> &terms_or : searchlist)
         {
-            for (const DB::entry &entry : entries)
+            for (const DB::entry &entry : _entries)
             {
                 // Add entry to result if all terms in an OR-slice match title,
                 // description or full text.

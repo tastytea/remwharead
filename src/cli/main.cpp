@@ -85,15 +85,16 @@ int main(const int argc, const char *argv[])
     }
     if (opts.format != export_format::undefined)
     {
-        vector<Database::entry> entries =
-            db.retrieve(opts.span[0], opts.span[1]);
+        vector<Database::entry> entries;
+        Search search(db.retrieve(opts.span[0], opts.span[1]));
+
         if (!opts.search_tags.empty())
         {
-            entries = search_tags(entries, opts.search_tags, opts.regex);
+            entries = search.search_tags(opts.search_tags, opts.regex);
         }
         else if (!opts.search_all.empty())
         {
-            entries = search_all(entries, opts.search_all, opts.regex);
+            entries = search.search_all(opts.search_all, opts.regex);
         }
 
         switch (opts.format)

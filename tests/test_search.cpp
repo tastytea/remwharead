@@ -39,17 +39,18 @@ SCENARIO ("Searching works correctly")
     entry.datetime = system_clock::time_point();
     entry.fulltext = "Full text.";
     entry.description = "Good description.";
+    Search search({ entry });
 
     WHEN ("Searching in tags")
     {
         try
         {
-            if (search_tags({ entry }, "tAg1_ö", false).size() != 1)
+            if (search.search_tags("tAg1_Ö", false).size() != 1)
             {
                 search_ok = false;
             }
 
-            if (search_tags({ entry }, "tAg?[0-9]_ö", true).size() != 1)
+            if (search.search_tags( "tAg?[0-9]_ö", true).size() != 1)
             {
                 search_ok = false;
             }
@@ -71,12 +72,12 @@ SCENARIO ("Searching works correctly")
     {
         try
         {
-            if (search_all({ entry }, "DESCRIPT AND good", false).size() != 1)
+            if (search.search_all("DESCRIPT AND good", false).size() != 1)
             {
                 search_ok = false;
             }
 
-            if (search_all({ entry }, "^ful{2} T..T\\.$", true).size() != 1)
+            if (search.search_all("^ful{2} T..T\\.$", true).size() != 1)
             {
                 search_ok = false;
             }

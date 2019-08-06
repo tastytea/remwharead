@@ -21,42 +21,44 @@
 #include <string>
 #include "sqlite.hpp"
 
-//! @file
-
 namespace remwharead
 {
     using std::vector;
     using std::string;
 
     /*!
-     *  @brief  Split expression in subexpressions.
+     *  @brief  Search in database entries.
      *
-     *  First it splits at `OR` or `||`, then it splits the subexpressions at
-     *  `AND` or `&&`. The first vector contains all tags before the first `OR`.
+     *  @since  0.7.0
      *
-     *  @return Vector of `OR`-vectors of `AND`-tags.
+     *  @headerfile search.hpp remwharead/search.hpp
      */
-    const vector<vector<string>> parse_expression(string expression);
+    class Search
+    {
+    public:
+        /*!
+         *  @brief  Defines the entries to search.
+         *
+         *  @since  0.7.0
+         */
+        explicit Search(const vector<Database::entry> &entries);
 
-    //! Convert str to lowercase. Works with unicode.
-    const string to_lowercase(const string &str);
+        /*!
+         *  @brief  Search in tags of database entries.
+         *
+         *  Only matches whole tags, *Pill* does not match *Pillow*.
+         *
+         *  @param  expression Search expression.
+         *  @param  is_re      Is it a regular expression?
+         *
+         *  @return Vector of matching Database::entry.
+         *
+         *  @since  0.7.0
+         */
+        const vector<Database::entry> search_tags(string expression,
+                                                  const bool is_re) const;
 
-    /*!
-     *  @brief  Search in tags of database entries.
-     *
-     *  Only matches whole tags, *Pill* does not match *Pillow*.
-     *
-     *  @param  entries    Vector of Database::entry to search.
-     *  @param  expression Search expression.
-     *  @param  is_re      Is it a regular expression?
-     *
-     *  @return Vector of matching Database::entry.
-     */
-    const vector<Database::entry>
-    search_tags(const vector<Database::entry> &entries, string expression,
-                const bool is_re);
-
-    /*!
+        /*!
      *  @brief  Search in full text of database entries.
      *
      *  Searches in tags, title, description and full text.
@@ -66,10 +68,35 @@ namespace remwharead
      *  @param  is_re      Is it a regular expression?
      *
      *  @return Vector of matching Database::entry.
+     *
+     *  @since  0.7.0
      */
-    const vector<Database::entry>
-    search_all(const vector<Database::entry> &entries, string expression,
-               const bool is_re);
+    const vector<Database::entry> search_all(string expression,
+                                             const bool is_re) const;
+
+    private:
+        const vector<Database::entry> _entries;
+
+        /*!
+         *  @brief  Split expression into subexpressions.
+         *
+         *  First it splits at `OR` or `||`, then it splits the subexpressions
+         *  at `AND` or `&&`. The first vector contains all tags before the
+         *  first `OR`.
+         *
+         *  @return Vector of `OR`-vectors of `AND`-tags.
+         *
+         *  @since  0.7.0
+         */
+        const vector<vector<string>> parse_expression(string expression) const;
+
+        /*!
+         *  @brief  Convert str to lowercase. Works with unicode.
+         *
+         *  @since  0.7.0
+         */
+        const string to_lowercase(const string &str) const;
+    };
 }
 
 #endif  // REMWHAREAD_SEARCH_HPP
