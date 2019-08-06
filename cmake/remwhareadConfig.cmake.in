@@ -3,6 +3,8 @@ include(GNUInstallDirs)
 
 find_dependency(ICU COMPONENTS uc i18n REQUIRED)
 find_depencency(Poco COMPONENTS Foundation Net NetSSL CONFIG REQUIRED)
+find_dependency(PkgConfig REQUIRED)
+pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)
 
 find_file(vsqlitepp NAMES "sqlite/connection.hpp"
   PATHS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
