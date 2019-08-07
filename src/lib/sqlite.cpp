@@ -18,8 +18,8 @@
 #include <iostream>
 #include <algorithm>
 #include <basedir.h>
-#include <sqlite/execute.hpp>
-#include <sqlite/query.hpp>
+#include <Poco/Data/Session.h>
+#include <Poco/Data/SQLite/Connector.h>
 #include "time.hpp"
 #include "sqlite.hpp"
 
@@ -27,6 +27,8 @@ namespace remwharead
 {
     using std::cerr;
     using std::endl;
+    using namespace Poco::Data::Keywords;
+    using Poco::Data::Statement;
 
     Database::Database()
         : _connected(false)
@@ -44,11 +46,11 @@ namespace remwharead
             }
             _dbpath /= "database.sqlite";
 
-            _con = std::make_unique<sqlite::connection>(_dbpath);
-            sqlite::execute(*_con, "CREATE TABLE IF NOT EXISTS remwharead("
-                            "uri TEXT, archive_uri TEXT, datetime TEXT, "
-                            "tags TEXT, title TEXT, description TEXT, "
-                            "fulltext TEXT);", true);
+            Poco::Data::SQLite::Connector::registerConnector();
+            _session = std::make_unique<Session>("SQLite", _dbpath);
+            *_session << "CREATE TABLE IF NOT EXISTS remwharead("
+                "uri TEXT, archive_uri TEXT, datetime TEXT, "
+                "tags TEXT, title TEXT, description TEXT, fulltext TEXT);", now;
 
             _connected = true;
         }
@@ -72,7 +74,7 @@ namespace remwharead
     {
         string oneline = fulltext;
         size_t pos = 0;
-        while ((pos = oneline.find('\n', pos)) != std::string::npos)
+        while ((pos = oneline.find('\n', pos)) != string::npos)
         {
             oneline.replace(pos, 1, "\\n");
         }
@@ -85,6 +87,8 @@ namespace remwharead
         {
             const string strdatetime = timepoint_to_string(data.datetime, true);
             string strtags;
+            Statement insert(*_session);
+
             for (const string &tag : data.tags)
             {
                 strtags += tag;
@@ -94,11 +98,13 @@ namespace remwharead
                 }
             }
 
-            sqlite::execute ins(*_con, "INSERT INTO remwharead "
-                                "VALUES(?, ?, ?, ?, ?, ?, ?);");
-            ins % data.uri % data.archive_uri % strdatetime % strtags
-                % data.title % data.description % data.fulltext;
-            ins();
+            // useRef() uses the const reference.
+            insert << "INSERT INTO remwharead "
+                "VALUES(?, ?, ?, ?, ?, ?, ?);",
+                useRef(data.uri), useRef(data.archive_uri),
+                useRef(strdatetime), useRef(strtags), useRef(data.title),
+                useRef(data.description), useRef(data.fulltext);
+            insert.execute();
         }
         catch (std::exception &e)
         {
@@ -111,40 +117,46 @@ namespace remwharead
     {
         try
         {
-            const string query = "SELECT * FROM remwharead WHERE datetime "
-                "BETWEEN '" + timepoint_to_string(start, true)
-                +  "' AND '" + timepoint_to_string(end, true)
-                + "' ORDER BY datetime DESC;";
+            Database::entry entrybuf;
+            string datetime, strtags;
+            Statement select(*_session);
 
-            sqlite::query q(*_con, query);
-            sqlite::result_type res = q.get_result();
+            // bind() copies the value.
+            select << "SELECT * FROM remwharead WHERE datetime "
+                "BETWEEN ? AND ? ORDER BY datetime DESC;",
+                bind(timepoint_to_string(start, true)),
+                bind(timepoint_to_string(end, true)),
+                into(entrybuf.uri), into(entrybuf.archive_uri), into(datetime),
+                into(strtags), into(entrybuf.title), into(entrybuf.description),
+                into(entrybuf.fulltext), range(0, 1);
+
             vector<entry> entries;
 
-            while(res->next_row())
+            while(!select.done())
             {
+                select.execute();
+
+                entrybuf.datetime = string_to_timepoint(datetime);
+
                 vector<string> tags;
-                const string strtags = res->get_string(3);
                 size_t pos = 0;
-                while (pos != std::string::npos)
+                while (pos != string::npos)
                 {
                     const size_t newpos = strtags.find(',', pos);
-                    tags.push_back(strtags.substr(pos, newpos - pos));
+                    const string tag = strtags.substr(pos, newpos - pos);
+                    if (!tag.empty())
+                    {
+                        tags.push_back(tag);
+                    }
                     pos = newpos;
-                    if (pos != std::string::npos)
+                    if (pos != string::npos)
                     {
                         ++pos;
                     }
                 }
-                entries.push_back
-                    ({
-                        res->get_string(0),
-                        res->get_string(1),
-                        string_to_timepoint(res->get_string(2), true),
-                        tags,
-                        res->get_string(4),
-                        res->get_string(5),
-                        res->get_string(6)
-                    });
+                entrybuf.tags = tags;
+
+                entries.push_back(entrybuf);
             }
 
             return entries;

@@ -113,7 +113,10 @@ void App::handle_options(const std::string &name, const std::string &value)
             {
                 buffer.erase(buffer.end() - 1);
             }
-            _tags.push_back(buffer);
+            if (!buffer.empty())
+            {
+                _tags.push_back(buffer);
+            }
             pos_start = pos_end + 1;
         }
     }

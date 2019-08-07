@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include <sqlite/connection.hpp>
+#include <Poco/Data/Session.h>
 
 namespace remwharead
 {
@@ -31,6 +31,7 @@ namespace remwharead
     using std::vector;
     using std::chrono::system_clock;
     using time_point = system_clock::time_point;
+    using Poco::Data::Session;
 
     /*!
      *  @brief  Store and retrieve files from/to SQLite.
@@ -82,7 +83,7 @@ namespace remwharead
 
     private:
         fs::path _dbpath;
-        std::unique_ptr<sqlite::connection> _con;
+        std::unique_ptr<Session> _session;
         bool _connected;
     };
 

@@ -60,7 +60,6 @@ only.
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
 * http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)
 * https://pocoproject.org/[POCO] (tested: 1.9 / 1.7)
-* http://vsqlite.virtuosic-bytes.com/[vsqlite++] (tested: 0.3)
 * Optional:
 ** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
 ** Tests: https://github.com/catchorg/Catch2[catch] (tested: 2.5 / 1.2)
@@ -72,8 +71,7 @@ only.
 [source,zsh]
 ----
 apt-get update
-apt-get install g++-6 cmake pkg-config libpoco-dev libxdg-basedir-dev \
-    libvsqlitepp-dev libboost-system-dev libboost-filesystem-dev asciidoc
+apt-get install g++-6 cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpkg
 export CXX="g++-6"
 ----
 ====
