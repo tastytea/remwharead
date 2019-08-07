@@ -108,8 +108,9 @@ int App::main(const std::vector<std::string> &args)
 
     if (_format != export_format::undefined)
     {
-        vector<Database::entry> entries;
-        Search search(db.retrieve(_timespan[0], _timespan[1]));
+        vector<Database::entry> entries = db.retrieve(_timespan[0],
+                                                      _timespan[1]);
+        Search search(entries);
 
         if (!_search_tags.empty())
         {
