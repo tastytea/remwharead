@@ -71,30 +71,61 @@ namespace remwharead
     class URI
     {
     public:
-        //! Construct object and set URL.
+        /*!
+         *  @brief  Construct object and set URL.
+         *
+         *  Initializes TLS and sets proxy from the environment variable
+         *  `http_proxy`, if possible.
+         *
+         *  @since  0.6.0
+         */
         explicit URI(const string &uri);
         virtual ~URI();
 
-        //! Download %URI and extract title, description and full text.
+        /*!
+         *  @brief  Download %URI and extract title, description and full text.
+         *
+         *  @since  0.6.0
+         */
         const html_extract get();
 
-        //! Save %URI in archive and return archive-URI.
+        /*!
+         *  @brief  Save %URI in archive and return archive-URI.
+         *
+         *  @since  0.6.0
+         */
         const archive_answer archive();
 
     protected:
         string _uri;
 
-        //! Make a HTTP(S) request.
+        /*!
+         *  @brief  Make a HTTP(S) request.
+         *
+         *  @since  0.6.0
+         */
         const string make_request(const string &uri,
                                   bool archive = false) const;
 
-        //! Extract the title from an HTML page.
+        /*!
+         *  @brief  Extract the title from an HTML page.
+         *
+         *  @since  0.6.0
+         */
         const string extract_title(const string &html);
 
-        //! Extract the description from an HTML page.
+        /*!
+         *  @brief  Extract the description from an HTML page.
+         *
+         *  @since  0.6.0
+         */
         const string extract_description(const string &html);
 
-        //! Removes HTML tags and superflous spaces from an HTML page.
+        /*!
+         *  @brief  Removes HTML tags and superflous spaces from an HTML page.
+         *
+         *  @since  0.6.0
+         */
         const string strip_html(const string &html);
 
         /*!
@@ -102,14 +133,24 @@ namespace remwharead
          *
          *  @param  html HTML page.
          *  @param  tag  If set, only remove this tag.
+         *
+         *  @since  0.6.0
          */
         const string remove_html_tags(const string &html,
                                       const string &tag = "");
 
-        //! Convert HTML entities to UTF-8.
+        /*!
+         *  @brief  Convert HTML entities to UTF-8.
+         *
+         *  @since  0.6.0
+         */
         const string unescape_html(const string &html);
 
-        //! Replace newlines with spaces.
+        /*!
+         *  @brief  Replace newlines with spaces.
+         *
+         *  @since  0.6.0
+         */
         const string remove_newlines(string text);
     };
 }

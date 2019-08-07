@@ -60,23 +60,48 @@ namespace remwharead
             string description;
             string fulltext;
 
-            //! Returns true if date and time are equal.
+            /*!
+             *  @brief  Returns true if date and time are equal.
+             *
+             *  @since  0.6.0
+             */
             friend bool operator ==(const Database::entry &a,
                                     const Database::entry &b);
-            //! The full text in one line.
+
+            /*!
+             *  @brief  The full text in one line.
+             *
+             *  @since  0.6.0
+             */
             const string fulltext_oneline() const;
         } entry;
 
-        //! Connects to the database and creates it if necessary.
+        /*!
+         *  @brief  Connects to the database and creates it if necessary.
+         *
+         *  @since  0.6.0
+         */
         Database();
 
-        //! Returns true if connected to the database.
+        /*!
+         *  @brief  Returns true if connected to the database.
+         *
+         *  @since  0.6.0
+         */
         operator bool() const;
 
-        //! Store a Database::entry in the database.
+        /*!
+         *  @brief  Store a Database::entry in the database.
+         *
+         *  @since  0.6.0
+         */
         void store(const entry &data) const;
 
-        //! Retrieve a vector of Database::entry from the database.
+        /*!
+         *  @brief  Retrieve a vector of Database::entry from the database.
+         *
+         *  @since  0.6.0
+         */
         const vector<entry> retrieve(
             const time_point &start = time_point(),
             const time_point &end = system_clock::now()) const;
