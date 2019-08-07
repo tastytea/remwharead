@@ -73,7 +73,7 @@ namespace remwharead
     public:
         //! Construct object and set URL.
         explicit URI(const string &uri);
-        ~URI();
+        virtual ~URI();
 
         //! Download %URI and extract title, description and full text.
         const html_extract get();
