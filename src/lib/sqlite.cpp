@@ -136,7 +136,7 @@ namespace remwharead
             {
                 select.execute();
 
-                entrybuf.datetime = string_to_timepoint(datetime);
+                entrybuf.datetime = string_to_timepoint(datetime, true);
 
                 vector<string> tags;
                 size_t pos = 0;
