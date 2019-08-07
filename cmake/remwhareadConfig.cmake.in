@@ -2,7 +2,7 @@ include(CMakeFindDependencyMacro)
 include(GNUInstallDirs)
 
 find_depencency(Poco
-  COMPONENTS Foundation Net NetSSL DataSQLite
+  COMPONENTS Foundation Net NetSSL Data DataSQLite
   CONFIG REQUIRED)
 find_dependency(PkgConfig REQUIRED)
 pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)

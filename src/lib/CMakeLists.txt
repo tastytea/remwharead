@@ -3,7 +3,7 @@ include(GNUInstallDirs)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)
 # Some distributions do not contain Poco*Config.cmake recipes.
-find_package(Poco COMPONENTS Foundation Net NetSSL DataSQLite CONFIG)
+find_package(Poco COMPONENTS Foundation Net NetSSL Data DataSQLite CONFIG)
 
 file(GLOB_RECURSE sources_lib *.cpp)
 file(GLOB_RECURSE headers_lib ../../include/*.hpp)
@@ -28,8 +28,8 @@ target_link_libraries(${PROJECT_NAME}
 # If no Poco*Config.cmake recipes are found, look for headers in standard dirs.
 if(PocoNetSSL_FOUND)
   target_link_libraries(${PROJECT_NAME}
-    PRIVATE Poco::Foundation Poco::Net Poco::NetSSL
-    PUBLIC Poco::DataSQLite)
+    PRIVATE Poco::Foundation Poco::Net Poco::NetSSL Poco::DataSQLite
+    PUBLIC Poco::Data)
 else()
   find_file(Poco_h NAMES "Poco/Poco.h"
     PATHS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
@@ -42,8 +42,8 @@ else()
       "but the files seem to be in the standard directories. "
       "Let's hope this works.")
     target_link_libraries(${PROJECT_NAME}
-      PRIVATE PocoFoundation PocoNet PocoNetSSL
-      PUBLIC PocoDataSQLite)
+      PRIVATE PocoFoundation PocoNet PocoNetSSL PocoDataSQLite
+      PUBLIC PocoData)
   endif()
 endif()
 

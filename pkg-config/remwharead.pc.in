@@ -8,6 +8,6 @@ Name: ${name}
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Cflags: -I${includedir}
-Libs: -L${libdir} -l${name} -lPocoDataSQLite -lstdc++fs
+Libs: -L${libdir} -l${name} -lPocoData -lstdc++fs
 Requires.private: libxdg-basedir, icu-uc, icu-i18n
-Libs.private: -lPocoFoundation -lPocoNet -lPocoNetSSL
+Libs.private: -lPocoFoundation -lPocoNet -lPocoNetSSL -lPocoDataSQLite
