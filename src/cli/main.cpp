@@ -126,9 +126,19 @@ int App::main(const std::vector<std::string> &args)
         {
             const size_t len = entries.size();
             constexpr size_t min_len = 100;
-            constexpr size_t n_threads = 2;
-            // If there are over `min_len` entries, use `n_threads` threads.
-            const size_t cut_at = ((len > min_len) ? (len / n_threads) : len);
+            constexpr size_t min_per_thread = 50;
+            const size_t n_threads = thread::hardware_concurrency() / 3 + 1;
+            size_t cut_at = len;
+            if (len > min_len)
+            {   // If there are over `min_len` entries, use `n_threads` threads.
+                cut_at = len / n_threads;
+
+                // But don't use less than `min_per_thread` entries per thread.
+                if (cut_at < min_per_thread)
+                {
+                    cut_at = min_per_thread;
+                }
+            }
 
             list<list<Database::entry>> segments;
 
