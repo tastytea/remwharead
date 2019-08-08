@@ -75,7 +75,8 @@ void App::defineOptions(OptionSet& options)
         .argument("expression")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
-        Option("regex", "r", "Use regular expression for search."));
+        Option("regex", "r", "Use regular expression for search.")
+        .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("no-archive", "N", "Do not archive URI.")
         .callback(OptionCallback<App>(this, &App::handle_options)));
