@@ -152,6 +152,10 @@ namespace remwharead
             session = make_unique<HTTPClientSession>(poco_uri.getHost(),
                                                      poco_uri.getPort());
         }
+        else
+        {
+            throw Poco::Exception("Protocol not supported.");
+        }
 
         HTTPRequest request(method, path, HTTPMessage::HTTP_1_1);
         request.set("User-Agent", string("remwharead/") + global::version);
