@@ -40,9 +40,9 @@ namespace Export
     {
     public:
         /*!
-         *  @brief  Export vector of Database::entry.
+         *  @brief  Export list of Database::entry.
          *
-         *  @param  entries Vector of Database::entry to export.
+         *  @param  entries List of Database::entry to export.
          *  @param  out     Output stream.
          */
         explicit ExportBase(const list<Database::entry> &entries,
@@ -60,9 +60,9 @@ namespace Export
         /*!
          *  @brief  Sort entries from newest to oldest.
          *
-         *  @param  entries Vector of Database::entry to sort.
+         *  @param  entries List of Database::entry to sort.
          *
-         *  @return Sorted vector of Database::entry.
+         *  @return Sorted list of Database::entry.
          */
         const list<Database::entry>
         sort_entries(list<Database::entry> entries) const;

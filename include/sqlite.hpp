@@ -100,7 +100,7 @@ namespace remwharead
         void store(const entry &data) const;
 
         /*!
-         *  @brief  Retrieve a vector of Database::entry from the database.
+         *  @brief  Retrieve a list of Database::entry from the database.
          *
          *  @since  0.6.0
          */

@@ -29,7 +29,7 @@ namespace remwharead
     using std::vector;
 
     /*!
-     *  @brief  Search in database entries.
+     *  @brief  %Search in database entries.
      *
      *  @since  0.7.0
      *
@@ -46,35 +46,34 @@ namespace remwharead
         explicit Search(const list<Database::entry> &entries);
 
         /*!
-         *  @brief  Search in tags of database entries.
+         *  @brief  %Search in tags of database entries.
          *
          *  Only matches whole tags, *Pill* does not match *Pillow*.
          *
-         *  @param  expression Search expression.
+         *  @param  expression %Search expression.
          *  @param  is_re      Is it a regular expression?
          *
-         *  @return Vector of matching Database::entry.
+         *  @return List of matching Database::entry.
          *
          *  @since  0.7.0
          */
         const list<Database::entry> search_tags(string expression,
-                                                        const bool is_re) const;
+                                                const bool is_re) const;
 
         /*!
-     *  @brief  Search in full text of database entries.
+     *  @brief  %Search in full text of database entries.
      *
      *  Searches in tags, title, description and full text.
      *
-     *  @param  entries    Vector of Database::entry to search.
-     *  @param  expression Search expression.
+     *  @param  expression %Search expression.
      *  @param  is_re      Is it a regular expression?
      *
-     *  @return Vector of matching Database::entry.
+     *  @return List of matching Database::entry.
      *
      *  @since  0.7.0
      */
     const list<Database::entry> search_all(string expression,
-                                                   const bool is_re) const;
+                                           const bool is_re) const;
 
     private:
         const list<Database::entry> _entries;
