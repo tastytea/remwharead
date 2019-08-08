@@ -17,18 +17,20 @@
 #include <regex>
 #include <algorithm>
 #include <locale>
+#include <list>
 #include <Poco/UTF8String.h>
 #include "search.hpp"
 
 namespace remwharead
 {
+    using std::list;
     using std::regex;
     using std::regex_search;
     using std::smatch;
     using std::find;
     using std::find_if;
 
-    Search::Search(const vector<Database::entry> &entries)
+    Search::Search(const list<Database::entry> &entries)
         :_entries(entries)
     {}
 
@@ -72,11 +74,11 @@ namespace remwharead
         return Poco::UTF8::toLower(str);
     }
 
-    const vector<DB::entry> Search::search_tags(string expression,
-                                                const bool is_re) const
+    const list<DB::entry> Search::search_tags(string expression,
+                                              const bool is_re) const
     {
         vector<vector<string>> searchlist = parse_expression(expression);
-        vector<DB::entry> result;
+        list<DB::entry> result;
 
         for (const vector<string> &tags_or : searchlist)
         {
@@ -116,11 +118,11 @@ namespace remwharead
         return result;
     }
 
-    const vector<DB::entry> Search::search_all(string expression,
-                                               const bool is_re) const
+    const list<DB::entry> Search::search_all(string expression,
+                                             const bool is_re) const
     {
         vector<vector<string>> searchlist = parse_expression(expression);
-        vector<DB::entry> result = search_tags(expression, is_re);
+        list<DB::entry> result = search_tags(expression, is_re);
 
         for (const vector<string> &terms_or : searchlist)
         {

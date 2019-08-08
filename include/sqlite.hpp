@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <list>
 #include <Poco/Data/Session.h>
 
 namespace remwharead
@@ -31,6 +32,7 @@ namespace remwharead
     using std::vector;
     using std::chrono::system_clock;
     using time_point = system_clock::time_point;
+    using std::list;
     using Poco::Data::Session;
 
     /*!
@@ -102,7 +104,7 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        const vector<entry> retrieve(
+        const list<entry> retrieve(
             const time_point &start = time_point(),
             const time_point &end = system_clock::now()) const;
 

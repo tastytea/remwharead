@@ -21,19 +21,18 @@ namespace remwharead
 {
 namespace Export
 {
-    ExportBase::ExportBase(const vector<Database::entry> &entries, ostream &out)
+    ExportBase::ExportBase(const list<Database::entry> &entries, ostream &out)
         : _entries(sort_entries(entries))
         , _out(out)
     {}
 
-    const vector<Database::entry>
-    ExportBase::sort_entries(vector<Database::entry> entries) const
+    const list<Database::entry>
+    ExportBase::sort_entries(list<Database::entry> entries) const
     {
-        std::sort(entries.begin(), entries.end(),
-                  [](const auto &a, const auto &b)
-                  {
-                      return (a.datetime > b.datetime);
-                  });
+        entries.sort([](const auto &a, const auto &b)
+                     {
+                         return (a.datetime > b.datetime);
+                     });
         return entries;
     }
 }

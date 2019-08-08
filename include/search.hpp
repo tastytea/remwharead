@@ -17,14 +17,16 @@
 #ifndef REMWHAREAD_SEARCH_HPP
 #define REMWHAREAD_SEARCH_HPP
 
-#include <vector>
+#include <list>
 #include <string>
+#include <vector>
 #include "sqlite.hpp"
 
 namespace remwharead
 {
-    using std::vector;
+    using std::list;
     using std::string;
+    using std::vector;
 
     /*!
      *  @brief  Search in database entries.
@@ -41,7 +43,7 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        explicit Search(const vector<Database::entry> &entries);
+        explicit Search(const list<Database::entry> &entries);
 
         /*!
          *  @brief  Search in tags of database entries.
@@ -55,8 +57,8 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        const vector<Database::entry> search_tags(string expression,
-                                                  const bool is_re) const;
+        const list<Database::entry> search_tags(string expression,
+                                                        const bool is_re) const;
 
         /*!
      *  @brief  Search in full text of database entries.
@@ -71,11 +73,11 @@ namespace remwharead
      *
      *  @since  0.7.0
      */
-    const vector<Database::entry> search_all(string expression,
-                                             const bool is_re) const;
+    const list<Database::entry> search_all(string expression,
+                                                   const bool is_re) const;
 
     private:
-        const vector<Database::entry> _entries;
+        const list<Database::entry> _entries;
 
         /*!
          *  @brief  Split expression into subexpressions.

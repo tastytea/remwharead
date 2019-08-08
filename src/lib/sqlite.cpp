@@ -112,7 +112,7 @@ namespace remwharead
         }
     }
 
-    const vector<Database::entry> Database::retrieve(
+    const list<Database::entry> Database::retrieve(
         const time_point &start, const time_point &end) const
     {
         try
@@ -130,7 +130,7 @@ namespace remwharead
                 into(strtags), into(entrybuf.title), into(entrybuf.description),
                 into(entrybuf.fulltext), range(0, 1);
 
-            vector<entry> entries;
+            list<entry> entries;
 
             while(!select.done())
             {

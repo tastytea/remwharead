@@ -44,7 +44,7 @@ namespace Export
         void print() const override;
 
     private:
-        using tagmap = std::map<string,vector<Database::entry>>;
+        using tagmap = std::map<string, list<Database::entry>>;
         using replacemap = const std::map<const string, const string>;
 
         //! Replace strings in text.

@@ -31,7 +31,7 @@ namespace remwharead
     using std::endl;
     using std::regex;
     using std::regex_replace;
-    using tagpair = std::pair<string,vector<Database::entry>>;
+    using tagpair = std::pair<string,list<Database::entry>>;
 
     void Export::AsciiDoc::print() const
     {

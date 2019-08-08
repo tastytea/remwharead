@@ -19,6 +19,7 @@
 #include <chrono>
 #include <fstream>
 #include <locale>
+#include <list>
 #include "sqlite.hpp"
 #include "remwharead_cli.hpp"
 #include "uri.hpp"
@@ -35,6 +36,7 @@ using std::endl;
 using std::string;
 using std::chrono::system_clock;
 using std::ofstream;
+using std::list;
 
 int App::main(const std::vector<std::string> &args)
 {
@@ -108,9 +110,7 @@ int App::main(const std::vector<std::string> &args)
 
     if (_format != export_format::undefined)
     {
-        vector<Database::entry> entries = db.retrieve(_timespan[0],
-                                                      _timespan[1]);
-        Search search(entries);
+        list<Database::entry> entries = db.retrieve(_timespan[0], _timespan[1]);
 
         if (!_search_tags.empty())
         {

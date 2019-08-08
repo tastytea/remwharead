@@ -17,11 +17,11 @@
 #ifndef REMWHAREAD_EXPORT_HPP
 #define REMWHAREAD_EXPORT_HPP
 
-#include <vector>
+#include <list>
 #include <iostream>
 #include "sqlite.hpp"
 
-using std::vector;
+using std::list;
 using std::ostream;
 using std::cout;
 
@@ -45,7 +45,7 @@ namespace Export
          *  @param  entries Vector of Database::entry to export.
          *  @param  out     Output stream.
          */
-        explicit ExportBase(const vector<Database::entry> &entries,
+        explicit ExportBase(const list<Database::entry> &entries,
                             ostream &out = cout);
 
         /*!
@@ -54,7 +54,7 @@ namespace Export
         virtual void print() const = 0;
 
     protected:
-        const vector<Database::entry> _entries;
+        const list<Database::entry> _entries;
         ostream &_out;
 
         /*!
@@ -64,8 +64,8 @@ namespace Export
          *
          *  @return Sorted vector of Database::entry.
          */
-        const vector<Database::entry>
-        sort_entries(vector<Database::entry> entries) const;
+        const list<Database::entry>
+        sort_entries(list<Database::entry> entries) const;
     };
 }
 }
