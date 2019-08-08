@@ -7,7 +7,7 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 
 project(remwharead
-  VERSION 0.7.0
+  VERSION 0.7.1
   LANGUAGES CXX)
 # DESCRIPTION was introduced in version 3.9.
 if(NOT (${CMAKE_VERSION} VERSION_LESS 3.9))
@@ -22,8 +22,8 @@ option(WITH_MAN "Compile and install manpage." YES)
 option(WITH_TESTS "Compile tests." NO)
 option(WITH_MOZILLA "Build and install wrapper for Mozilla browsers." YES)
 option(BUILD_SHARED_LIBS "Build shared libraries." YES)
-set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
-  CACHE PATH "Directory for the Mozilla extension wrapper.")
+option(MOZILLA_NMH_DIR "Directory for the Mozilla extension wrapper."
+  "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
