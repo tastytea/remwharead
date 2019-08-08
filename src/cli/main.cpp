@@ -19,6 +19,9 @@
 #include <chrono>
 #include <fstream>
 #include <locale>
+#include <thread>
+#include <algorithm>
+#include <iterator>
 #include <list>
 #include "sqlite.hpp"
 #include "remwharead_cli.hpp"
@@ -36,6 +39,8 @@ using std::endl;
 using std::string;
 using std::chrono::system_clock;
 using std::ofstream;
+using std::thread;
+using std::move;
 using std::list;
 
 int App::main(const std::vector<std::string> &args)
@@ -114,11 +119,54 @@ int App::main(const std::vector<std::string> &args)
 
         if (!_search_tags.empty())
         {
+            Search search(entries);
             entries = search.search_tags(_search_tags, _regex);
         }
         else if (!_search_all.empty())
         {
-            entries = search.search_all(_search_all, _regex);
+            const size_t len = entries.size();
+            constexpr size_t min_len = 100;
+            constexpr size_t n_threads = 2;
+            // If there are over `min_len` entries, use `n_threads` threads.
+            const size_t cut_at = ((len > min_len) ? (len / n_threads) : len);
+
+            list<list<Database::entry>> segments;
+
+            // Use threads if list is big.
+            while (entries.size() > cut_at)
+            {
+                list<Database::entry> segment;
+
+                auto it = entries.begin();
+                std::advance(it, cut_at);
+
+                // Move the first `cut_at` entries into `segments`.
+                segment.splice(segment.begin(), entries, entries.begin(), it);
+                segments.push_back(move(segment));
+            }
+            // Move rest of `entries` into `segments`.
+            segments.push_back(move(entries));
+
+            list<thread> threads;
+            for (auto &segment : segments)
+            {
+                thread t(
+                    [&]
+                    {
+                        Search search(segment);
+                        // Replace `segment` with `result`.
+                        segment = search.search_all(_search_all, _regex);
+                    });
+                threads.push_back(move(t));
+            }
+
+            for (thread &t : threads)
+            {
+                t.join();
+                // Move each of `segments` into `entries`.
+                entries.splice(entries.end(), segments.front());
+                segments.pop_front();
+            }
         }
 
         switch (_format)
