@@ -13,7 +13,7 @@ target_include_directories(${PROJECT_NAME}-cli
   PRIVATE "${PROJECT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_link_libraries(${PROJECT_NAME}-cli
-  PRIVATE ${PROJECT_NAME})
+  PRIVATE ${PROJECT_NAME} pthread)
 
 # If no Poco*Config.cmake recipes are found, look for headers in standard dirs.
 if(PocoUtil_FOUND)
