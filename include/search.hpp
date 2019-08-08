@@ -61,19 +61,36 @@ namespace remwharead
                                                 const bool is_re) const;
 
         /*!
-     *  @brief  %Search in full text of database entries.
-     *
-     *  Searches in tags, title, description and full text.
-     *
-     *  @param  expression %Search expression.
-     *  @param  is_re      Is it a regular expression?
-     *
-     *  @return List of matching Database::entry.
-     *
-     *  @since  0.7.0
-     */
-    const list<Database::entry> search_all(string expression,
-                                           const bool is_re) const;
+         *  @brief  %Search in full text of database entries.
+         *
+         *  Searches in tags, title, description and full text.
+         *
+         *  @param  expression %Search expression.
+         *  @param  is_re      Is it a regular expression?
+         *
+         *  @return List of matching Database::entry.
+         *
+         *  @since  0.7.0
+         */
+        const list<Database::entry> search_all(string expression,
+                                               const bool is_re) const;
+
+        /*!
+         *  @brief  Spawn threads of search_all(), if it seems sensible.
+         *
+         *  Figure out if threads could be useful and spawn a sensible amount of
+         *  them.
+         *
+         *  @param  expression %Search expression.
+         *  @param  is_re      Is it a regular expression?
+         *
+         *  @return List of matching Database::entry.
+         *
+         *  @since  0.7.2
+         */
+        // TODO: Think of something more elegant.
+        const list<Database::entry> search_all_threaded(string expression,
+                                                        const bool is_re) const;
 
     private:
         const list<Database::entry> _entries;

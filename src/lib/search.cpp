@@ -18,6 +18,9 @@
 #include <algorithm>
 #include <locale>
 #include <list>
+#include <thread>
+#include <utility>
+#include <iterator>
 #include <Poco/UTF8String.h>
 #include "search.hpp"
 
@@ -29,6 +32,8 @@ namespace remwharead
     using std::smatch;
     using std::find;
     using std::find_if;
+    using std::thread;
+    using std::move;
 
     Search::Search(const list<Database::entry> &entries)
         :_entries(entries)
@@ -194,5 +199,67 @@ namespace remwharead
         }
 
         return result;
+    }
+
+    const list<Database::entry> Search::search_all_threaded(
+        string expression, const bool is_re) const
+    {
+        list<Database::entry> entries = _entries;
+
+        const size_t len = entries.size();
+        constexpr size_t min_len = 100;
+        constexpr size_t min_per_thread = 50;
+        const size_t n_threads = thread::hardware_concurrency() / 3 + 1;
+        size_t cut_at = len;
+        if (len > min_len)
+        {   // If there are over `min_len` entries, use `n_threads` threads.
+            cut_at = len / n_threads;
+
+            // But don't use less than `min_per_thread` entries per thread.
+            if (cut_at < min_per_thread)
+            {
+                cut_at = min_per_thread;
+            }
+        }
+
+        list<list<Database::entry>> segments;
+
+        // Use threads if list is big.
+        while (entries.size() > cut_at)
+        {
+            list<Database::entry> segment;
+
+            auto it = entries.begin();
+            std::advance(it, cut_at);
+
+            // Move the first `cut_at` entries into `segments`.
+            segment.splice(segment.begin(), entries, entries.begin(), it);
+            segments.push_back(move(segment));
+        }
+        // Move rest of `entries` into `segments`.
+        segments.push_back(move(entries));
+
+        list<thread> threads;
+        for (auto &segment : segments)
+        {
+            thread t(
+                [&]
+                {
+                    Search search(segment);
+                    // Replace `segment` with `result`.
+                    segment = search.search_all(expression, is_re);
+                });
+            threads.push_back(move(t));
+        }
+
+        for (thread &t : threads)
+        {
+            t.join();
+            // Move each of `segments` into `entries`.
+            entries.splice(entries.end(), segments.front());
+            segments.pop_front();
+        }
+
+        return entries;
     }
 }
