@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <iterator>
 #include <list>
+#include <cerrno>
 #include "sqlite.hpp"
 #include "remwharead_cli.hpp"
 #include "uri.hpp"
@@ -59,7 +60,7 @@ int App::main(const std::vector<std::string> &args)
     {
         if (_argument_error)
         {
-            return Application::EXIT_USAGE;
+            return EINVAL;
         }
         if (args.size() > 0)
         {
@@ -68,15 +69,15 @@ int App::main(const std::vector<std::string> &args)
         if (_uri.empty() && _format == export_format::undefined)
         {
             cerr << "Error: You have to specify either an URI or --export.\n";
-            return Application::EXIT_USAGE;
+            return EINVAL;
         }
     }
 
     Database db;
     if (!db)
     {
-        cerr << "Error: Database connection failed.\n";
-        return Application::EXIT_IOERR;
+        cerr << "Error: Database could not be opened.\n";
+        return EIO;
     }
 
     if (!_uri.empty())
@@ -87,7 +88,7 @@ int App::main(const std::vector<std::string> &args)
         {
             cerr << "Error: Could not fetch page.\n";
             cerr << page.error << endl;
-            return Application::EXIT_UNAVAILABLE;
+            return EHOSTUNREACH;
         }
         archive_answer archive;
         if (_archive)
@@ -109,7 +110,7 @@ int App::main(const std::vector<std::string> &args)
         if (!file.good())
         {
             cerr << "Error: Could not open file: " << _file << endl;
-            return Application::EXIT_IOERR;
+            return EIO;
         }
     }
 
@@ -240,7 +241,7 @@ int App::main(const std::vector<std::string> &args)
         }
     }
 
-    return Application::EXIT_OK;
+    return 0;
 }
 
 POCO_APP_MAIN(App)

@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-08-05
+:Date:          2019-08-08
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -45,7 +45,7 @@ Save output to _file_. Default is stdout.
 Only export entries between and including _start_ and _end_. _start_ and _end_
 are date and time representations according to ISO 8601
 (YYYY-MM-DDThh:mm:ss). Time zones are ignored.
-Example: `--span 2019-01-01,2019-02-10T12:30`.
+Example: `--time-span 2019-01-01,2019-02-10T12:30`.
 
 *-s* _expression_, *--search-tags* _expression_::
 Search in tags. Format: _tag1 AND tag2 OR tag3_. See _SEARCH EXPRESSIONS_. Case
@@ -160,13 +160,12 @@ proxy support yet, sorry.
 == ERROR CODES
 
 [options="header",cols=">,<"]
-|==================================================
-| Code | Explanation
-|    1 | Missing options / Argument not understood.
-|    2 | Database connection failed.
-|    3 | File could not be opened.
-|    4 | Could not fetch URI.
-|==================================================
+|===================================================================
+| Code | Error name   | Explanation                                |
+|    5 | EIO          | File / database could not be opened.       |
+|   22 | EINVAL       | Missing options / Argument not understood. |
+|  113 | EHOSTUNREACH | Could not fetch URI.                       |
+|===================================================================
 
 == SEE ALSO
 
