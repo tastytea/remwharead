@@ -22,8 +22,8 @@ option(WITH_MAN "Compile and install manpage." YES)
 option(WITH_TESTS "Compile tests." NO)
 option(WITH_MOZILLA "Build and install wrapper for Mozilla browsers." YES)
 option(BUILD_SHARED_LIBS "Build shared libraries." YES)
-option(MOZILLA_NMH_DIR "Directory for the Mozilla extension wrapper."
-  "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts")
+set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
+  CACHE STRING "Directory for the Mozilla extension wrapper.")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
