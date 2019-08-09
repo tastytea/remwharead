@@ -20,7 +20,6 @@
 #include <fstream>
 #include <locale>
 #include <list>
-#include <cerrno>
 #include "sqlite.hpp"
 #include "remwharead_cli.hpp"
 #include "uri.hpp"
@@ -55,7 +54,7 @@ int App::main(const std::vector<std::string> &args)
     {
         if (_argument_error)
         {
-            return EINVAL;
+            return 1;
         }
         if (args.size() > 0)
         {
@@ -64,7 +63,7 @@ int App::main(const std::vector<std::string> &args)
         if (_uri.empty() && _format == export_format::undefined)
         {
             cerr << "Error: You have to specify either an URI or --export.\n";
-            return EINVAL;
+            return 1;
         }
     }
 
@@ -72,7 +71,7 @@ int App::main(const std::vector<std::string> &args)
     if (!db)
     {
         cerr << "Error: Database could not be opened.\n";
-        return EIO;
+        return 2;
     }
 
     if (!_uri.empty())
@@ -83,7 +82,7 @@ int App::main(const std::vector<std::string> &args)
         {
             cerr << "Error: Could not fetch page.\n";
             cerr << page.error << endl;
-            return EHOSTUNREACH;
+            return 3;
         }
         archive_answer archive;
         if (_archive)
@@ -105,7 +104,7 @@ int App::main(const std::vector<std::string> &args)
         if (!file.good())
         {
             cerr << "Error: Could not open file: " << _file << endl;
-            return EIO;
+            return 2;
         }
     }
 

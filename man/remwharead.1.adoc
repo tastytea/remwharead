@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-08-08
+:Date:          2019-08-09
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -160,12 +160,12 @@ proxy support yet, sorry.
 == ERROR CODES
 
 [options="header",cols=">,<,<"]
-|===================================================================
-| Code | Error name   | Explanation
-|    5 | EIO          | File / database could not be opened.
-|   22 | EINVAL       | Missing options / Argument not understood.
-|  113 | EHOSTUNREACH | Could not fetch URI.
-|===================================================================
+|====================================================
+| Code | Explanation
+|    1 | Missing options / Argument not understood.
+|    2 | File / database could not be opened.
+|    3 | Could not fetch URI.
+|====================================================
 
 == SEE ALSO
 
