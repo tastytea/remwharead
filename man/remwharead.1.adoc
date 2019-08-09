@@ -159,7 +159,7 @@ proxy support yet, sorry.
 
 == ERROR CODES
 
-[options="header",cols=">,<,<"]
+[options="header",cols=">,<"]
 |====================================================
 | Code | Explanation
 |    1 | Missing options / Argument not understood.
