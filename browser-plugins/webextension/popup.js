@@ -12,7 +12,7 @@ const msgerror = document.getElementById("msgerror");
 function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
     const tab = tabs[0];
-    taburl = tab.url;
+    taburl = '\'' + tab.url + '\'';
 }
 
 function get_tags()             // get tags from text input.
