@@ -17,7 +17,7 @@ else()                          # Catch 1.x
       get_filename_component(bin ${src} NAME_WE)
       add_executable(${bin} main.cpp ${src})
       target_link_libraries(${bin}
-        PRIVATE ${PROJECT_NAME} ${PROJECT_NAME})
+        PRIVATE ${PROJECT_NAME})
       add_test(${bin} ${bin} "${EXTRA_TEST_ARGS}")
     endforeach()
   else()
