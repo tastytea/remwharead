@@ -70,7 +70,6 @@ only.
 ====
 [source,zsh]
 ----
-apt-get update
 apt-get install g++-6 cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpkg
 export CXX="g++-6"
 ----
