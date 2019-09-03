@@ -10,4 +10,4 @@ Version: @PROJECT_VERSION@
 Cflags: -I${includedir}
 Libs: -L${libdir} -l${name} -lPocoData -lstdc++fs
 Requires.private: libxdg-basedir, icu-uc, icu-i18n
-Libs.private: -lPocoFoundation -lPocoNet -lPocoNetSSL -lPocoDataSQLite
+Libs.private: -lPocoFoundation -lPocoNet -lPocoNetSSL -lPocoDataSQLite -lPocoJSON
