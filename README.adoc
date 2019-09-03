@@ -54,8 +54,8 @@ only.
 ==== Dependencies
 
 * Tested OS: Linux
-* C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/6/8/9,
-  https://llvm.org/[clang] 3/7)
+* C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/8/9,
+  https://llvm.org/[clang] 6/7)
 * https://cmake.org/[cmake] (at least: 3.2)
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
 * http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)

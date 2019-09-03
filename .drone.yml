@@ -13,31 +13,8 @@ trigger:
     - tag
 
 steps:
-- name: gcc6
-  image: debian:stretch-slim
-  pull: always
-  environment:
-    CXX: g++-6
-    CXXFLAGS: -pipe -O2
-    LANG: en_US.utf-8
-  commands:
-  - rm /etc/apt/apt.conf.d/docker-clean
-  - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
-  - apt-get update -q
-  - apt-get install -qy g++-6 cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev asciidoc catch
-  - locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
-  - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_TESTS=YES -DWITH_MOZILLA=YES ..
-  - make VERBOSE=1
-  - make install DESTDIR=install
-  - cd tests && ctest -V
-  volumes:
-  - name: debian-package-cache
-    path: /var/cache/apt/archives
-
 - name: gcc5
-  image: debian:stretch-slim
+  image: debian:buster-slim
   pull: always
   environment:
     CXX: g++-5
@@ -47,24 +24,25 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
+  - echo "APT::Default-Release \"buster\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" >> /etc/apt/sources.list.d/ubuntu-toolchain-r.list
   - apt-get install -qy gnupg
   - gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x60c317803a41ba51845e371a1e9377a2ba9ef27f
   - gpg --armor --export 0x60c317803a41ba51845e371a1e9377a2ba9ef27f | apt-key add -
   - apt-get update -q
   - apt-get install -qy -t xenial g++-5
-  - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
+  - cmake -DWITH_MOZILLA=YES -DWITH_TESTS=YES ..
   - make VERBOSE=1
+  - maker install DESTDIR=install
+  - cd tests && ctest -V
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
 - name: gcc9
-  image: debian:stretch-slim
+  image: debian:buster-slim
   pull: always
   environment:
     CXX: g++-9
@@ -74,23 +52,22 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - echo "APT::Default-Release \"stretch\";" >> /etc/apt/apt.conf.d/00default_release
+  - echo "APT::Default-Release \"buster\";" >> /etc/apt/apt.conf.d/00default_release
   - echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" >> /etc/apt/sources.list.d/ubuntu-toolchain-r.list
   - apt-get install -qy gnupg
   - gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x60c317803a41ba51845e371a1e9377a2ba9ef27f
   - gpg --armor --export 0x60c317803a41ba51845e371a1e9377a2ba9ef27f | apt-key add -
   - apt-get update -q
   - apt-get install -qy -t xenial g++-9
-  - apt-get install -qy cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
+  - cmake -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
-- name: clang3
+- name: clang6
   image: debian:stretch-slim
   pull: always
   environment:
@@ -101,10 +78,9 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy clang cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy clang-6.0 cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
+  - cmake -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -121,10 +97,9 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy clang cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy clang cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES ..
+  - cmake -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
   volumes:
   - name: debian-package-cache
@@ -162,18 +137,17 @@ trigger:
 
 steps:
 - name: deb
-  image: debian:stretch-slim
+  image: debian:buster-slim
   pull: always
   environment:
-    CXX: g++-6
+    CXX: g++
     CXXFLAGS: -pipe -O2
     LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy g++-6 cmake pkg-config
-  - apt-get install -qy libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
   - apt-get install -qy build-essential file
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DMOZILLA_NMH_DIR="lib/mozilla/native-messaging-hosts" -DWITH_DEB=YES ..
