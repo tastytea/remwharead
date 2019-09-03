@@ -61,7 +61,7 @@ steps:
     path: /var/cache/apt/archives
 
 - name: clang6
-  image: debian:stretch-slim
+  image: debian:buster-slim
   pull: always
   environment:
     CXX: clang++
