@@ -54,7 +54,7 @@ only.
 ==== Dependencies
 
 * Tested OS: Linux
-* C++ compiler (tested: https://gcc.gnu.org/[gcc] 5/8/9,
+* C++ compiler (tested: https://gcc.gnu.org/[gcc] 8/9,
   https://llvm.org/[clang] 6/7)
 * https://cmake.org/[cmake] (at least: 3.2)
 * https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
@@ -66,12 +66,11 @@ only.
 ** DEB package: https://packages.qa.debian.org/dpkg[dpkg] (tested: 1.18)
 ** RPM package: http://www.rpm.org[rpm-build] (tested: 4.11)
 
-.Install dependencies in Debian stretch.
+.Install dependencies in Debian buster.
 ====
 [source,zsh]
 ----
-apt-get install g++-6 cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpkg
-export CXX="g++-6"
+apt-get install g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpkg
 ----
 ====
 

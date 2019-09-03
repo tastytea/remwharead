@@ -13,29 +13,22 @@ trigger:
     - tag
 
 steps:
-- name: gcc5
+- name: gcc8
   image: debian:buster-slim
   pull: always
   environment:
-    CXX: g++-5
+    CXX: g++-8
     CXXFLAGS: -pipe -O2
     LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - echo "APT::Default-Release \"buster\";" >> /etc/apt/apt.conf.d/00default_release
-  - echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu bionic main" >> /etc/apt/sources.list.d/ubuntu-toolchain-r.list
-  - apt-get install -qy gnupg
-  - gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x60c317803a41ba51845e371a1e9377a2ba9ef27f
-  - gpg --armor --export 0x60c317803a41ba51845e371a1e9377a2ba9ef27f | apt-key add -
-  - apt-get update -q
-  - apt-get install -qy -t bionic g++-5
-  - apt-get install -qy cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DWITH_MOZILLA=YES -DWITH_TESTS=YES ..
   - make VERBOSE=1
-  - maker install DESTDIR=install
+  - make install DESTDIR=install
   - cd tests && ctest -V
   volumes:
   - name: debian-package-cache
