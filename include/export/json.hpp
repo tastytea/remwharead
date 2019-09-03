@@ -14,29 +14,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_TYPES_HPP
-#define REMWHAREAD_TYPES_HPP
+#ifndef REMWHAREAD_JSON_HPP
+#define REMWHAREAD_JSON_HPP
 
-//! @file
+#include <string>
+#include "export.hpp"
 
 namespace remwharead
 {
+namespace Export
+{
+    using std::string;
+
     /*!
-     *  @brief  Format of the export.
+     *  @brief  Export as JSON array.
      *
-     *  @since  0.6.0
+     *  @since  0.8.0
      *
-     *  @headerfile types.hpp remwharead/types.hpp
+     *  @headerfile json.hpp remwharead/export/json.hpp
      */
-    enum class export_format
+    class JSON : protected ExportBase
     {
-        undefined,
-        csv,
-        asciidoc,
-        bookmarks,
-        simple,
-        json
+    public:
+        using ExportBase::ExportBase;
+
+        virtual void print() const override;
     };
 }
+}
 
-#endif  // REMWHAREAD_TYPES_HPP
+#endif  // REMWHAREAD_JSON_HPP

@@ -139,6 +139,10 @@ void App::handle_options(const std::string &name, const std::string &value)
         {
             _format = export_format::simple;
         }
+        else if (value == "json")
+        {
+            _format = export_format::json;
+        }
         else
         {
             cerr << "Error: Unknown format.\n";

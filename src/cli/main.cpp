@@ -28,6 +28,7 @@
 #include "export/adoc.hpp"
 #include "export/bookmarks.hpp"
 #include "export/simple.hpp"
+#include "export/json.hpp"
 #include "search.hpp"
 
 using namespace remwharead;
@@ -174,6 +175,19 @@ int App::main(const std::vector<std::string> &args)
             else
             {
                 Export::Simple(entries).print();
+            }
+            break;
+        }
+        case export_format::json:
+        {
+            if (file.is_open())
+            {
+                Export::JSON(entries, file).print();
+                file.close();
+            }
+            else
+            {
+                Export::JSON(entries).print();
             }
             break;
         }
