@@ -64,7 +64,7 @@ steps:
   image: debian:buster-slim
   pull: always
   environment:
-    CXX: clang++
+    CXX: clang++-6.0
     CXXFLAGS: -pipe -O2
     LANG: en_US.utf-8
   commands:
