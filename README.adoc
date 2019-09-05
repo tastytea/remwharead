@@ -5,8 +5,8 @@
  an URI to the archived version, the current date and time, title, description,
  the full text of the page and optional tags.
 
-The database can be filtered by time, tags and full text and exported to CSV or
-AsciiDoc.
+The database can be filtered by time, tags and full text and exported to CSV,
+AsciiDoc, JSON or RSS.
 
 Archiving is done using the Wayback machine from the
 https://archive.org/[Internet Archive].

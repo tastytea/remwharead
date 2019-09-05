@@ -143,6 +143,10 @@ void App::handle_options(const std::string &name, const std::string &value)
         {
             _format = export_format::json;
         }
+        else if (value == "rss")
+        {
+            _format = export_format::rss;
+        }
         else
         {
             cerr << "Error: Unknown format.\n";
