@@ -14,30 +14,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_TYPES_HPP
-#define REMWHAREAD_TYPES_HPP
+#ifndef REMWHAREAD_RSS_HPP
+#define REMWHAREAD_RSS_HPP
 
-//! @file
+#include <string>
+#include "export.hpp"
 
 namespace remwharead
 {
+namespace Export
+{
+    using std::string;
+
     /*!
-     *  @brief  Format of the export.
+     *  @brief  Export as RSS feed.
      *
-     *  @since  0.6.0
+     *  @since  0.8.0
      *
-     *  @headerfile types.hpp remwharead/types.hpp
+     *  @headerfile rss.hpp remwharead/export/rss.hpp
      */
-    enum class export_format
+    class RSS : protected ExportBase
     {
-        undefined,
-        csv,
-        asciidoc,
-        bookmarks,
-        simple,
-        json,
-        rss
+    public:
+        using ExportBase::ExportBase;
+
+        virtual void print() const override;
     };
 }
+}
 
-#endif  // REMWHAREAD_TYPES_HPP
+#endif  // REMWHAREAD_RSS_HPP

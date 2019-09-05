@@ -29,6 +29,7 @@
 #include "export/bookmarks.hpp"
 #include "export/simple.hpp"
 #include "export/json.hpp"
+#include "export/rss.hpp"
 #include "search.hpp"
 
 using namespace remwharead;
@@ -188,6 +189,19 @@ int App::main(const std::vector<std::string> &args)
             else
             {
                 Export::JSON(entries).print();
+            }
+            break;
+        }
+        case export_format::rss:
+        {
+            if (file.is_open())
+            {
+                Export::RSS(entries, file).print();
+                file.close();
+            }
+            else
+            {
+                Export::RSS(entries).print();
             }
             break;
         }

@@ -45,6 +45,7 @@
 #include "export/export.hpp"
 #include "export/simple.hpp"
 #include "export/json.hpp"
+#include "export/rss.hpp"
 #include "search.hpp"
 #include "sqlite.hpp"
 #include "time.hpp"
