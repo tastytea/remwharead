@@ -132,10 +132,8 @@ namespace remwharead
 
             list<entry> entries;
 
-            while(!select.done())
+            while(!select.done() && select.execute() != 0)
             {
-                select.execute();
-
                 entrybuf.datetime = string_to_timepoint(datetime, true);
 
                 vector<string> tags;
