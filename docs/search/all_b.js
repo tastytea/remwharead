@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['remwharead_20reference',['remwharead Reference',['../index.html',1,'']]],
-  ['remove_5fhtml_5ftags',['remove_html_tags',['../classremwharead_1_1URI.html#a8b340b13ccf0bc3ae9059872ce48e06a',1,'remwharead::URI']]],
-  ['remove_5fnewlines',['remove_newlines',['../classremwharead_1_1URI.html#a9373cb28de198ae2db624980273ece4a',1,'remwharead::URI']]],
-  ['retrieve',['retrieve',['../classremwharead_1_1Database.html#ab08e7bd3ef03257f7ed951ef051db4fd',1,'remwharead::Database']]]
+  ['print',['print',['../classremwharead_1_1Export_1_1AsciiDoc.html#a20ce832d0cea815b048bbe5c51496a77',1,'remwharead::Export::AsciiDoc::print()'],['../classremwharead_1_1Export_1_1Bookmarks.html#af92b6e7c8bf46032dcf65267ce83d043',1,'remwharead::Export::Bookmarks::print()'],['../classremwharead_1_1Export_1_1CSV.html#a107c3390677129f00a6f45b924e2a539',1,'remwharead::Export::CSV::print()'],['../classremwharead_1_1Export_1_1ExportBase.html#aee596eaefecdb1c21c37f5e3d129ed56',1,'remwharead::Export::ExportBase::print()'],['../classremwharead_1_1Export_1_1JSON.html#a41905480c6183304ba625ff6f5f0a601',1,'remwharead::Export::JSON::print()'],['../classremwharead_1_1Export_1_1RSS.html#a91c18ab8ac1ccc18f24988320b576670',1,'remwharead::Export::RSS::print()'],['../classremwharead_1_1Export_1_1Simple.html#af688d80f3d7903d59ef730311e32b7f8',1,'remwharead::Export::Simple::print()']]]
 ];
