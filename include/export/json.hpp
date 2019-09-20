@@ -27,7 +27,7 @@ namespace Export
     using std::string;
 
     /*!
-     *  @brief  Export as JSON array.
+     *  @brief  Export as %JSON array.
      *
      *  @since  0.8.0
      *
