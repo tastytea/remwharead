@@ -40,6 +40,8 @@ namespace remwharead
     using std::unique_ptr;
     using std::make_unique;
     using std::vector;
+    using std::cerr;
+    using std::endl;
     using Poco::Net::HTTPClientSession;
     using Poco::Net::HTTPSClientSession;
     using Poco::Net::HTTPRequest;
@@ -67,30 +69,36 @@ namespace remwharead
         try
         {
             HTTPClientSession::ProxyConfig proxy;
-            string proxy_env = Environment::get("http_proxy");
-            size_t pos;
+            const string env_proxy = Environment::get("http_proxy");
+            const RegEx re_proxy("^(?:https?://)?(?:([^:]+):?([^@]*)@)?"
+                                 "([^:/]+)(?::([\\d]{1,5}))?/?$");
+            vector<string> matches;
 
-            // Only keep text between // and /.
-            if ((pos = proxy_env.find("//")) != string::npos)
+            if (re_proxy.split(env_proxy, matches) >= 4)
             {
-                proxy_env = proxy_env.substr(pos + 2);
+                proxy.username = matches[1];
+                proxy.password = matches[2];
+                proxy.host = matches[3];
+                if (!matches[4].empty())
+                {
+                    const std::uint32_t &port = std::stoul(matches[4]);
+                    if (port > 65535)
+                    {
+                        throw std::invalid_argument("Port number out of range");
+                    }
+                    proxy.port = port;
+                }
             }
-            if ((pos = proxy_env.find('/')) != string::npos)
-            {
-                proxy_env = proxy_env.substr(0, pos);
-            }
-
-            if ((pos = proxy_env.find(':')) != string::npos)
-            {
-                proxy.host = proxy_env.substr(0, pos);
-                proxy.port = std::stoi(proxy_env.substr(pos + 1));
-            }
-            else
-            {
-                proxy.host = proxy_env;
-            }
-
             HTTPClientSession::setGlobalProxyConfig(proxy);
+        }
+        catch (const Poco::RegularExpressionException &e)
+        {
+            cerr << "Error: Proxy could not be set ("
+                 << e.displayText() << ")\n";
+        }
+        catch (const std::invalid_argument &e)
+        {
+            cerr << "Error: " << e.what() << endl;
         }
         catch (const std::exception &)
         {
