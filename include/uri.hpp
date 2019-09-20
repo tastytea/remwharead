@@ -144,7 +144,7 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        const string unescape_html(const string &html);
+        const string unescape_html(string html);
 
         /*!
          *  @brief  Replace newlines with spaces.

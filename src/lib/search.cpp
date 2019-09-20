@@ -14,7 +14,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <regex>
 #include <algorithm>
 #include <locale>
 #include <list>
@@ -22,18 +21,17 @@
 #include <utility>
 #include <iterator>
 #include <Poco/UTF8String.h>
+#include <Poco/RegularExpression.h>
 #include "search.hpp"
 
 namespace remwharead
 {
     using std::list;
-    using std::regex;
-    using std::regex_search;
-    using std::smatch;
     using std::find;
     using std::find_if;
     using std::thread;
     using std::move;
+    using RegEx = Poco::RegularExpression;
 
     Search::Search(const list<Database::entry> &entries)
         :_entries(entries)
@@ -43,30 +41,37 @@ namespace remwharead
         const
     {
         vector<vector<string>> searchlist;
-        const regex re_or("(.+?) (OR|\\|\\|) ");
-        const regex re_and("(.+?) (AND|&&) ");
-        smatch match;
+        const RegEx re_or("(.+?) (OR|\\|\\|) ");
+        const RegEx re_and("(.+?) (AND|&&) ");
+        RegEx::MatchVec matches;
+        string::size_type pos = 0;
 
         vector<string> subexpressions;
         {                           // Split expression at OR.
-            while (regex_search(expression, match, re_or))
+            while (re_or.match(expression, pos, matches) != 0)
             {
-                subexpressions.push_back(match[1].str());
-                expression = match.suffix().str();
+                const string &subexpr = expression.substr(matches[1].offset,
+                                                          matches[1].length);
+                subexpressions.push_back(subexpr);
+                pos = matches[0].offset + matches[0].length;
             }
-            subexpressions.push_back(expression);
+            subexpressions.push_back(expression.substr(pos));
         }
 
         {
             for (string sub : subexpressions)
             {                       // Split each OR-slice at AND.
                 vector<string> terms;
-                while (regex_search(sub, match, re_and))
+                pos = 0;
+
+                while (re_and.match(sub, pos, matches) != 0)
                 {
-                    terms.push_back(to_lowercase(match[1].str()));
-                    sub = match.suffix().str();
+                    const string &term = sub.substr(matches[1].offset,
+                                                    matches[1].length);
+                    terms.push_back(to_lowercase(term));
+                    pos = matches[0].offset + matches[0].length;
                 }
-                terms.push_back(to_lowercase(sub));
+                terms.push_back(to_lowercase(sub.substr(pos)));
                 searchlist.push_back(terms);
             }
         }
@@ -100,8 +105,8 @@ namespace remwharead
                             s = to_lowercase(s);
                             if (is_re)
                             {
-                                const regex re("^" + tag + "$");
-                                return regex_search(s, re);
+                                const RegEx re("^" + tag + "$");
+                                return (re == s);
                             }
                             else
                             {
@@ -154,19 +159,19 @@ namespace remwharead
                     // Set matched_* to false if term is not found.
                     if (is_re)
                     {
-                        const regex re(term);
+                        const RegEx re(term);
 
-                        if(!regex_search(title, re))
+                        if (!(re == title))
                         {
                             matched_title = false;
                         }
 
-                        if(!regex_search(description, re))
+                        if (!(re == description))
                         {
                             matched_description = false;
                         }
 
-                        if(!regex_search(fulltext, re))
+                        if (!(re == fulltext))
                         {
                             matched_fulltext = false;
                         }

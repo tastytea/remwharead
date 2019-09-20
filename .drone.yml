@@ -141,11 +141,14 @@ steps:
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
   - apt-get install -qy g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
-  - apt-get install -qy build-essential file
+  - apt-get install -qy build-essential file zip
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DMOZILLA_NMH_DIR="lib/mozilla/native-messaging-hosts" -DWITH_DEB=YES ..
   - make package
   - cp -v remwharead_${DRONE_TAG}-0_amd64.deb ..
+  - cd ../browser-plugins/webextension
+  - ./build_xpi.sh
+  - cp -v ../remwharead.xpi ../../
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
@@ -162,6 +165,7 @@ steps:
     files:
       - remwharead_${DRONE_TAG}-0_amd64.deb
       # - remwharead-${DRONE_TAG}-0.x86_64.rpm
+      - remwharead.xpi
     checksum:
       - sha512
 

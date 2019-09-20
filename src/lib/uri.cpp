@@ -17,10 +17,10 @@
 #include <sstream>
 #include <cstdint>
 #include <iostream>
-#include <regex>
 #include <locale>
 #include <codecvt>
 #include <exception>
+#include <vector>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -29,20 +29,17 @@
 #include <Poco/URI.h>
 #include <Poco/Environment.h>
 #include <Poco/Exception.h>
+#include <Poco/RegularExpression.h>
 #include "version.hpp"
 #include "uri.hpp"
 
 namespace remwharead
 {
-    using std::regex;
-    using std::regex_replace;
-    using std::regex_search;
-    using std::smatch;
-    using std::regex_constants::icase;
     using std::array;
     using std::istream;
     using std::unique_ptr;
     using std::make_unique;
+    using std::vector;
     using Poco::Net::HTTPClientSession;
     using Poco::Net::HTTPSClientSession;
     using Poco::Net::HTTPRequest;
@@ -50,6 +47,7 @@ namespace remwharead
     using Poco::Net::HTTPMessage;
     using Poco::StreamCopier;
     using Poco::Environment;
+    using RegEx = Poco::RegularExpression;
 
     html_extract::operator bool()
     {
@@ -205,12 +203,16 @@ namespace remwharead
 
     const string URI::extract_title(const string &html)
     {
-        const regex re_htmlfile("\\.(.?html?|xml|rss)$");
-        if (_uri.substr(0, 4) == "http" || regex_search(_uri, re_htmlfile))
+        const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
+        if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
         {
-            smatch match;
-            regex_search(html, match, regex("<title>([^<]+)", icase));
-            return remove_newlines(unescape_html(match[1].str()));
+            const RegEx re_title("<title>([^<]+)", RegEx::RE_CASELESS);
+            vector<string> matches;
+            re_title.split(html, matches);
+            if (matches.size() >= 2)
+            {
+                return remove_newlines(unescape_html(matches[1]));
+            }
         }
 
         return "";
@@ -218,13 +220,17 @@ namespace remwharead
 
     const string URI::extract_description(const string &html)
     {
-        const regex re_htmlfile("\\.(.?html?|xml|rss)$");
-        if (_uri.substr(0, 4) == "http" || regex_search(_uri, re_htmlfile))
+        const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
+        if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
         {
-            smatch match;
-            const regex re("description\"[^>]+content=\"([^\"]+)", icase);
-            regex_search(html, match, re);
-            return remove_newlines(strip_html(match[1].str()));
+            const RegEx re_desc("description\"[^>]+content=\"([^\"]+)",
+                                RegEx::RE_CASELESS);
+            vector<string> matches;
+            re_desc.split(html, matches);
+            if (matches.size() >= 2)
+            {
+                return remove_newlines(unescape_html(matches[1]));
+            }
         }
 
         return "";
@@ -244,8 +250,9 @@ namespace remwharead
             out.replace(pos, 1, "");
         }
 
-        out = regex_replace(out, regex("\\s+\n"), "\n"); // Remove space at eol.
-        out = regex_replace(out, regex("\n{2,}"), "\n"); // Reduce newlines.
+        // Remove whitespace at eol.
+        RegEx("\\s+\n").subst(out, "\n", RegEx::RE_GLOBAL);
+        RegEx("\n{2,}").subst(out, "\n", RegEx::RE_GLOBAL); // Reduce newlines.
 
         return unescape_html(out);
     }
@@ -288,32 +295,32 @@ namespace remwharead
         return out;
     }
 
-    const string URI::unescape_html(const string &html)
+    const string URI::unescape_html(string html)
     {
-        string buffer = html;
-        string output;
-
         // Used to convert int to utf-8 char.
         std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> u8c;
-        regex re_entity("&#(x)?([[:alnum:]]{1,8});");
-        smatch match;
+        const RegEx re_entity("&#(x)?([[:alnum:]]{1,8});");
+        RegEx::MatchVec matches;
+        string::size_type pos = 0;
 
-        while (regex_search(buffer, match, re_entity))
+        while (re_entity.match(html, pos, matches) != 0)
         {
             char32_t codepoint = 0;
+            const string number = html.substr(matches[2].offset,
+                                              matches[2].length);
             // 'x' in front of the number means it's hexadecimal, else decimal.
-            if (match[1].length() == 1)
+            if (matches[1].length != 0)
             {
-                codepoint = std::stoi(match[2].str(), nullptr, 16);
+                codepoint = std::stoi(number, nullptr, 16);
             }
             else
             {
-                codepoint = std::stoi(match[2].str(), nullptr, 10);
+                codepoint = std::stoi(number, nullptr, 10);
             }
-            output += match.prefix().str() + u8c.to_bytes(codepoint);
-            buffer = match.suffix().str();
+            const string unicode = u8c.to_bytes(codepoint);
+            html.replace(matches[0].offset, matches[0].length, unicode);
+            pos = matches[0].offset + unicode.length();
         }
-        output += buffer;
 
         // Source: https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_
         //         entity_references#Character_entity_references_in_HTML
@@ -581,11 +588,11 @@ namespace remwharead
 
         for (auto &pair : names)
         {
-            const regex re('&' + pair.first + ';');
-            output = regex_replace(output, re, u8c.to_bytes(pair.second));
+            const RegEx re('&' + pair.first + ';');
+            re.subst(html, u8c.to_bytes(pair.second), RegEx::RE_GLOBAL);
         }
 
-        return output;
+        return html;
     }
 
     const archive_answer URI::archive()
