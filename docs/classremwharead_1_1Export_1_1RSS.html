@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">remwharead
-   &#160;<span id="projectnumber">0.8.0</span>
+   &#160;<span id="projectnumber">0.8.1</span>
    </div>
   </td>
  </tr>
@@ -101,7 +101,7 @@ Public Member Functions</h2></td></tr>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_classremwharead_1_1Export_1_1ExportBase"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classremwharead_1_1Export_1_1ExportBase')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classremwharead_1_1Export_1_1ExportBase.html">remwharead::Export::ExportBase</a></td></tr>
 <tr class="memitem:ac2e5bc57ab62fac930b02ad3a7c9003e inherit pro_methods_classremwharead_1_1Export_1_1ExportBase"><td class="memItemLeft" align="right" valign="top">const list&lt; <a class="el" href="structremwharead_1_1Database_1_1entry.html">Database::entry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">sort_entries</a> (list&lt; <a class="el" href="structremwharead_1_1Database_1_1entry.html">Database::entry</a> &gt; entries) const</td></tr>
-<tr class="memdesc:ac2e5bc57ab62fac930b02ad3a7c9003e inherit pro_methods_classremwharead_1_1Export_1_1ExportBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort entries from newest to oldest.  <a href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">More...</a><br /></td></tr>
+<tr class="memdesc:ac2e5bc57ab62fac930b02ad3a7c9003e inherit pro_methods_classremwharead_1_1Export_1_1ExportBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort entries from newest to oldest and remove duplicates.  <a href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">More...</a><br /></td></tr>
 <tr class="separator:ac2e5bc57ab62fac930b02ad3a7c9003e inherit pro_methods_classremwharead_1_1Export_1_1ExportBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af376271c3dc90d8918171456ae4ff975 inherit pro_methods_classremwharead_1_1Export_1_1ExportBase"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classremwharead_1_1Export_1_1ExportBase.html#af376271c3dc90d8918171456ae4ff975">ExportBase</a> (const list&lt; <a class="el" href="structremwharead_1_1Database_1_1entry.html">Database::entry</a> &gt; &amp;entries, ostream &amp;out=cout)</td></tr>
 <tr class="memdesc:af376271c3dc90d8918171456ae4ff975 inherit pro_methods_classremwharead_1_1Export_1_1ExportBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Export list of <a class="el" href="structremwharead_1_1Database_1_1entry.html" title="Describes a database entry.">Database::entry</a>.  <a href="classremwharead_1_1Export_1_1ExportBase.html#af376271c3dc90d8918171456ae4ff975">More...</a><br /></td></tr>
@@ -146,7 +146,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_out</b></td
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        : _entries(<a class="code" href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">sort_entries</a>(entries))</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        , _out(out)</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {}</div><div class="ttc" id="classremwharead_1_1Export_1_1ExportBase_html_ac2e5bc57ab62fac930b02ad3a7c9003e"><div class="ttname"><a href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">remwharead::Export::ExportBase::sort_entries</a></div><div class="ttdeci">const list&lt; Database::entry &gt; sort_entries(list&lt; Database::entry &gt; entries) const</div><div class="ttdoc">Sort entries from newest to oldest.</div><div class="ttdef"><b>Definition:</b> export.cpp:30</div></div>
+<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        : _entries(<a class="code" href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">sort_entries</a>(entries))</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        , _out(out)</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {}</div><div class="ttc" id="classremwharead_1_1Export_1_1ExportBase_html_ac2e5bc57ab62fac930b02ad3a7c9003e"><div class="ttname"><a href="classremwharead_1_1Export_1_1ExportBase.html#ac2e5bc57ab62fac930b02ad3a7c9003e">remwharead::Export::ExportBase::sort_entries</a></div><div class="ttdeci">const list&lt; Database::entry &gt; sort_entries(list&lt; Database::entry &gt; entries) const</div><div class="ttdoc">Sort entries from newest to oldest and remove duplicates.</div><div class="ttdef"><b>Definition:</b> export.cpp:30</div></div>
 </div><!-- fragment -->
 </div>
 </div>
