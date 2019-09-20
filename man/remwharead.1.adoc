@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-09-06
+:Date:          2019-09-20
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -160,8 +160,10 @@ Currently only HTTP and HTTPS are supported.
 == PROXY SUPPORT
 
 *remwharead* supports HTTP proxies set via the environment variable
-_http_proxy_. Accepted formats are _http://host:port/_ or _host:port_. No SOCKS
-proxy support yet, sorry.
+_http_proxy_. Accepted formats are: _\http://[user[:password]@]host[:port]/_ or
+_[user[:password]@]host[:port]_. No SOCKS proxy support yet, sorry.
+
+Example: http_proxy="http://localhost:3128/"
 
 == FILES
 

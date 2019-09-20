@@ -27,7 +27,7 @@ namespace Export
     using std::string;
 
     /*!
-     *  @brief  Export as RSS feed.
+     *  @brief  Export as %RSS feed.
      *
      *  @since  0.8.0
      *
