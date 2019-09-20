@@ -7,7 +7,7 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 
 project(remwharead
-  VERSION 0.8.0
+  VERSION 0.8.1
   LANGUAGES CXX)
 # DESCRIPTION was introduced in version 3.9.
 if(NOT (${CMAKE_VERSION} VERSION_LESS 3.9))
