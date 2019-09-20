@@ -58,7 +58,7 @@ namespace Export
         ostream &_out;
 
         /*!
-         *  @brief  Sort entries from newest to oldest.
+         *  @brief  Sort entries from newest to oldest and remove duplicates.
          *
          *  @param  entries List of Database::entry to sort.
          *
