@@ -33,6 +33,8 @@ namespace Export
                      {
                          return (a.datetime > b.datetime);
                      });
+        entries.unique();
+
         return entries;
     }
 }
