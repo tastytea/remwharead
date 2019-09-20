@@ -16,7 +16,6 @@
 
 #include <iostream>
 #include <string>
-#include <regex>
 #include <algorithm>
 #include <utility>
 #include <locale>
@@ -29,8 +28,6 @@ namespace remwharead
     using std::string;
     using std::cerr;
     using std::endl;
-    using std::regex;
-    using std::regex_replace;
     using tagpair = std::pair<string,list<Database::entry>>;
 
     void Export::AsciiDoc::print() const
