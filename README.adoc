@@ -124,6 +124,9 @@ can install it from
 https://addons.mozilla.org/en-US/firefox/addon/remwharead/[addons.mozilla.org]
 or build it yourself with `build_xpi.sh`.
 
+// Not possible yet. <https://github.com/go-gitea/gitea/issues/6359>
+// include::CONTRIBUTING.adoc[]
+
 == Copyright
 
 The icons of the plugins are from the
