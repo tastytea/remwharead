@@ -15,6 +15,7 @@
  */
 
 #include <ctime>
+#include <cstdint>
 #include <Poco/XML/XMLWriter.h>
 #include <Poco/SAX/AttributesImpl.h>
 #include <Poco/DateTime.h>
@@ -79,7 +80,20 @@ namespace remwharead
                 writer.startElement("", "", "item");
 
                 writer.startElement("", "", "title");
-                writer.characters(entry.title);
+                if (!entry.title.empty())
+                {
+                    writer.characters(entry.title);
+                }
+                else
+                {
+                    constexpr std::uint8_t maxlen = 100;
+                    string title = entry.description.substr(0, maxlen);
+                    if (entry.description.length() > maxlen)
+                    {
+                        title += " […]";
+                    }
+                    writer.characters(title);
+                }
                 writer.endElement("", "", "title");
 
                 writer.startElement("", "", "link");
