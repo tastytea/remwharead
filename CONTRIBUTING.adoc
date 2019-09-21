@@ -1,9 +1,13 @@
+:project: remwharead
+
 == How to contribute
+
+Read the link:CODE_OF_CONDUCT.adoc[Code of Conduct].
 
 === Reporting bugs or suggesting enhancements
 
 Before reporting a bug, please
-https://schlomp.space/tastytea/remwharead/issues[perform a search] to see if the
+https://schlomp.space/tastytea/{project}/issues[perform a search] to see if the
 problem has already been reported. If it has, add a comment to the existing
 issue instead of opening a new one. Same for enhancements.
 
