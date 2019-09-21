@@ -15,6 +15,7 @@
  */
 
 #include <ctime>
+#include <cstdint>
 #include <Poco/XML/XMLWriter.h>
 #include <Poco/SAX/AttributesImpl.h>
 #include <Poco/DateTime.h>
@@ -57,7 +58,6 @@ namespace remwharead
             writer.endElement("", "", "title");
 
             writer.startElement("", "", "link");
-            // FIXME: There has to be an URL here.
             writer.endElement("", "", "link");
 
             writer.startElement("", "", "description");
@@ -79,7 +79,20 @@ namespace remwharead
                 writer.startElement("", "", "item");
 
                 writer.startElement("", "", "title");
-                writer.characters(entry.title);
+                if (!entry.title.empty())
+                {
+                    writer.characters(entry.title);
+                }
+                else
+                {
+                    constexpr std::uint8_t maxlen = 100;
+                    string title = entry.description.substr(0, maxlen);
+                    if (entry.description.length() > maxlen)
+                    {
+                        title += " […]";
+                    }
+                    writer.characters(title);
+                }
                 writer.endElement("", "", "title");
 
                 writer.startElement("", "", "link");
@@ -101,11 +114,11 @@ namespace remwharead
                 string description = entry.description;
                 if (!description.empty())
                 {
-                    description += "\n\n";
+                    description = "<p>" + description + "</p>";
                 }
                 if (!entry.tags.empty())
                 {
-                    description += "Tags: ";
+                    description += "<p><strong>Tags:</strong> ";
                     for (const string &tag : entry.tags)
                     {
                         description += tag;
@@ -114,10 +127,13 @@ namespace remwharead
                             description += ", ";
                         }
                     }
+                    description += "</p>";
                 }
                 if (!entry.archive_uri.empty())
                 {
-                    description += "\n\nArchived version: " + entry.archive_uri;
+                    description += "<p><strong>Archived version:</strong> "
+                        "<a href=\"" + entry.archive_uri + "\">"
+                        + entry.archive_uri + "</a>";
                 }
                 writer.startElement("", "", "description");
                 writer.characters(description);

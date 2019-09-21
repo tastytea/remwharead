@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-09-20
+:Date:          2019-09-21
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -92,7 +92,12 @@ Print version, copyright and license.
 
 .Output all articles by Jan Müller, consider different spellings.
 ====
-`remwharead -e simple -S 'Jan\[[:space:]]+M(ü|ue)ller' -r`
+`remwharead -e simple -S 'Jan[\s]+M(ü|ue?)ller' -r`
+====
+
+.Export all things from the last week to an RSS feed.
+====
+`remwharead -e rss -T $(date -d "-1 week" -I),$(date -I) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
 ====
 
 === Display database
