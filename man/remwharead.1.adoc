@@ -97,7 +97,7 @@ Print version, copyright and license.
 
 .Export all things from the last week to an RSS feed.
 ====
-`remwharead -e rss -T $(date -d "-1 week" -I),$(date -I) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
+`remwharead -e rss -T $(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
 ====
 
 === Display database
@@ -109,7 +109,7 @@ can periodically generate an HTML file with cron and display it in the browser.
 ====
 [source,crontab]
 ----
-*/30 * * * * remwharead -e asciidoc -T $(date -d "-6 months" -I),$(date -I) | asciidoctor --backend=html5 --out-file=${HOME}/remwharead.html -
+*/30 * * * * remwharead -e asciidoc -T $(date -d "-6 months" -I),$(date -Iminutes) | asciidoctor --backend=html5 --out-file=${HOME}/remwharead.html -
 ----
 ====
 
