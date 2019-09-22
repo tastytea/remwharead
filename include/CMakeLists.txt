@@ -1,5 +1,6 @@
 include(GNUInstallDirs)
 
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+# The trailing / is important.
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}"
   FILES_MATCHING PATTERN "*.hpp")
