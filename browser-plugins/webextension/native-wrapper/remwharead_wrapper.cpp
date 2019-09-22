@@ -16,7 +16,6 @@
 
 #include <string>
 #include <iostream>
-#include <experimental/filesystem>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -27,8 +26,6 @@ using std::cin;
 using std::cout;
 using std::uint32_t;
 using std::system;
-
-namespace fs = std::experimental::filesystem;
 
 const string read_input()
 {
