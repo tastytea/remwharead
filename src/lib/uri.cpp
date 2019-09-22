@@ -186,7 +186,7 @@ namespace remwharead
                 location = poco_uri.getScheme() + "://" + poco_uri.getHost()
                     + location;
             }
-            return make_request(location);
+            return make_request(location, archive);
         }
         case HTTPResponse::HTTP_OK:
         {
