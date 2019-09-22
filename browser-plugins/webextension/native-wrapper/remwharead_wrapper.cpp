@@ -19,6 +19,7 @@
 #include <experimental/filesystem>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <sys/wait.h>
 
 using std::string;
@@ -31,36 +32,34 @@ namespace fs = std::experimental::filesystem;
 
 const string read_input()
 {
+    // Read message length.
+    uint32_t length;
+    char buffer[4];
+
+    cin.read(buffer, sizeof(uint32_t));
+    std::memcpy(&length, buffer, 4);
+
+    // Ignore quotes.
+    length -= 2;
+    cin.ignore(1);
+
+    // Read message.
     string input;
     char c;
 
-    bool start = false;
-    while (cin.read(&c, 1).good())
+    for (; length > 0; --length)
     {
-        if (!start)
-        {
-            if (c == '"')
-            {
-                start = true;
-            }
-            continue;
-        }
-        if (c != '"')
-        {
-            input += c;
-        }
-        else
-        {
-            break;
-        }
+        cin.read(&c, 1);
+        input += c;
     }
+
     return input;
 }
 
 void send_message(const string &message)
 {
     uint32_t length = message.length() + 2;
-    cout.write(reinterpret_cast<const char*>(&length), sizeof(length));
+    cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
     cout << '"' << message << '"';
 }
 
