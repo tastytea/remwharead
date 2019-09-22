@@ -55,7 +55,7 @@ const string read_input()
 
 void send_message(const string &message)
 {
-    uint32_t length = message.length() + 2;
+    const uint32_t length = message.length() + 2;
     cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
     cout << '"' << message << '"';
 }
@@ -76,7 +76,7 @@ int main()
 {
     const string args = read_input();
 
-    int ret = launch(args);
+    const int ret = launch(args);
 
     if (ret == 0)
     {
