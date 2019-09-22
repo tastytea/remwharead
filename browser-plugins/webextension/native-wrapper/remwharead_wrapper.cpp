@@ -16,9 +16,9 @@
 
 #include <string>
 #include <iostream>
-#include <experimental/filesystem>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <sys/wait.h>
 
 using std::string;
@@ -27,40 +27,36 @@ using std::cout;
 using std::uint32_t;
 using std::system;
 
-namespace fs = std::experimental::filesystem;
-
 const string read_input()
 {
+    // Read message length.
+    uint32_t length;
+    char buffer[4];
+
+    cin.read(buffer, sizeof(uint32_t));
+    std::memcpy(&length, buffer, 4);
+
+    // Ignore quotes.
+    length -= 2;
+    cin.ignore(1);
+
+    // Read message.
     string input;
     char c;
 
-    bool start = false;
-    while (cin.read(&c, 1).good())
+    for (; length > 0; --length)
     {
-        if (!start)
-        {
-            if (c == '"')
-            {
-                start = true;
-            }
-            continue;
-        }
-        if (c != '"')
-        {
-            input += c;
-        }
-        else
-        {
-            break;
-        }
+        cin.read(&c, 1);
+        input += c;
     }
+
     return input;
 }
 
 void send_message(const string &message)
 {
-    uint32_t length = message.length() + 2;
-    cout.write(reinterpret_cast<const char*>(&length), sizeof(length));
+    const uint32_t length = message.length() + 2;
+    cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
     cout << '"' << message << '"';
 }
 
@@ -78,40 +74,18 @@ int launch(const string &args)
 
 int main()
 {
-    string args = read_input();
-    // size_t pos = args.find("TEMPFILE");
-    // string tmpfile;
+    const string args = read_input();
 
-    // if (pos != string::npos)
-    // {
-    //     try
-    //     {
-    //         tmpfile = fs::temp_directory_path() / "remwharead.html";
-    //         args.replace(pos, 8, tmpfile);
-    //     }
-    //     catch (const fs::filesystem_error &e)
-    //     {
-    //         send_message("Could not create temporary file.");
-    //         return 3;
-    //     }
-    // }
-
-    int ret = launch(args);
+    const int ret = launch(args);
 
     if (ret == 0)
     {
-        // if (!tmpfile.empty())
-        // {
-        //     send_message("FILE:" + tmpfile);
-        // }
-        // else
-        // {
-            send_message("Command successful.");
-        // }
+        send_message("Command successful.");
     }
     else
     {
-        send_message("Command failed with status: " + std::to_string(ret) + '.');
+        send_message("Command failed with status: "
+                     + std::to_string(ret) + '.');
     }
 
     return ret;
