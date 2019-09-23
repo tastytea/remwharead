@@ -52,7 +52,7 @@ void App::defineOptions(OptionSet& options)
         .argument("tags")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
-        Option("export", "e", "Export to format.")
+        Option("export", "e", "Export to format. See manpage for a list.")
         .argument("format")
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(

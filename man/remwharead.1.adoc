@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-09-21
+:Date:          2019-09-23
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -129,8 +129,7 @@ HTML, PDF and many other formats.
 
 === bookmarks
 
-The
-https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa753582(v=vs.85)[Netscape
+The https://msdn.microsoft.com/en-us/library/aa753582(VS.85).aspx[Netscape
 Bookmark file format] is a format for exporting and importing bookmarks that is
 understood by most browsers.
 

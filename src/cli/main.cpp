@@ -86,6 +86,7 @@ int App::main(const std::vector<std::string> &args)
             cerr << page.error << endl;
             return 3;
         }
+
         archive_answer archive;
         if (_archive)
         {
