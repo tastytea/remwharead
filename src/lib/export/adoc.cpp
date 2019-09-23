@@ -183,25 +183,27 @@ namespace remwharead
         _out << "== Tags\n\n";
         vector<tagpair> sortedtags(tags.size());
         std::move(tags.begin(), tags.end(), sortedtags.begin());
-        std::sort(sortedtags.begin(), sortedtags.end(),
-                  [](const tagpair &a, tagpair &b)
-                  {
-                      if (a.second.size() != b.second.size())
-                      {  // Sort by number of occurrences if they are different.
-                          return a.second.size() > b.second.size();
-                      }
-                      else
-                      {   // Sort by tag names otherwise.
-                          std::locale loc;
-                          const std::collate<char> &coll =
-                              std::use_facet<std::collate<char>>(loc);
-                          return (coll.compare(
-                                      a.first.data(), a.first.data()
-                                      + a.first.length(),
-                                      b.first.data(), b.first.data()
-                                      + b.first.length()) == -1);
-                      }
-                  });
+
+        const auto compare_tags =
+            [](const tagpair &a, tagpair &b)
+            {
+                if (a.second.size() != b.second.size())
+                {  // Sort by number of occurrences if they are different.
+                    return a.second.size() > b.second.size();
+                }
+                else
+                {   // Sort by tag names otherwise.
+                    const std::locale loc;
+                    const std::collate<char> &coll =
+                        std::use_facet<std::collate<char>>(loc);
+                    return (
+                        coll.compare(
+                            a.first.data(), a.first.data() + a.first.length(),
+                            b.first.data(), b.first.data() + b.first.length())
+                        == -1);
+                }
+            };
+        std::sort(sortedtags.begin(), sortedtags.end(), compare_tags);
 
         bool othertags = false;     // Have we printed “Less used tags” already?
         for (const auto &tag : sortedtags)
