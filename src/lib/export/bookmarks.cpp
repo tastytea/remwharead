@@ -56,4 +56,4 @@ namespace remwharead
         _out << "</DL><p>\n"
              << "</DL><p>\n";
     }
-}
+} // namespace remwharead

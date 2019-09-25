@@ -14,8 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_BOOKMARKS_HPP
-#define REMWHAREAD_BOOKMARKS_HPP
+#ifndef REMWHAREAD_EXPORT_BOOKMARKS_HPP
+#define REMWHAREAD_EXPORT_BOOKMARKS_HPP
 
 #include "export.hpp"
 
@@ -34,9 +34,10 @@ namespace Export
     {
     public:
         using ExportBase::ExportBase;
-        virtual void print() const override;
-    };
-}
-}
 
-#endif  // REMWHAREAD_BOOKMARKS_HPP
+        void print() const override;
+    };
+} // namespace Export
+} // namespace remwharead
+
+#endif  // REMWHAREAD_EXPORT_BOOKMARKS_HPP

@@ -25,7 +25,7 @@ namespace remwharead
 {
     using std::array;
 
-    const time_point string_to_timepoint(const string &strtime, bool sqlite)
+    time_point string_to_timepoint(const string &strtime, bool sqlite)
     {
         std::stringstream sstime(strtime);
         struct std::tm tm = {};
@@ -42,7 +42,7 @@ namespace remwharead
         return system_clock::from_time_t(time);
     }
 
-    const string timepoint_to_string(const time_point &tp, bool sqlite)
+    string timepoint_to_string(const time_point &tp, bool sqlite)
     {
         constexpr std::uint16_t bufsize = 32;
         std::time_t time = system_clock::to_time_t(tp);

@@ -38,6 +38,6 @@ namespace remwharead
         json,
         rss
     };
-}
+} // namespace remwharead
 
 #endif  // REMWHAREAD_TYPES_HPP

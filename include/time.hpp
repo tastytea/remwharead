@@ -36,8 +36,7 @@ namespace remwharead
      *  @param  strtime Time string in ISO 8601 or SQLite format.
      *  @param  sqlite  Is the string in SQLite format?
      */
-    const time_point string_to_timepoint(const string &strtime,
-                                         bool sqlite = false);
+    time_point string_to_timepoint(const string &strtime, bool sqlite = false);
 
     /*!
      *  @brief  Convert time_point to ISO 8601 or SQLite time-string.
@@ -47,7 +46,7 @@ namespace remwharead
      *  @param  time_point The std::chrono::system_clock::time_point.
      *  @param  sqlite     Is the string in SQLite format?
      */
-    const string timepoint_to_string(const time_point &tp, bool sqlite = false);
-}
+    string timepoint_to_string(const time_point &tp, bool sqlite = false);
+} // namespace remwharead
 
 #endif  // REMWHAREAD_TIME_HPP

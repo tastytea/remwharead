@@ -33,11 +33,11 @@ namespace remwharead
     using std::move;
     using RegEx = Poco::RegularExpression;
 
-    Search::Search(const list<Database::entry> &entries)
-        :_entries(entries)
+    Search::Search(list<Database::entry> entries)
+        :_entries(move(entries))
     {}
 
-    const vector<vector<string>> Search::parse_expression(string expression)
+    vector<vector<string>> Search::parse_expression(const string &expression)
         const
     {
         vector<vector<string>> searchlist;
@@ -59,7 +59,7 @@ namespace remwharead
         }
 
         {
-            for (string sub : subexpressions)
+            for (const string &sub : subexpressions)
             {                       // Split each OR-slice at AND.
                 vector<string> terms;
                 pos = 0;
@@ -79,13 +79,13 @@ namespace remwharead
         return searchlist;
     }
 
-    const string Search::to_lowercase(const string &str) const
+    string Search::to_lowercase(const string &str) const
     {
         return Poco::UTF8::toLower(str);
     }
 
-    const list<DB::entry> Search::search_tags(string expression,
-                                              const bool is_re) const
+    list<DB::entry> Search::search_tags(const string &expression,
+                                        const bool is_re) const
     {
         vector<vector<string>> searchlist = parse_expression(expression);
         list<DB::entry> result;
@@ -108,17 +108,15 @@ namespace remwharead
                                 const RegEx re("^" + tag + "$");
                                 return (re == s);
                             }
-                            else
-                            {
-                                return (s == tag);
-                            }
+
+                            return (s == tag);
                         });
                     if (it == entry.tags.end())
                     {
                         matched = false;
                     }
                 }
-                if (matched == true)
+                if (matched)
                 {
                     result.push_back(entry);
                 }
@@ -128,8 +126,8 @@ namespace remwharead
         return result;
     }
 
-    const list<DB::entry> Search::search_all(string expression,
-                                             const bool is_re) const
+    list<DB::entry> Search::search_all(const string &expression,
+                                       const bool is_re) const
     {
         vector<vector<string>> searchlist = parse_expression(expression);
         list<DB::entry> result = search_tags(expression, is_re);
@@ -194,9 +192,7 @@ namespace remwharead
                         }
                     }
                 }
-                if (matched_title == true
-                    || matched_description == true
-                    || matched_fulltext == true)
+                if (matched_title || matched_description || matched_fulltext)
                 {
                     result.push_back(entry);
                 }
@@ -206,8 +202,8 @@ namespace remwharead
         return result;
     }
 
-    const list<Database::entry> Search::search_all_threaded(
-        string expression, const bool is_re) const
+    list<Database::entry> Search::search_all_threaded(const string &expression,
+                                                      const bool is_re) const
     {
         list<Database::entry> entries = _entries;
 
@@ -242,7 +238,9 @@ namespace remwharead
             segments.push_back(move(segment));
         }
         // Move rest of `entries` into `segments`.
-        segments.push_back(move(entries));
+        list<Database::entry> segment;
+        segment.splice(segment.begin(), entries);
+        segments.push_back(move(segment));
 
         list<thread> threads;
         for (auto &segment : segments)
@@ -266,5 +264,6 @@ namespace remwharead
         }
 
         return entries;
+
     }
-}
+} // namespace remwharead

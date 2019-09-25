@@ -20,6 +20,7 @@
 #include "version.hpp"
 #include "remwharead_cli.hpp"
 
+using namespace remwharead_cli;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -31,8 +32,6 @@ App::App()
     : _help_requested(false)
     , _version_requested(false)
     , _argument_error(false)
-    , _uri()
-    , _tags()
     , _format(export_format::undefined)
     , _timespan({ time_point(), system_clock::now() })
     , _archive(true)

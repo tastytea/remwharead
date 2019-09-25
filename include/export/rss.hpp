@@ -14,8 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_RSS_HPP
-#define REMWHAREAD_RSS_HPP
+#ifndef REMWHAREAD_EXPORT_RSS_HPP
+#define REMWHAREAD_EXPORT_RSS_HPP
 
 #include <string>
 #include "export.hpp"
@@ -38,9 +38,9 @@ namespace Export
     public:
         using ExportBase::ExportBase;
 
-        virtual void print() const override;
+        void print() const override;
     };
-}
-}
+} // namespace Export
+} // namespace remwharead
 
-#endif  // REMWHAREAD_RSS_HPP
+#endif  // REMWHAREAD_EXPORT_RSS_HPP

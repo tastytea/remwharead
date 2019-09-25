@@ -10,7 +10,7 @@ set_target_properties(${PROJECT_NAME}-cli
   PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}-cli
-  PRIVATE "${PROJECT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+  PRIVATE "${PROJECT_BINARY_DIR}/src" "${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_link_libraries(${PROJECT_NAME}-cli
   PRIVATE ${PROJECT_NAME})

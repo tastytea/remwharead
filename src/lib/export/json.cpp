@@ -58,4 +58,4 @@ namespace remwharead
             cerr << "Error in " << __func__ << ": " << e.what() << endl;
         }
     }
-}
+} // namespace remwharead

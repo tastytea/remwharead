@@ -38,4 +38,4 @@ namespace remwharead
             _out << "<" << entry.uri << ">\n";
         }
     }
-}
+} // namespace remwharead

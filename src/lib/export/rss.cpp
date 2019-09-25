@@ -41,7 +41,8 @@ namespace remwharead
         try
         {
             XMLWriter writer(_out, XMLWriter::CANONICAL);
-            AttributesImpl attrs_rss, attrs_guid;
+            AttributesImpl attrs_rss;
+            AttributesImpl attrs_guid;
             constexpr char timefmt_rfc822[] = "%w, %d %b %Y %H:%M:%S %Z";
 
             attrs_rss.addAttribute("", "", "version", "", "2.0");
@@ -114,7 +115,7 @@ namespace remwharead
                 string description = entry.description;
                 if (!description.empty())
                 {
-                    description = "<p>" + description + "</p>";
+                    description = "<p>" + description.append("</p>");
                 }
                 if (!entry.tags.empty())
                 {
@@ -133,7 +134,7 @@ namespace remwharead
                 {
                     description += "<p><strong>Archived version:</strong> "
                         "<a href=\"" + entry.archive_uri + "\">"
-                        + entry.archive_uri + "</a>";
+                        + entry.archive_uri + "</a></p>";
                 }
                 writer.startElement("", "", "description");
                 writer.characters(description);
@@ -152,4 +153,4 @@ namespace remwharead
             cerr << "Error in " << __func__ << ": " << e.what() << endl;
         }
     }
-}
+} // namespace remwharead

@@ -26,8 +26,8 @@ namespace remwharead
     {
         try
         {
-            _out << "\"URI\",\"Archived URI\",\"Date & time\",\"Tags\","
-                 << "\"Title\",\"Description\",\"Full text\"\r\n";
+            _out << R"("URI","Archived URI","Date & time","Tags",)"
+                 << R"("Title","Description","Full text")" << "\r\n";
             for (const Database::entry &entry : _entries)
             {
                 string strtags;
@@ -54,7 +54,7 @@ namespace remwharead
         }
     }
 
-    const string Export::CSV::quote(string field) const
+    string Export::CSV::quote(string field) const
     {
         size_t pos = 0;
         while ((pos = field.find('"', pos)) != std::string::npos)
@@ -63,4 +63,4 @@ namespace remwharead
         }
         return field;
     }
-}
+} // namespace remwharead

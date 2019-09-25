@@ -26,40 +26,43 @@
 #include "types.hpp"
 #include "time.hpp"
 
-using namespace remwharead;
-using std::string;
-using std::vector;
-using std::array;
-using std::chrono::system_clock;
-using time_point = system_clock::time_point;
-using Poco::Util::OptionSet;
-
-class App : public Poco::Util::Application
+namespace remwharead_cli
 {
-public:
-    App();
+    using namespace remwharead;
+    using std::string;
+    using std::vector;
+    using std::array;
+    using std::chrono::system_clock;
+    using time_point = system_clock::time_point;
+    using Poco::Util::OptionSet;
 
-protected:
-    void defineOptions(OptionSet& options);
-    void handle_info(const std::string &name, const std::string &);
-    void handle_options(const std::string &name, const std::string &value);
-    void print_help();
-    void print_version();
-    int main(const std::vector<std::string> &args);
+    class App : public Poco::Util::Application
+    {
+    public:
+        App();
 
-private:
-    bool _help_requested;
-    bool _version_requested;
-    bool _argument_error;
-    string _uri;
-    vector<string> _tags;
-    export_format _format;
-    string _file;
-    array<time_point, 2> _timespan;
-    string _search_tags;
-    string _search_all;
-    bool _archive;
-    bool _regex;
-};
+    protected:
+        void defineOptions(OptionSet& options) override;
+        void handle_info(const std::string &name, const std::string &);
+        void handle_options(const std::string &name, const std::string &value);
+        void print_help();
+        void print_version();
+        int main(const std::vector<std::string> &args) override;
+
+    private:
+        bool _help_requested;
+        bool _version_requested;
+        bool _argument_error;
+        string _uri;
+        vector<string> _tags;
+        export_format _format;
+        string _file;
+        array<time_point, 2> _timespan;
+        string _search_tags;
+        string _search_all;
+        bool _archive;
+        bool _regex;
+    };
+} // namespace remwharead_cli
 
 #endif  // REMWHAREAD_PARSE_OPTIONS_HPP

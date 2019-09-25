@@ -14,21 +14,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_EXPORT_HPP
-#define REMWHAREAD_EXPORT_HPP
+#ifndef REMWHAREAD_EXPORT_EXPORT_HPP
+#define REMWHAREAD_EXPORT_EXPORT_HPP
 
 #include <list>
 #include <iostream>
 #include "sqlite.hpp"
 
-using std::list;
-using std::ostream;
-using std::cout;
-
 namespace remwharead
 {
 namespace Export
 {
+    using std::list;
+    using std::ostream;
+    using std::cout;
     /*!
      *  @brief  Base class for exports.
      *
@@ -64,10 +63,9 @@ namespace Export
          *
          *  @return Sorted list of Database::entry.
          */
-        const list<Database::entry>
-        sort_entries(list<Database::entry> entries) const;
+        list<Database::entry> sort_entries(list<Database::entry> entries) const;
     };
-}
-}
+} // namespace Export
+} // namespace remwharead
 
-#endif  // REMWHAREAD_EXPORT_HPP
+#endif  // REMWHAREAD_EXPORT_EXPORT_HPP

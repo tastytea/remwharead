@@ -43,7 +43,7 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        explicit Search(const list<Database::entry> &entries);
+        explicit Search(list<Database::entry> entries);
 
         /*!
          *  @brief  %Search in tags of database entries.
@@ -57,8 +57,8 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        const list<Database::entry> search_tags(string expression,
-                                                const bool is_re) const;
+        list<Database::entry> search_tags(const string &expression, bool is_re)
+            const;
 
         /*!
          *  @brief  %Search in full text of database entries.
@@ -72,8 +72,8 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        const list<Database::entry> search_all(string expression,
-                                               const bool is_re) const;
+        list<Database::entry> search_all(const string &expression, bool is_re)
+            const;
 
         /*!
          *  @brief  Spawn threads of search_all(), if it seems sensible.
@@ -88,9 +88,9 @@ namespace remwharead
          *
          *  @since  0.7.2
          */
-        // TODO: Think of something more elegant.
-        const list<Database::entry> search_all_threaded(string expression,
-                                                        const bool is_re) const;
+        // TODO(tastytea): Think of something more elegant.
+        list<Database::entry> search_all_threaded(const string &expression,
+                                                  bool is_re) const;
 
     private:
         const list<Database::entry> _entries;
@@ -106,15 +106,15 @@ namespace remwharead
          *
          *  @since  0.7.0
          */
-        const vector<vector<string>> parse_expression(string expression) const;
+        vector<vector<string>> parse_expression(const string &expression) const;
 
         /*!
          *  @brief  Convert str to lowercase. Works with unicode.
          *
          *  @since  0.7.0
          */
-        inline const string to_lowercase(const string &str) const;
+        inline string to_lowercase(const string &str) const;
     };
-}
+} // namespace remwharead
 
 #endif  // REMWHAREAD_SEARCH_HPP

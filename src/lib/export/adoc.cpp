@@ -35,9 +35,9 @@ namespace remwharead
         try
         {
             _out << "= Visited things\n"
-                 << ":Author:    remwharead " << global::version << endl
+                 << ":Author:    remwharead " << global::version << "\n"
                  << ":Date:      "
-                 << timepoint_to_string(system_clock::now()) << endl
+                 << timepoint_to_string(system_clock::now()) << "\n"
                  << ":TOC:       right\n"
                  << ":TOCLevels: 2\n"
                  << ":!webfonts:\n\n";
@@ -122,8 +122,8 @@ namespace remwharead
         }
     }
 
-    const string Export::AsciiDoc::replace(string text,
-                                           const replacemap &replacements) const
+    string Export::AsciiDoc::replace(string text,
+                                     const replacemap &replacements) const
     {
         for (const std::pair<const string, const string> &sr : replacements)
         {
@@ -136,9 +136,9 @@ namespace remwharead
         }
         return text;
     }
-    const string Export::AsciiDoc::replace_in_tag(const string &text) const
+    string Export::AsciiDoc::replace_in_tag(const string &text) const
     {
-        // TODO: Find a better solution.
+        // TODO(tastytea): Find a better solution.
         const replacemap replacements =
             {
                 { " ", "-" }, { "§", "-" },
@@ -164,13 +164,13 @@ namespace remwharead
         return replace(text, replacements);
     }
 
-    const string Export::AsciiDoc::replace_in_title(const string &text) const
+    string Export::AsciiDoc::replace_in_title(const string &text) const
     {
         // [ is implicitly escaped if the corresponding ] is.
         return replace(text, {{ "]", "\\]" }});
     }
 
-    const string Export::AsciiDoc::replace_in_uri(const string &text) const
+    string Export::AsciiDoc::replace_in_uri(const string &text) const
     {
         return replace(text,
                        {
@@ -191,17 +191,14 @@ namespace remwharead
                 {  // Sort by number of occurrences if they are different.
                     return a.second.size() > b.second.size();
                 }
-                else
-                {   // Sort by tag names otherwise.
-                    const std::locale loc;
-                    const std::collate<char> &coll =
-                        std::use_facet<std::collate<char>>(loc);
-                    return (
-                        coll.compare(
-                            a.first.data(), a.first.data() + a.first.length(),
-                            b.first.data(), b.first.data() + b.first.length())
-                        == -1);
-                }
+
+                // Sort by tag names otherwise.
+                const std::locale loc;
+                const auto &coll = std::use_facet<std::collate<char>>(loc);
+                return (
+                    coll.compare(
+                        &a.first[0], &a.first[0] + a.first.size(),
+                        &b.first[0], &b.first[0] + b.first.size()) == -1);
             };
         std::sort(sortedtags.begin(), sortedtags.end(), compare_tags);
 
@@ -239,15 +236,15 @@ namespace remwharead
         _out << endl;
     }
 
-    const string Export::AsciiDoc::get_day(const Database::entry &entry) const
+    string Export::AsciiDoc::get_day(const Database::entry &entry) const
     {
         const string datetime = timepoint_to_string(entry.datetime);
         return datetime.substr(0, datetime.find('T'));
     }
 
-    const string Export::AsciiDoc::get_time(const Database::entry &entry) const
+    string Export::AsciiDoc::get_time(const Database::entry &entry) const
     {
         const string datetime = timepoint_to_string(entry.datetime);
         return datetime.substr(datetime.find('T') + 1);
     }
-}
+} // namespace remwharead

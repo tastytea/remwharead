@@ -70,7 +70,7 @@ namespace remwharead
         return (a.datetime == b.datetime);
     }
 
-    const string Database::entry::fulltext_oneline() const
+    string Database::entry::fulltext_oneline() const
     {
         string oneline = fulltext;
         size_t pos = 0;
@@ -112,13 +112,14 @@ namespace remwharead
         }
     }
 
-    const list<Database::entry> Database::retrieve(
-        const time_point &start, const time_point &end) const
+    list<Database::entry> Database::retrieve(const time_point &start,
+                                             const time_point &end) const
     {
         try
         {
             Database::entry entrybuf;
-            string datetime, strtags;
+            string datetime;
+            string strtags;
             Statement select(*_session);
 
             // bind() copies the value.
@@ -166,4 +167,4 @@ namespace remwharead
 
         return {};
     }
-}
+} // namespace remwharead
