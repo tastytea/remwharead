@@ -14,8 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_ADOC_HPP
-#define REMWHAREAD_ADOC_HPP
+#ifndef REMWHAREAD_EXPORT_ADOC_HPP
+#define REMWHAREAD_EXPORT_ADOC_HPP
 
 #include <map>
 #include <string>
@@ -48,27 +48,27 @@ namespace Export
         using replacemap = const std::map<const string, const string>;
 
         //! Replace strings in text.
-        const string replace(string text, const replacemap &replacements) const;
+        string replace(string text, const replacemap &replacements) const;
 
         //! Replaces characters in tags that asciidoctor doesn't like.
-        const string replace_in_tag(const string &text) const;
+        string replace_in_tag(const string &text) const;
 
         //! Replaces characters in title that asciidoctor doesn't like.
-        const string replace_in_title(const string &text) const;
+        string replace_in_title(const string &text) const;
 
         //! Replaces characters in URI that asciidoctor doesn't like.
-        const string replace_in_uri(const string &text) const;
+        string replace_in_uri(const string &text) const;
 
         //! Print things sorted by tag.
         void print_tags(const tagmap &tags) const;
 
         //! Get ISO-8601 day from Database::entry.
-        const string get_day(const Database::entry &entry) const;
+        string get_day(const Database::entry &entry) const;
 
         //! Get ISO-8601 time from Database::entry.
-        const string get_time(const Database::entry &entry) const;
+        string get_time(const Database::entry &entry) const;
     };
-}
-}
+} // namespace Export
+} // namespace remwharead
 
-#endif  // REMWHAREAD_ADOC_HPP
+#endif  // REMWHAREAD_EXPORT_ADOC_HPP

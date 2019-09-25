@@ -18,11 +18,14 @@
 #include <iomanip>
 #include <sstream>
 #include <cstdint>
+#include <array>
 #include "time.hpp"
 
 namespace remwharead
 {
-    const time_point string_to_timepoint(const string &strtime, bool sqlite)
+    using std::array;
+
+    time_point string_to_timepoint(const string &strtime, bool sqlite)
     {
         std::stringstream sstime(strtime);
         struct std::tm tm = {};
@@ -39,23 +42,24 @@ namespace remwharead
         return system_clock::from_time_t(time);
     }
 
-    const string timepoint_to_string(const time_point &tp, bool sqlite)
+    string timepoint_to_string(const time_point &tp, bool sqlite)
     {
         constexpr std::uint16_t bufsize = 32;
         std::time_t time = system_clock::to_time_t(tp);
         std::tm *tm;
         tm = std::localtime(&time);
 
-        char buffer[bufsize];
+        array<char, bufsize> buffer = {};
+
         if (sqlite)
         {
-            std::strftime(buffer, bufsize, "%F %T", tm);
+            std::strftime(buffer.begin(), bufsize, "%F %T", tm);
         }
         else
         {
-            std::strftime(buffer, bufsize, "%FT%T", tm);
+            std::strftime(buffer.begin(), bufsize, "%FT%T", tm);
         }
 
-        return static_cast<const string>(buffer);
+        return buffer.begin();
     }
-}
+} // namespace remwharead

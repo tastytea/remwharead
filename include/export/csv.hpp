@@ -14,8 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_CSV_HPP
-#define REMWHAREAD_CSV_HPP
+#ifndef REMWHAREAD_EXPORT_CSV_HPP
+#define REMWHAREAD_EXPORT_CSV_HPP
 
 #include <string>
 #include "export.hpp"
@@ -38,13 +38,13 @@ namespace Export
     public:
         using ExportBase::ExportBase;
 
-        virtual void print() const override;
+        void print() const override;
 
     private:
         //! replaces " with "".
-        const string quote(string field) const;
+        string quote(string field) const;
     };
-}
-}
+} // namespace Export
+} // namespace remwharead
 
-#endif  // REMWHAREAD_CSV_HPP
+#endif  // REMWHAREAD_EXPORT_CSV_HPP

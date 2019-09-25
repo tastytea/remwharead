@@ -26,7 +26,7 @@ namespace Export
         , _out(out)
     {}
 
-    const list<Database::entry>
+    list<Database::entry>
     ExportBase::sort_entries(list<Database::entry> entries) const
     {
         entries.sort([](const auto &a, const auto &b)
@@ -37,5 +37,5 @@ namespace Export
 
         return entries;
     }
-}
-}
+} // namespace Export
+} // namespace remwharead

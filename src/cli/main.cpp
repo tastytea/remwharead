@@ -33,6 +33,7 @@
 #include "search.hpp"
 
 using namespace remwharead;
+using namespace remwharead_cli;
 using std::cerr;
 using std::endl;
 using std::string;
@@ -58,7 +59,7 @@ int App::main(const std::vector<std::string> &args)
         {
             return 1;
         }
-        if (args.size() > 0)
+        if (!args.empty())
         {
             _uri = args[0];
         }

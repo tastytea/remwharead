@@ -52,7 +52,7 @@ namespace remwharead
          *
          *  @headerfile sqlite.hpp remwharead/sqlite.hpp
          */
-        typedef struct entry
+        using entry = struct entry
         {
             string uri;
             string archive_uri;
@@ -75,8 +75,8 @@ namespace remwharead
              *
              *  @since  0.6.0
              */
-            const string fulltext_oneline() const;
-        } entry;
+            string fulltext_oneline() const;
+        };
 
         /*!
          *  @brief  Connects to the database and creates it if necessary.
@@ -90,7 +90,7 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        operator bool() const;
+        explicit operator bool() const;
 
         /*!
          *  @brief  Store a Database::entry in the database.
@@ -104,9 +104,8 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        const list<entry> retrieve(
-            const time_point &start = time_point(),
-            const time_point &end = system_clock::now()) const;
+        list<entry> retrieve(const time_point &start = time_point(),
+                             const time_point &end = system_clock::now()) const;
 
     private:
         fs::path _dbpath;
@@ -115,6 +114,6 @@ namespace remwharead
     };
 
     using DB = Database;
-}
+} // namespace remwharead
 
 #endif  // REMWHAREAD_SQLITE_HPP

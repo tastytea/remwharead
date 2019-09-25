@@ -21,6 +21,7 @@
 #include <codecvt>
 #include <exception>
 #include <vector>
+#include <utility>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -42,6 +43,7 @@ namespace remwharead
     using std::vector;
     using std::cerr;
     using std::endl;
+    using std::move;
     using Poco::Net::HTTPClientSession;
     using Poco::Net::HTTPSClientSession;
     using Poco::Net::HTTPRequest;
@@ -61,11 +63,16 @@ namespace remwharead
         return successful;
     }
 
-    URI::URI(const string &uri)
-        :_uri(uri)
+    URI::URI(string uri)
+        :_uri(move(uri))
     {
         Poco::Net::initializeSSL();
 
+        set_proxy();
+    }
+
+    void URI::set_proxy()
+    {
         try
         {
             HTTPClientSession::ProxyConfig proxy;
@@ -74,20 +81,23 @@ namespace remwharead
                                  "([^:/]+)(?::([\\d]{1,5}))?/?$");
             vector<string> matches;
 
-            if (re_proxy.split(env_proxy, matches) >= 4)
+            if (re_proxy.split(env_proxy, matches) < 4)
             {
-                proxy.username = matches[1];
-                proxy.password = matches[2];
-                proxy.host = matches[3];
-                if (!matches[4].empty())
+                return;
+            }
+
+            proxy.username = matches[1];
+            proxy.password = matches[2];
+            proxy.host = matches[3];
+            if (!matches[4].empty())
+            {
+                const std::uint32_t &port = std::stoul(matches[4]);
+                if (port > 65535)
                 {
-                    const std::uint32_t &port = std::stoul(matches[4]);
-                    if (port > 65535)
-                    {
-                        throw std::invalid_argument("Port number out of range");
-                    }
-                    proxy.port = port;
+                    throw std::invalid_argument(
+                        "Proxy port number out of range");
                 }
+                proxy.port = port;
             }
             HTTPClientSession::setGlobalProxyConfig(proxy);
         }
@@ -100,9 +110,13 @@ namespace remwharead
         {
             cerr << "Error: " << e.what() << endl;
         }
-        catch (const std::exception &)
+        catch (const Poco::NotFoundException &)
         {
             // No proxy found, no problem.
+        }
+        catch (const std::exception &e)
+        {
+            cerr << "Unexpected exception: " << e.what() << endl;
         }
     }
 
@@ -111,7 +125,7 @@ namespace remwharead
         Poco::Net::uninitializeSSL();
     }
 
-    const html_extract URI::get()
+    html_extract URI::get()
     {
         try
         {
@@ -136,7 +150,7 @@ namespace remwharead
         return { false, "Unknown error.", "", "", "" };
     }
 
-    const string URI::make_request(const string &uri, bool archive) const
+    string URI::make_request(const string &uri, bool archive) const
     {
         Poco::URI poco_uri(uri);
         string method =
@@ -209,7 +223,7 @@ namespace remwharead
         }
     }
 
-    const string URI::extract_title(const string &html)
+    string URI::extract_title(const string &html)
     {
         const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
         if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
@@ -226,12 +240,12 @@ namespace remwharead
         return "";
     }
 
-    const string URI::extract_description(const string &html)
+    string URI::extract_description(const string &html)
     {
         const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
         if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
         {
-            const RegEx re_desc("description\"[^>]+content=\"([^\"]+)",
+            const RegEx re_desc(R"(description"[^>]+content="([^"]+))",
                                 RegEx::RE_CASELESS);
             vector<string> matches;
             re_desc.split(html, matches);
@@ -244,7 +258,7 @@ namespace remwharead
         return "";
     }
 
-    const string URI::strip_html(const string &html)
+    string URI::strip_html(const string &html)
     {
         string out;
 
@@ -253,7 +267,7 @@ namespace remwharead
         out = remove_html_tags(out);            // Remove tags.
 
         size_t pos = 0;
-        while ((pos = out.find("\r", pos)) != std::string::npos) // Remove CR.
+        while ((pos = out.find('\r', pos)) != std::string::npos) // Remove CR.
         {
             out.replace(pos, 1, "");
         }
@@ -265,7 +279,7 @@ namespace remwharead
         return unescape_html(out);
     }
 
-    const string URI::remove_html_tags(const string &html, const string &tag)
+    string URI::remove_html_tags(const string &html, const string &tag)
     {
         // NOTE: I did this with regex_replace before, but libstdc++ segfaulted.
         string out;
@@ -303,7 +317,7 @@ namespace remwharead
         return out;
     }
 
-    const string URI::unescape_html(string html)
+    string URI::unescape_html(string html)
     {
         // Used to convert int to utf-8 char.
         std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> u8c;
@@ -603,7 +617,7 @@ namespace remwharead
         return html;
     }
 
-    const archive_answer URI::archive()
+    archive_answer URI::archive()
     {
         if (_uri.substr(0, 4) != "http")
         {
@@ -628,7 +642,7 @@ namespace remwharead
         return { false, "Unknown error.", "" };
     }
 
-    const string URI::remove_newlines(string text)
+    string URI::remove_newlines(string text)
     {
         size_t posn = 0;
         while ((posn = text.find('\n', posn)) != std::string::npos)
@@ -645,4 +659,4 @@ namespace remwharead
 
         return text;
     }
-}
+} // namespace remwharead

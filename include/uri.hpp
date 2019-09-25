@@ -32,7 +32,7 @@ namespace remwharead
      *
      *  @headerfile uri.hpp remwharead/uri.hpp
      */
-    typedef struct html_extract
+    using html_extract = struct html_extract
     {
         bool successful = false;
         string error;
@@ -40,8 +40,8 @@ namespace remwharead
         string description;
         string fulltext;
 
-        operator bool();
-    } html_extract;
+        explicit operator bool();
+    };
 
     /*!
      *  @brief  The result of the call to the archive service.
@@ -52,14 +52,14 @@ namespace remwharead
      *
      *  @headerfile uri.hpp remwharead/uri.hpp
      */
-    typedef struct archive_answer
+    using archive_answer = struct archive_answer
     {
         bool successful = false;
         string error;
         string uri;
 
-        operator bool();
-    } archive_answer;
+        explicit operator bool();
+    };
 
     /*!
      *  @brief  Download, archive and process an %URI.
@@ -79,22 +79,27 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        explicit URI(const string &uri);
+        explicit URI(string uri);
         virtual ~URI();
+
+        URI(const URI &other) = default;
+        URI &operator=(const URI &other) = default;
+        URI(URI &&other) = default;
+        URI &operator=(URI &&other) = default;
 
         /*!
          *  @brief  Download %URI and extract title, description and full text.
          *
          *  @since  0.6.0
          */
-        const html_extract get();
+        html_extract get();
 
         /*!
          *  @brief  Save %URI in archive and return archive-URI.
          *
          *  @since  0.6.0
          */
-        const archive_answer archive();
+        archive_answer archive();
 
     protected:
         string _uri;
@@ -104,29 +109,28 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        const string make_request(const string &uri,
-                                  bool archive = false) const;
+        string make_request(const string &uri, bool archive = false) const;
 
         /*!
          *  @brief  Extract the title from an HTML page.
          *
          *  @since  0.6.0
          */
-        const string extract_title(const string &html);
+        string extract_title(const string &html);
 
         /*!
          *  @brief  Extract the description from an HTML page.
          *
          *  @since  0.6.0
          */
-        const string extract_description(const string &html);
+        string extract_description(const string &html);
 
         /*!
          *  @brief  Removes HTML tags and superflous spaces from an HTML page.
          *
          *  @since  0.6.0
          */
-        const string strip_html(const string &html);
+        string strip_html(const string &html);
 
         /*!
          *  @brief  Remove HTML tags.
@@ -136,23 +140,29 @@ namespace remwharead
          *
          *  @since  0.6.0
          */
-        const string remove_html_tags(const string &html,
-                                      const string &tag = "");
+        string remove_html_tags(const string &html, const string &tag = "");
 
         /*!
          *  @brief  Convert HTML entities to UTF-8.
          *
          *  @since  0.6.0
          */
-        const string unescape_html(string html);
+        string unescape_html(string html);
 
         /*!
          *  @brief  Replace newlines with spaces.
          *
          *  @since  0.6.0
          */
-        const string remove_newlines(string text);
+        string remove_newlines(string text);
+
+        /*!
+         *  @brief  Set proxy server.
+         *
+         *  @since  0.8.5
+         */
+        void set_proxy();
     };
-}
+} // namespace remwharead
 
 #endif  // REMWHAREAD_URI_HPP
