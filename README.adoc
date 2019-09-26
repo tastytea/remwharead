@@ -1,6 +1,26 @@
 = remwharead
 :toc: preamble
 
+:uri-archive: https://archive.org/
+:uri-remwharead: https://schlomp.space/tastytea/remwharead
+:uri-reference: https://doc.schlomp.space/remwharead/
+:uri-images-base: https://doc.schlomp.space/.remwharead
+:uri-overlay: https://schlomp.space/tastytea/overlay
+:uri-remwharead: https://schlomp.space/tastytea/remwharead
+:uri-blogpost: https://blog.tastytea.de/posts/keep-track-of-what-you-have-read-online-with-remwharead/
+:uri-gcc: https://gcc.gnu.org/
+:uri-clang: https://clang.llvm.org/
+:uri-cmake: https://cmake.org/
+:uri-pkgconfig: https://pkgconfig.freedesktop.org/wiki/
+:uri-libxdg-basedir: http://repo.or.cz/w/libxdg-basedir.git
+:uri-poco: https://pocoproject.org/
+:uri-asciidoc: http://asciidoc.org/
+:uri-catch: https://github.com/catchorg/Catch2
+:uri-dpkg: https://packages.qa.debian.org/dpkg
+:uri-rpm: http://www.rpm.org/
+:uri-ff-addon: https://addons.mozilla.org/firefox/addon/remwharead
+:uri-papirus: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
+
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
  the full text of the page and optional tags.
@@ -9,29 +29,32 @@ The database can be filtered by time, tags and full text and exported to CSV,
 AsciiDoc, JSON or RSS.
 
 Archiving is done using the Wayback machine from the
-https://archive.org/[Internet Archive].
+{uri-archive}[Internet Archive].
 
 .AsciiDoc export formatted with Asciidoctor.
 ====
-image::https://doc.schlomp.space/.remwharead/example_dates.png[Dates view, height=250, link="https://doc.schlomp.space/.remwharead/example_dates.png", role=left]
-image::https://doc.schlomp.space/.remwharead/example_tags.png[Tags view, height=250, link="https://doc.schlomp.space/.remwharead/example_tags.png"]
+[alt="Dates view", height=250, link="{uri-images-base}/example_dates.png", role=left]
+image::{uri-images-base}/example_dates.png[]
+
+[alt="Tags view", height=250, link="{uri-images-base}/example_tags.png"]
+image::{uri-images-base}/example_tags.png[]
 ====
 
 == Usage
 
-See
-https://schlomp.space/tastytea/remwharead/src/branch/main/man/remwharead.1.adoc[manpage].
+See {uri-remwharead}/src/branch/develop/man/remwharead.1.adoc[manpage] and/or
+read {uri-blogpost}[the blogpost].
 
 === In your programs
 
 The complete functionality is implemented in a C++ library, libremwharead. Take
-a look at the https://doc.schlomp.space/remwharead/[reference] for more info.
+a look at the {uri-reference}[reference] for more info.
 
 == Install
 
 === Gentoo
 
-Add my https://schlomp.space/tastytea/overlay[repository] and install it from
+Add my {uri-overlay}[repository] and install it from
 there.
 
 [source,zsh]
@@ -45,7 +68,7 @@ emerge -a www-misc/remwharead
 === Debian and Debian based
 
 Download the `.deb`-package from
-https://schlomp.space/tastytea/remwharead/releases[schlomp.space] and install
+{uri-remwharead}/releases[schlomp.space] and install
 with `apt install ./rewharead_*.deb`. The package works for 64 bit installations
 only.
 
@@ -54,17 +77,16 @@ only.
 ==== Dependencies
 
 * Tested OS: Linux
-* C++ compiler (tested: https://gcc.gnu.org/[gcc] 8/9,
-  https://llvm.org/[clang] 6/7)
-* https://cmake.org/[cmake] (at least: 3.2)
-* https://pkgconfig.freedesktop.org/wiki/[pkgconfig] (tested: 0.29)
-* http://repo.or.cz/w/libxdg-basedir.git[libxdg-basedir] (tested: 1.2)
-* https://pocoproject.org/[POCO] (tested: 1.9 / 1.7)
+* C++ compiler (tested: {uri-gcc}[gcc] 8/9, {uri-clang}[clang] 6/7)
+* {uri-cmake}[cmake] (at least: 3.2)
+* {uri-pkgconfig}[pkgconfig] (tested: 0.29)
+* {uri-libxdg-basedir}[libxdg-basedir] (tested: 1.2)
+* {uri-poco}[POCO] (tested: 1.9 / 1.7)
 * Optional:
-** Manpage: http://asciidoc.org/[asciidoc] (tested: 8.6)
-** Tests: https://github.com/catchorg/Catch2[catch] (tested: 2.5 / 1.2)
-** DEB package: https://packages.qa.debian.org/dpkg[dpkg] (tested: 1.18)
-** RPM package: http://www.rpm.org[rpm-build] (tested: 4.11)
+** Manpage: {uri-asciidoc}[asciidoc] (tested: 8.6)
+** Tests: {uri-catch}[catch] (tested: 2.5 / 1.2)
+** DEB package: {uri-dpkg}[dpkg] (tested: 1.18)
+** RPM package: {uri-rpm}[rpm-build] (tested: 4.11)
 
 .Install dependencies in Debian buster.
 ====
@@ -78,8 +100,7 @@ apt-get install g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpk
 
 ===== Releases
 
-Download the current release at
-https://schlomp.space/tastytea/remwharead/releases[schlomp.space].
+Download the current release at {uri-remwharead}/releases[schlomp.space].
 
 ===== Development version
 
@@ -117,23 +138,19 @@ generate binary packages with `make package`.
 
 === WebExtension
 
-The
-https://schlomp.space/tastytea/remwharead/src/branch/main/browser-plugins/webextension[WebExtension]
-works in Firefox and possibly other browsers with WebExtension support. You
-can install it from
-https://addons.mozilla.org/en-US/firefox/addon/remwharead/[addons.mozilla.org]
-or build it yourself with `build_xpi.sh`.
+The {uri-remwharead}/src/branch/main/browser-plugins/webextension[WebExtension]
+works in Firefox and possibly other browsers with WebExtension support. You can
+install it from {uri-ff-addon}/[addons.mozilla.org] or build it yourself with
+`build_xpi.sh`.
 
 == Contributing
 
-See
-https://schlomp.space/tastytea/remwharead/src/branch/main/CONTRIBUTING.adoc[CONTRIBUTING.adoc].
+See {uri-remwharead}/src/branch/main/CONTRIBUTING.adoc[CONTRIBUTING.adoc].
 
 == Copyright
 
-The icons of the plugins are from the
-https://github.com/PapirusDevelopmentTeam/papirus-icon-theme[Papirus icon
-theme] with the license GPLv3.
+The icons of the plugins are from the {uri-papirus}[Papirus icon theme] with the
+license GPLv3.
 
 ----
 Copyright © 2019 tastytea <tastytea@tastytea.de>.
