@@ -42,7 +42,8 @@ image::{uri-images-base}/example_tags.png[]
 
 == Usage
 
-See {uri-manpage}[manpage] and/or read {uri-blogpost}[the blogpost].
+See {uri-remwharead}/src/branch/develop/man/remwharead.1.adoc[manpage] and/or
+read {uri-blogpost}[the blogpost].
 
 === In your programs
 
