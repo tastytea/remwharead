@@ -7,6 +7,7 @@
 :uri-images-base: https://doc.schlomp.space/.remwharead
 :uri-overlay: https://schlomp.space/tastytea/overlay
 :uri-remwharead: https://schlomp.space/tastytea/remwharead
+:uri-blogpost: https://blog.tastytea.de/posts/keep-track-of-what-you-have-read-online-with-remwharead/
 :uri-gcc: https://gcc.gnu.org/
 :uri-clang: https://clang.llvm.org/
 :uri-cmake: https://cmake.org/
@@ -41,7 +42,7 @@ image::{uri-images-base}/example_tags.png[]
 
 == Usage
 
-See {uri-manpage}[manpage].
+See {uri-manpage}[manpage] and/or read {uri-blogpost}[the blogpost].
 
 === In your programs
 
