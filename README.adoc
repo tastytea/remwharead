@@ -144,9 +144,7 @@ Firefox and possibly other browsers with WebExtension support. You can install
 it from {uri-ff-addon}/[addons.mozilla.org] or build it yourself with
 `build_xpi.sh`.
 
-== Contributing
-
-See {uri-remwharead}/src/branch/main/CONTRIBUTING.adoc[CONTRIBUTING.adoc].
+include::{uri-base}/raw/branch/main/CONTRIBUTING.adoc[]
 
 == Copyright
 
