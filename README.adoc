@@ -1,12 +1,13 @@
 = remwharead
 :toc: preamble
 
+:project: remwharead
+:uri-base: https://schlomp.space/tastytea/{project}
+:uri-branch-main: {uri-base}/src/branch/main
+:uri-reference: https://doc.schlomp.space/{project}/
+:uri-images-base: https://doc.schlomp.space/.{project}
 :uri-archive: https://archive.org/
-:uri-remwharead: https://schlomp.space/tastytea/remwharead
-:uri-reference: https://doc.schlomp.space/remwharead/
-:uri-images-base: https://doc.schlomp.space/.remwharead
 :uri-overlay: https://schlomp.space/tastytea/overlay
-:uri-remwharead: https://schlomp.space/tastytea/remwharead
 :uri-blogpost: https://blog.tastytea.de/posts/keep-track-of-what-you-have-read-online-with-remwharead/
 :uri-gcc: https://gcc.gnu.org/
 :uri-clang: https://clang.llvm.org/
@@ -42,8 +43,8 @@ image::{uri-images-base}/example_tags.png[]
 
 == Usage
 
-See {uri-remwharead}/src/branch/develop/man/remwharead.1.adoc[manpage] and/or
-read {uri-blogpost}[the blogpost].
+See {uri-branch-main}/man/remwharead.1.adoc[manpage] and/or read
+{uri-blogpost}[the blogpost].
 
 === In your programs
 
@@ -68,7 +69,7 @@ emerge -a www-misc/remwharead
 === Debian and Debian based
 
 Download the `.deb`-package from
-{uri-remwharead}/releases[schlomp.space] and install
+{uri-base}/releases[schlomp.space] and install
 with `apt install ./rewharead_*.deb`. The package works for 64 bit installations
 only.
 
@@ -100,7 +101,7 @@ apt-get install g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpk
 
 ===== Releases
 
-Download the current release at {uri-remwharead}/releases[schlomp.space].
+Download the current release at {uri-base}/releases[schlomp.space].
 
 ===== Development version
 
@@ -138,9 +139,9 @@ generate binary packages with `make package`.
 
 === WebExtension
 
-The {uri-remwharead}/src/branch/main/browser-plugins/webextension[WebExtension]
-works in Firefox and possibly other browsers with WebExtension support. You can
-install it from {uri-ff-addon}/[addons.mozilla.org] or build it yourself with
+The {uri-branch-main}/browser-plugins/webextension[WebExtension] works in
+Firefox and possibly other browsers with WebExtension support. You can install
+it from {uri-ff-addon}/[addons.mozilla.org] or build it yourself with
 `build_xpi.sh`.
 
 == Contributing
