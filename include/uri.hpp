@@ -32,7 +32,7 @@ namespace remwharead
      *
      *  @headerfile uri.hpp remwharead/uri.hpp
      */
-    using html_extract = struct html_extract
+    struct html_extract
     {
         bool successful = false;
         string error;
@@ -52,7 +52,7 @@ namespace remwharead
      *
      *  @headerfile uri.hpp remwharead/uri.hpp
      */
-    using archive_answer = struct archive_answer
+    struct archive_answer
     {
         bool successful = false;
         string error;

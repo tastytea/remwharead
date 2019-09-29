@@ -79,7 +79,7 @@ only.
 
 * Tested OS: Linux
 * C++ compiler (tested: {uri-gcc}[gcc] 8/9, {uri-clang}[clang] 6/7)
-* {uri-cmake}[cmake] (at least: 3.2)
+* {uri-cmake}[cmake] (at least: 3.6)
 * {uri-pkgconfig}[pkgconfig] (tested: 0.29)
 * {uri-libxdg-basedir}[libxdg-basedir] (tested: 1.2)
 * {uri-poco}[POCO] (tested: 1.9 / 1.7)

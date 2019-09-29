@@ -52,7 +52,7 @@ namespace remwharead
          *
          *  @headerfile sqlite.hpp remwharead/sqlite.hpp
          */
-        using entry = struct entry
+        struct entry
         {
             string uri;
             string archive_uri;
