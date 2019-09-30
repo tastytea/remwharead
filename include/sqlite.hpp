@@ -112,8 +112,6 @@ private:
     std::unique_ptr<Session> _session;
     bool _connected;
 };
-
-using DB = Database;
 } // namespace remwharead
 
 #endif  // REMWHAREAD_SQLITE_HPP

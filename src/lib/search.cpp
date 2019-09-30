@@ -83,15 +83,16 @@ string Search::to_lowercase(const string &str) const
     return Poco::UTF8::toLower(str);
 }
 
-list<DB::entry> Search::search_tags(const string &expression, const bool is_re)
+list<Database::entry> Search::search_tags(const string &expression,
+                                          const bool is_re)
     const
 {
     vector<vector<string>> searchlist = parse_expression(expression);
-    list<DB::entry> result;
+    list<Database::entry> result;
 
     for (const vector<string> &tags_or : searchlist)
     {
-        for (const DB::entry &entry : _entries)
+        for (const Database::entry &entry : _entries)
         {               // Add entry to result if all tags in an OR-slice match.
             bool matched = true;
 
@@ -125,15 +126,15 @@ list<DB::entry> Search::search_tags(const string &expression, const bool is_re)
     return result;
 }
 
-list<DB::entry> Search::search_all(const string &expression,
-                                   const bool is_re) const
+list<Database::entry> Search::search_all(const string &expression,
+                                         const bool is_re) const
 {
     vector<vector<string>> searchlist = parse_expression(expression);
-    list<DB::entry> result = search_tags(expression, is_re);
+    list<Database::entry> result = search_tags(expression, is_re);
 
     for (const vector<string> &terms_or : searchlist)
     {
-        for (const DB::entry &entry : _entries)
+        for (const Database::entry &entry : _entries)
         {
             // Add entry to result if all terms in an OR-slice match title,
             // description or full text.
