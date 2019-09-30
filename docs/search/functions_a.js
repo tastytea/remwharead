@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['unescape_5fhtml',['unescape_html',['../classremwharead_1_1URI.html#ac98523e5fb23ca4adab57a7caa473eaa',1,'remwharead::URI']]],
-  ['uri',['URI',['../classremwharead_1_1URI.html#acda508768b1fd3b4df81ea66dd4fab87',1,'remwharead::URI']]]
+  ['unescape_5fhtml',['unescape_html',['../classremwharead_1_1URI.html#a870da973d8a91bcaab28aa27e7cc3888',1,'remwharead::URI']]],
+  ['uri',['URI',['../classremwharead_1_1URI.html#a34633f88b14dcd2c3a618794040bc154',1,'remwharead::URI']]]
 ];
