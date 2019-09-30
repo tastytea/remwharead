@@ -17,29 +17,29 @@
 #ifndef REMWHAREAD_EXPORT_JSON_HPP
 #define REMWHAREAD_EXPORT_JSON_HPP
 
-#include <string>
 #include "export.hpp"
+#include <string>
 
 namespace remwharead
 {
 namespace Export
 {
-    using std::string;
+using std::string;
 
-    /*!
-     *  @brief  Export as %JSON array.
-     *
-     *  @since  0.8.0
-     *
-     *  @headerfile json.hpp remwharead/export/json.hpp
-     */
-    class JSON : protected ExportBase
-    {
-    public:
-        using ExportBase::ExportBase;
+/*!
+ *  @brief  Export as %JSON array.
+ *
+ *  @since  0.8.0
+ *
+ *  @headerfile json.hpp remwharead/export/json.hpp
+ */
+class JSON : protected ExportBase
+{
+public:
+    using ExportBase::ExportBase;
 
-        void print() const override;
-    };
+    void print() const override;
+};
 } // namespace Export
 } // namespace remwharead
 

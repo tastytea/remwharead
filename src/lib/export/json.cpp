@@ -14,48 +14,49 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "export/json.hpp"
+#include "time.hpp"
 #include <Poco/JSON/Object.h>
 #include <Poco/JSON/Stringifier.h>
-#include "time.hpp"
-#include "export/json.hpp"
+
 
 namespace remwharead
 {
-    using std::cerr;
-    using std::endl;
+using std::cerr;
+using std::endl;
 
-    void Export::JSON::print() const
+void Export::JSON::print() const
+{
+    try
     {
-        try
-        {
-            Poco::JSON::Array root = Poco::JSON::Array();
+        Poco::JSON::Array root = Poco::JSON::Array();
 
-            for (const Database::entry &entry : _entries)
+        for (const Database::entry &entry : _entries)
+        {
+            Poco::JSON::Object json_entry = Poco::JSON::Object();
+
+            json_entry.set("uri", entry.uri);
+            json_entry.set("archive_uri", entry.archive_uri);
+            json_entry.set("datetime", timepoint_to_string(entry.datetime));
+            Poco::JSON::Array tags = Poco::JSON::Array();
+            for (const string &tag : entry.tags)
             {
-                Poco::JSON::Object json_entry = Poco::JSON::Object();
-
-                json_entry.set("uri", entry.uri);
-                json_entry.set("archive_uri", entry.archive_uri);
-                json_entry.set("datetime", timepoint_to_string(entry.datetime));
-                Poco::JSON::Array tags = Poco::JSON::Array();
-                for (const string &tag : entry.tags)
-                {
-                    tags.add(tag);
-                }
-                json_entry.set("tags", tags);
-                json_entry.set("title", entry.title);
-                json_entry.set("description", entry.description);
-                json_entry.set("fulltext", entry.fulltext);
-
-                root.add(json_entry);
+                tags.add(tag);
             }
+            json_entry.set("tags", tags);
+            json_entry.set("title", entry.title);
+            json_entry.set("description", entry.description);
+            json_entry.set("fulltext", entry.fulltext);
 
-            root.stringify(_out);
-            _out << endl;
+            root.add(json_entry);
         }
-        catch (std::exception &e)
-        {
-            cerr << "Error in " << __func__ << ": " << e.what() << endl;
-        }
+
+        root.stringify(_out);
+        _out << endl;
     }
+    catch (std::exception &e)
+    {
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
+    }
+}
 } // namespace remwharead

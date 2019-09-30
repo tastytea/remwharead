@@ -14,23 +14,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <string>
-#include <chrono>
-#include <fstream>
-#include <locale>
-#include <list>
-#include "sqlite.hpp"
 #include "remwharead_cli.hpp"
-#include "uri.hpp"
-#include "types.hpp"
-#include "export/csv.hpp"
 #include "export/adoc.hpp"
 #include "export/bookmarks.hpp"
-#include "export/simple.hpp"
+#include "export/csv.hpp"
 #include "export/json.hpp"
 #include "export/rss.hpp"
+#include "export/simple.hpp"
 #include "search.hpp"
+#include "sqlite.hpp"
+#include "types.hpp"
+#include "uri.hpp"
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <locale>
+#include <string>
 
 using namespace remwharead;
 using namespace remwharead_cli;
@@ -97,8 +97,8 @@ int App::main(const std::vector<std::string> &args)
                 cerr << "Error archiving URL: " << archive.error << endl;
             }
         }
-        db.store({_uri, archive.uri, system_clock::now(), _tags,
-                  page.title, page.description, page.fulltext});
+        db.store({_uri, archive.uri, system_clock::now(), _tags, page.title,
+                  page.description, page.fulltext});
     }
 
     ofstream file;

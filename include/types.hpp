@@ -21,23 +21,23 @@
 
 namespace remwharead
 {
-    /*!
-     *  @brief  Format of the export.
-     *
-     *  @since  0.6.0
-     *
-     *  @headerfile types.hpp remwharead/types.hpp
-     */
-    enum class export_format
-    {
-        undefined,
-        csv,
-        asciidoc,
-        bookmarks,
-        simple,
-        json,
-        rss
-    };
+/*!
+ *  @brief  Format of the export.
+ *
+ *  @since  0.6.0
+ *
+ *  @headerfile types.hpp remwharead/types.hpp
+ */
+enum class export_format
+{
+    undefined,
+    csv,
+    asciidoc,
+    bookmarks,
+    simple,
+    json,
+    rss
+};
 } // namespace remwharead
 
 #endif  // REMWHAREAD_TYPES_HPP

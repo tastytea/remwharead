@@ -14,11 +14,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <Poco/Util/Option.h>
-#include <Poco/Util/HelpFormatter.h>
-#include "version.hpp"
 #include "remwharead_cli.hpp"
+#include "time.hpp"
+#include "version.hpp"
+#include <Poco/Util/HelpFormatter.h>
+#include <Poco/Util/Option.h>
+#include <iostream>
 
 using namespace remwharead_cli;
 using std::cout;

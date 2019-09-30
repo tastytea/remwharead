@@ -14,53 +14,53 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "time.hpp"
 #include "export/csv.hpp"
+#include "time.hpp"
 
 namespace remwharead
 {
-    using std::cerr;
-    using std::endl;
+using std::cerr;
+using std::endl;
 
-    void Export::CSV::print() const
+void Export::CSV::print() const
+{
+    try
     {
-        try
+        _out << R"("URI","Archived URI","Date & time","Tags",)"
+             << R"("Title","Description","Full text")" << "\r\n";
+        for (const Database::entry &entry : _entries)
         {
-            _out << R"("URI","Archived URI","Date & time","Tags",)"
-                 << R"("Title","Description","Full text")" << "\r\n";
-            for (const Database::entry &entry : _entries)
+            string strtags;
+            for (const string &tag : entry.tags)
             {
-                string strtags;
-                for (const string &tag : entry.tags)
+                strtags += tag;
+                if (tag != *(entry.tags.rbegin()))
                 {
-                    strtags += tag;
-                    if (tag != *(entry.tags.rbegin()))
-                    {
-                        strtags += ",";
-                    }
+                    strtags += ",";
                 }
-                _out << '"' << quote(entry.uri) << "\",\""
-                     << quote(entry.archive_uri) << "\",\""
-                     << timepoint_to_string(entry.datetime) << "\",\""
-                     << quote(strtags) << "\",\""
-                     << quote(entry.title) << "\",\""
-                     << quote(entry.description) << "\",\""
-                     << quote(entry.fulltext_oneline()) << '"'<< "\r\n";
             }
-        }
-        catch (std::exception &e)
-        {
-            cerr << "Error in " << __func__ << ": " << e.what() << endl;
+            _out << '"' << quote(entry.uri) << "\",\""
+                 << quote(entry.archive_uri) << "\",\""
+                 << timepoint_to_string(entry.datetime) << "\",\""
+                 << quote(strtags) << "\",\""
+                 << quote(entry.title) << "\",\""
+                 << quote(entry.description) << "\",\""
+                 << quote(entry.fulltext_oneline()) << '"'<< "\r\n";
         }
     }
-
-    string Export::CSV::quote(string field) const
+    catch (std::exception &e)
     {
-        size_t pos = 0;
-        while ((pos = field.find('"', pos)) != std::string::npos)
-        {
-            field.replace(pos, 1, "\"\"");
-        }
-        return field;
+        cerr << "Error in " << __func__ << ": " << e.what() << endl;
     }
+}
+
+string Export::CSV::quote(string field) const
+{
+    size_t pos = 0;
+    while ((pos = field.find('"', pos)) != std::string::npos)
+    {
+        field.replace(pos, 1, "\"\"");
+    }
+    return field;
+}
 } // namespace remwharead

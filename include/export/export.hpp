@@ -17,54 +17,54 @@
 #ifndef REMWHAREAD_EXPORT_EXPORT_HPP
 #define REMWHAREAD_EXPORT_EXPORT_HPP
 
-#include <list>
-#include <iostream>
 #include "sqlite.hpp"
+#include <iostream>
+#include <list>
 
 namespace remwharead
 {
 namespace Export
 {
-    using std::list;
-    using std::ostream;
-    using std::cout;
+using std::list;
+using std::ostream;
+using std::cout;
+/*!
+ *  @brief  Base class for exports.
+ *
+ *  @since  0.6.0
+ *
+ *  @headerfile export.hpp remwharead/export/export.hpp
+ */
+class ExportBase
+{
+public:
     /*!
-     *  @brief  Base class for exports.
+     *  @brief  Export list of Database::entry.
      *
-     *  @since  0.6.0
-     *
-     *  @headerfile export.hpp remwharead/export/export.hpp
+     *  @param  entries List of Database::entry to export.
+     *  @param  out     Output stream.
      */
-    class ExportBase
-    {
-    public:
-        /*!
-         *  @brief  Export list of Database::entry.
-         *
-         *  @param  entries List of Database::entry to export.
-         *  @param  out     Output stream.
-         */
-        explicit ExportBase(const list<Database::entry> &entries,
-                            ostream &out = cout);
+    explicit ExportBase(const list<Database::entry> &entries,
+                        ostream &out = cout);
 
-        /*!
-         *  @brief  Print output to std::ostream.
-         */
-        virtual void print() const = 0;
+    /*!
+     *  @brief  Print output to std::ostream.
+     */
+    virtual void print() const = 0;
 
-    protected:
-        const list<Database::entry> _entries;
-        ostream &_out;
+protected:
+    const list<Database::entry> _entries;
+    ostream &_out;
 
-        /*!
-         *  @brief  Sort entries from newest to oldest and remove duplicates.
-         *
-         *  @param  entries List of Database::entry to sort.
-         *
-         *  @return Sorted list of Database::entry.
-         */
-        list<Database::entry> sort_entries(list<Database::entry> entries) const;
-    };
+    /*!
+     *  @brief  Sort entries from newest to oldest and remove duplicates.
+     *
+     *  @param  entries List of Database::entry to sort.
+     *
+     *  @return Sorted list of Database::entry.
+     */
+    list<Database::entry> sort_entries(list<Database::entry> entries) const;
+};
 } // namespace Export
 } // namespace remwharead
 

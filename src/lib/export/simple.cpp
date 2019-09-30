@@ -14,28 +14,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <string>
+#include "export/simple.hpp"
 #include "sqlite.hpp"
 #include "time.hpp"
-#include "export/simple.hpp"
+#include <string>
 
 namespace remwharead
 {
-    using std::string;
+using std::string;
 
-    void Export::Simple::print() const
+void Export::Simple::print() const
+{
+    for (const Database::entry & entry : _entries)
     {
-        for (const Database::entry & entry : _entries)
+        const string timestring = timepoint_to_string(entry.datetime);
+        _out << timestring.substr(0, timestring.find('T')) << ": ";
+        if (!entry.title.empty())
         {
-            const string timestring = timepoint_to_string(entry.datetime);
-            _out << timestring.substr(0, timestring.find('T')) << ": ";
-            if (!entry.title.empty())
-            {
-                _out << entry.title << '\n';
-                _out << "            ";
-            }
-
-            _out << "<" << entry.uri << ">\n";
+            _out << entry.title << '\n';
+            _out << "            ";
         }
+
+        _out << "<" << entry.uri << ">\n";
     }
+}
 } // namespace remwharead

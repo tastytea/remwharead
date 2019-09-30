@@ -14,46 +14,46 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "export/bookmarks.hpp"
+#include "sqlite.hpp"
 #include <chrono>
 #include <string>
-#include "sqlite.hpp"
-#include "export/bookmarks.hpp"
 
 namespace remwharead
 {
-    using std::chrono::system_clock;
-    using std::chrono::duration_cast;
-    using std::chrono::seconds;
-    using std::string;
+using std::chrono::system_clock;
+using std::chrono::duration_cast;
+using std::chrono::seconds;
+using std::string;
 
-    void Export::Bookmarks::print() const
+void Export::Bookmarks::print() const
+{
+    _out << "<!DOCTYPE NETSCAPE-Bookmark-file-1>\n"
+        "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; "
+        "charset=UTF-8\">\n"
+        "<TITLE>Bookmarks from remwharead</TITLE>\n"
+        "<H1>Bookmarks from remwharead<H1>\n\n"
+        "<DL><p>\n"
+        "<DT><H3>remwharead</H3>\n"
+        "<DL><p>\n";
+
+    for (const Database::entry & entry : _entries)
     {
-        _out << "<!DOCTYPE NETSCAPE-Bookmark-file-1>\n"
-            "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; "
-            "charset=UTF-8\">\n"
-            "<TITLE>Bookmarks from remwharead</TITLE>\n"
-            "<H1>Bookmarks from remwharead<H1>\n\n"
-            "<DL><p>\n"
-            "<DT><H3>remwharead</H3>\n"
-            "<DL><p>\n";
-
-        for (const Database::entry & entry : _entries)
+        string title = entry.title;
+        if (title.empty())
         {
-            string title = entry.title;
-            if (title.empty())
-            {
-                title = entry.uri;
-            }
-            system_clock::time_point tp = entry.datetime;
-            system_clock::duration duration = tp.time_since_epoch();
-            string time_seconds =
-                std::to_string(duration_cast<seconds>(duration).count());
-
-            _out << "<DT><A HREF=\"" << entry.uri << "\" "
-                 << "ADD_DATE=\"" << time_seconds << "\">"
-                 << title << "</A>\n";
+            title = entry.uri;
         }
-        _out << "</DL><p>\n"
-             << "</DL><p>\n";
+        system_clock::time_point tp = entry.datetime;
+        system_clock::duration duration = tp.time_since_epoch();
+        string time_seconds =
+            std::to_string(duration_cast<seconds>(duration).count());
+
+        _out << "<DT><A HREF=\"" << entry.uri << "\" "
+             << "ADD_DATE=\"" << time_seconds << "\">"
+             << title << "</A>\n";
     }
+    _out << "</DL><p>\n"
+         << "</DL><p>\n";
+}
 } // namespace remwharead

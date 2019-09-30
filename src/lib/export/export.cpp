@@ -14,28 +14,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <algorithm>
 #include "export/export.hpp"
+#include <algorithm>
 
 namespace remwharead
 {
 namespace Export
 {
-    ExportBase::ExportBase(const list<Database::entry> &entries, ostream &out)
-        : _entries(sort_entries(entries))
-        , _out(out)
-    {}
+ExportBase::ExportBase(const list<Database::entry> &entries, ostream &out)
+    : _entries(sort_entries(entries))
+    , _out(out)
+{}
 
-    list<Database::entry>
-    ExportBase::sort_entries(list<Database::entry> entries) const
-    {
-        entries.sort([](const auto &a, const auto &b)
-                     {
-                         return (a.datetime > b.datetime);
-                     });
-        entries.unique();
+list<Database::entry>
+ExportBase::sort_entries(list<Database::entry> entries) const
+{
+    entries.sort([](const auto &a, const auto &b)
+                 {
+                     return (a.datetime > b.datetime);
+                 });
+    entries.unique();
 
-        return entries;
-    }
+    return entries;
+}
 } // namespace Export
 } // namespace remwharead

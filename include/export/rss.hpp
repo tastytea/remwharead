@@ -24,22 +24,22 @@ namespace remwharead
 {
 namespace Export
 {
-    using std::string;
+using std::string;
 
-    /*!
-     *  @brief  Export as %RSS feed.
-     *
-     *  @since  0.8.0
-     *
-     *  @headerfile rss.hpp remwharead/export/rss.hpp
-     */
-    class RSS : protected ExportBase
-    {
-    public:
-        using ExportBase::ExportBase;
+/*!
+ *  @brief  Export as %RSS feed.
+ *
+ *  @since  0.8.0
+ *
+ *  @headerfile rss.hpp remwharead/export/rss.hpp
+ */
+class RSS : protected ExportBase
+{
+public:
+    using ExportBase::ExportBase;
 
-        void print() const override;
-    };
+    void print() const override;
+};
 } // namespace Export
 } // namespace remwharead
 

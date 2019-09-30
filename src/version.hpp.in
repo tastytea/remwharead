@@ -3,7 +3,7 @@
 
 namespace global
 {
-    static constexpr char version[] = "@PROJECT_VERSION@";
+static constexpr char version[] = "@PROJECT_VERSION@";
 }
 
-#endif // VERSION_HPP
+#endif  // VERSION_HPP

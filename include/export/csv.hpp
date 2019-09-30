@@ -17,8 +17,8 @@
 #ifndef REMWHAREAD_EXPORT_CSV_HPP
 #define REMWHAREAD_EXPORT_CSV_HPP
 
-#include <string>
 #include "export.hpp"
+#include <string>
 
 namespace remwharead
 {

@@ -17,57 +17,57 @@
 #ifndef REMWHAREAD_EXPORT_ADOC_HPP
 #define REMWHAREAD_EXPORT_ADOC_HPP
 
+#include "export.hpp"
+#include "sqlite.hpp"
 #include <map>
 #include <string>
 #include <vector>
-#include "sqlite.hpp"
-#include "export.hpp"
 
 namespace remwharead
 {
 namespace Export
 {
-    using std::string;
+using std::string;
 
-    /*!
-     *  @brief  Export as %AsciiDoc document.
-     *
-     *  @since  0.6.0
-     *
-     *  @headerfile adoc.hpp remwharead/export/adoc.hpp
-     */
-    class AsciiDoc : protected ExportBase
-    {
-    public:
-        using ExportBase::ExportBase;
+/*!
+ *  @brief  Export as %AsciiDoc document.
+ *
+ *  @since  0.6.0
+ *
+ *  @headerfile adoc.hpp remwharead/export/adoc.hpp
+ */
+class AsciiDoc : protected ExportBase
+{
+public:
+    using ExportBase::ExportBase;
 
-        void print() const override;
+    void print() const override;
 
-    private:
-        using tagmap = std::map<string, list<Database::entry>>;
-        using replacemap = const std::map<const string, const string>;
+private:
+    using tagmap = std::map<string, list<Database::entry>>;
+    using replacemap = const std::map<const string, const string>;
 
-        //! Replace strings in text.
-        string replace(string text, const replacemap &replacements) const;
+    //! Replace strings in text.
+    string replace(string text, const replacemap &replacements) const;
 
-        //! Replaces characters in tags that asciidoctor doesn't like.
-        string replace_in_tag(const string &text) const;
+    //! Replaces characters in tags that asciidoctor doesn't like.
+    string replace_in_tag(const string &text) const;
 
-        //! Replaces characters in title that asciidoctor doesn't like.
-        string replace_in_title(const string &text) const;
+    //! Replaces characters in title that asciidoctor doesn't like.
+    string replace_in_title(const string &text) const;
 
-        //! Replaces characters in URI that asciidoctor doesn't like.
-        string replace_in_uri(const string &text) const;
+    //! Replaces characters in URI that asciidoctor doesn't like.
+    string replace_in_uri(const string &text) const;
 
-        //! Print things sorted by tag.
-        void print_tags(const tagmap &tags) const;
+    //! Print things sorted by tag.
+    void print_tags(const tagmap &tags) const;
 
-        //! Get ISO-8601 day from Database::entry.
-        string get_day(const Database::entry &entry) const;
+    //! Get ISO-8601 day from Database::entry.
+    string get_day(const Database::entry &entry) const;
 
-        //! Get ISO-8601 time from Database::entry.
-        string get_time(const Database::entry &entry) const;
-    };
+    //! Get ISO-8601 time from Database::entry.
+    string get_time(const Database::entry &entry) const;
+};
 } // namespace Export
 } // namespace remwharead
 
