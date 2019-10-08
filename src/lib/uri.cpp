@@ -171,6 +171,7 @@ string URI::make_request(const string &uri, bool archive) const
     }
     else
     {
+        // NOLINTNEXTLINE(cert-err60-cpp)
         throw Poco::Exception("Protocol not supported.");
     }
 
@@ -214,7 +215,7 @@ string URI::make_request(const string &uri, bool archive) const
     }
     default:
     {
-        throw Poco::Exception(response.getReason());
+        throw Poco::Exception(response.getReason()); // NOLINT(cert-err60-cpp)
         return "";
     }
     }
