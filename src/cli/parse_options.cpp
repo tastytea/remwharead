@@ -20,6 +20,7 @@
 #include <Poco/Util/HelpFormatter.h>
 #include <Poco/Util/Option.h>
 #include <iostream>
+#include <memory>
 
 using namespace remwharead_cli;
 using std::cout;
@@ -30,8 +31,7 @@ using Poco::Util::OptionCallback;
 using Poco::Util::HelpFormatter;
 
 App::App()
-    : _help_requested(false)
-    , _version_requested(false)
+    : _exit_requested(false)
     , _argument_error(false)
     , _format(export_format::undefined)
     , _timespan({ time_point(), system_clock::now() })
@@ -43,10 +43,11 @@ void App::defineOptions(OptionSet& options)
 {
     options.addOption(
         Option("help", "h", "Show this help message.")
-        .callback(OptionCallback<App>(this, &App::handle_info)));
+        .argument("option", false)
+        .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("version", "V", "Print version, copyright and license.")
-        .callback(OptionCallback<App>(this, &App::handle_info)));
+        .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("tags", "t", "Add tags to URI, delimited by commas.")
         .argument("tags")
@@ -82,23 +83,21 @@ void App::defineOptions(OptionSet& options)
         .callback(OptionCallback<App>(this, &App::handle_options)));
 }
 
-void App::handle_info(const std::string &name, const std::string &)
+void App::handle_options(const std::string &name, const std::string &value)
 {
     if (name == "help")
     {
-        _help_requested = true;
+        _exit_requested = true;
+        print_help(value);
+        stopOptionsProcessing();
     }
     else if (name == "version")
     {
-        _version_requested = true;
+        _exit_requested = true;
+        print_version();
+        stopOptionsProcessing();
     }
-
-    stopOptionsProcessing();
-}
-
-void App::handle_options(const std::string &name, const std::string &value)
-{
-    if (name == "tags")
+    else if (name == "tags")
     {
         size_t pos_end = 0;
         size_t pos_start = 0;
@@ -193,14 +192,26 @@ void App::handle_options(const std::string &name, const std::string &value)
     }
 }
 
-void App::print_help()
+void App::print_help(const string &option)
 {
-    HelpFormatter helpFormatter(options());
-    helpFormatter.setCommand(commandName());
-    helpFormatter.setUsage("[-t tags] [-N] URI\n"
-                           "-e format [-f file] [-T start,end] "
-                           "[[-s|-S] expression] [-r]");
-    helpFormatter.format(cout);
+    std::unique_ptr<HelpFormatter> helpFormatter;
+    OptionSet oneoption;
+
+    if (option.empty())
+    {
+        helpFormatter = std::make_unique<HelpFormatter>(options());
+        helpFormatter->setCommand(commandName());
+        helpFormatter->setUsage("[-t tags] [-N] URI\n"
+                                "-e format [-f file] [-T start,end] "
+                                "[[-s|-S] expression] [-r]");
+    }
+    else
+    {
+        oneoption.addOption(options().getOption(option));
+        helpFormatter = std::make_unique<HelpFormatter>(oneoption);
+    }
+
+    helpFormatter->format(cout);
 }
 
 void App::print_version()

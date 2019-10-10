@@ -45,13 +45,9 @@ int App::main(const std::vector<std::string> &args)
 {
     std::locale::global(std::locale("")); // Set locale globally.
 
-    if (_version_requested)
+    if (_exit_requested)
     {
-        print_version();
-    }
-    else if (_help_requested)
-    {
-        print_help();
+        return 0;
     }
     else
     {
