@@ -29,6 +29,7 @@
 #include <cstdint>
 #include <exception>
 #include <iostream>
+#include <iterator>
 #include <locale>
 #include <sstream>
 #include <utility>
@@ -249,7 +250,7 @@ string URI::extract_description(const string &html)
         re_desc.split(html, matches);
         if (matches.size() >= 2)
         {
-            return remove_newlines(unescape_html(matches[1]));
+            return remove_newlines(cut_text(unescape_html(matches[1]), 500));
         }
     }
 
@@ -656,4 +657,20 @@ string URI::remove_newlines(string text)
 
     return text;
 }
+
+string URI::cut_text(const string &text, const uint16_t n_chars) const
+{
+    if (text.size() > n_chars)
+    {
+        constexpr char suffix[] = " […]";
+        constexpr auto suffix_len = std::end(suffix) - std::begin(suffix) - 1;
+
+        const size_t pos = text.rfind(' ', n_chars - suffix_len);
+
+        return text.substr(0, pos) + suffix;
+    }
+
+    return text;
+}
+
 } // namespace remwharead

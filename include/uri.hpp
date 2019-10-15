@@ -17,10 +17,12 @@
 #ifndef REMWHAREAD_URI_HPP
 #define REMWHAREAD_URI_HPP
 
+#include <cstdint>
 #include <string>
 
 namespace remwharead
 {
+using std::uint16_t;
 using std::string;
 
 /*!
@@ -162,6 +164,13 @@ protected:
      *  @since  0.8.5
      */
     void set_proxy();
+
+    /*!
+     *  @brief  Limits text to N characters, cuts at space.
+     *
+     *  @since  0.8.5
+     */
+    string cut_text(const string &text, const uint16_t n_chars) const;
 };
 } // namespace remwharead
 
