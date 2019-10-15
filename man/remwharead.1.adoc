@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-09-23
+:Date:          2019-10-15
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -13,9 +13,9 @@ remwharead - Saves URIs of things you want to remember in a database
 
 == SYNOPSIS
 
-*remwharead* [*-t* _tags_] [*-N*] _URI_
+*remwharead* [*-t*=_tags_] [*-N*] _URI_
 
-*remwharead* *-e* _format_ [*-f* _file_] [*-T* _start_,_end_] [[*-s*|*-S*] _expression_] [*-r*]
+*remwharead* *-e*=_format_ [*-f*=_file_] [*-T*=_start_,_end_] [[*-s*|*-S*]=_expression_] [*-r*]
 
 == DESCRIPTION
 
@@ -31,27 +31,27 @@ https://archive.org/[Internet Archive].
 
 == OPTIONS
 
-*-t* _tags_, *--tags* _tags_::
+*-t*=_tags_, *--tags*=_tags_::
 Add tags to _URI_, delimited by commas.
 
-*-e* _format_, *--export* _format_::
+*-e*=_format_, *--export*=_format_::
 Export to _format_. Possible values are _csv_, _asciidoc_, _bookmarks_,
 _simple_, _json_ or _rss_. See _FORMATS_.
 
-*-f* _file_, *--file* _file_::
+*-f*=_file_, *--file*=_file_::
 Save output to _file_. Default is stdout.
 
-*-T* _start_,_end_, *--time-span* _start_,_end_::
+*-T*=_start_,_end_, *--time-span*=_start_,_end_::
 Only export entries between and including _start_ and _end_. _start_ and _end_
 are date and time representations according to ISO 8601
 (YYYY-MM-DDThh:mm:ss). Time zones are ignored.
-Example: `--time-span 2019-01-01,2019-02-10T12:30`.
+Example: `--time-span=2019-01-01,2019-02-10T12:30`.
 
-*-s* _expression_, *--search-tags* _expression_::
+*-s*=_expression_, *--search-tags*=_expression_::
 Search in tags. Format: _tag1 AND tag2 OR tag3_. See _SEARCH EXPRESSIONS_. Case
 insensitive.
 
-*-S* _expression_, *--search-all* _expression_::
+*-S*=_expression_, *--search-all*=_expression_::
 Search in tags, title, description and full text. See _SEARCH EXPRESSIONS_. Case
 insensitive.
 
@@ -72,32 +72,32 @@ Print version, copyright and license.
 
 .Save a thing into the database, with tags.
 ====
-`remwharead -t tag1,tag2 https://example.com/article.html`
+`remwharead -t=tag1,tag2 https://example.com/article.html`
 ====
 
 .Export all things between and including 2019-04-01 and 2019-05-31 to a file.
 ====
-`remwharead -e asciidoc -f out.adoc -T 2019-04-01,2019-05-31`
+`remwharead -e=asciidoc -f=out.adoc -T=2019-04-01,2019-05-31`
 ====
 
 .Export all things to an HTML file.
 ====
-`remwharead -e asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
+`remwharead -e=asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
 ====
 
 .Export all things about GRUB the boot-loader, but nothing about caterpillars.
 ====
-`remwharead -e csv -s "grub AND boot"`
+`remwharead -e=csv -s="grub AND boot"`
 ====
 
 .Output all articles by Jan Müller, consider different spellings.
 ====
-`remwharead -e simple -S 'Jan[\s]+M(ü|ue?)ller' -r`
+`remwharead -e=simple -S='Jan[\s]+M(ü|ue?)ller' -r`
 ====
 
 .Export all things from the last week to an RSS feed.
 ====
-`remwharead -e rss -T $(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
+`remwharead -e=rss -T=$(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
 ====
 
 === Display database
@@ -109,7 +109,7 @@ can periodically generate an HTML file with cron and display it in the browser.
 ====
 [source,crontab]
 ----
-*/30 * * * * remwharead -e asciidoc -T $(date -d "-6 months" -I),$(date -Iminutes) | asciidoctor --backend=html5 --out-file=${HOME}/remwharead.html -
+*/30 * * * * remwharead -e=asciidoc -T=$(date -d "-6 months" -I),$(date -Iminutes) | asciidoctor --backend=html5 --out-file=${HOME}/remwharead.html -
 ----
 ====
 
