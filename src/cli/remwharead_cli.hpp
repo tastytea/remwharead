@@ -42,15 +42,13 @@ public:
 
 protected:
     void defineOptions(OptionSet& options) override;
-    void handle_info(const string &name, const string &);
     void handle_options(const string &name, const string &value);
-    void print_help();
+    void print_help(const string &option);
     void print_version();
     int main(const std::vector<string> &args) override;
 
 private:
-    bool _help_requested;
-    bool _version_requested;
+    bool _exit_requested;
     bool _argument_error;
     string _uri;
     vector<string> _tags;
