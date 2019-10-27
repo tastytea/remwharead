@@ -617,7 +617,7 @@ string URI::unescape_html(string html)
     return html;
 }
 
-archive_answer URI::archive()
+archive_answer URI::archive() const
 {
     if (_uri.substr(0, 4) != "http")
     {

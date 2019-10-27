@@ -101,7 +101,7 @@ public:
      *
      *  @since  0.6.0
      */
-    archive_answer archive();
+    archive_answer archive() const;
 
 protected:
     string _uri;
