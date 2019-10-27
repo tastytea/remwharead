@@ -111,6 +111,8 @@ private:
     fs::path _dbpath;
     std::unique_ptr<Session> _session;
     bool _connected;
+
+    fs::path get_data_home() const;
 };
 } // namespace remwharead
 

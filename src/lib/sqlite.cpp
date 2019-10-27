@@ -19,11 +19,7 @@
 #include <Poco/Data/SQLite/Connector.h>
 #include <Poco/Data/Session.h>
 #include <Poco/Version.h>
-#if POCO_VERSION >= 0x01090000  // Path::dataHome() is only in 1.9 and above.
-#include <Poco/Path.h>
-#else
 #include <Poco/Environment.h>
-#endif
 #include <algorithm>
 #include <exception>
 #include <iostream>
@@ -34,30 +30,14 @@ using std::cerr;
 using std::endl;
 using namespace Poco::Data::Keywords;
 using Poco::Data::Statement;
-#if POCO_VERSION < 0x01090000
 using Poco::Environment;
-#endif
 
 Database::Database()
     : _connected(false)
 {
     try
     {
-        #if POCO_VERSION >= 0x01090000
-        _dbpath = Poco::Path::dataHome() / fs::path("remwharead");
-        #else
-        if (Environment::has("XDG_DATA_HOME"))
-        {
-            _dbpath = Environment::get("XDG_DATA_HOME")
-                / fs::path("remwharead");
-        }
-        else if (Environment::has("HOME"))
-        {
-            _dbpath = Environment::get("HOME")
-                / fs::path(".local/share/remwharead");
-        } // Else use current directory.
-        #endif
-
+        _dbpath = get_data_home();
         if (!fs::exists(_dbpath))
         {
             fs::create_directories(_dbpath);
@@ -184,5 +164,21 @@ list<Database::entry> Database::retrieve(const time_point &start,
     }
 
     return {};
+}
+
+fs::path Database::get_data_home() const
+{
+    fs::path path;
+
+    if (Environment::has("XDG_DATA_HOME"))
+    {
+        path = Environment::get("XDG_DATA_HOME") / fs::path("remwharead");
+    }
+    else if (Environment::has("HOME"))
+    {
+        path = Environment::get("HOME") / fs::path(".local/share/remwharead");
+    } // Else return empty path.
+
+    return path;
 }
 } // namespace remwharead
