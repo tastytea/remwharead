@@ -18,8 +18,13 @@
 #include "time.hpp"
 #include <Poco/Data/SQLite/Connector.h>
 #include <Poco/Data/Session.h>
+#include <Poco/Version.h>
+#if POCO_VERSION >= 0x01090000  // Path::dataHome() is only in 1.9 and above.
+#include <Poco/Path.h>
+#else
+#include <Poco/Environment.h>
+#endif
 #include <algorithm>
-#include <basedir.h>
 #include <exception>
 #include <iostream>
 
@@ -29,16 +34,29 @@ using std::cerr;
 using std::endl;
 using namespace Poco::Data::Keywords;
 using Poco::Data::Statement;
+#if POCO_VERSION < 0x01090000
+using Poco::Environment;
+#endif
 
 Database::Database()
     : _connected(false)
 {
     try
     {
-        xdgHandle xdg;
-        xdgInitHandle(&xdg);
-        _dbpath = xdgDataHome(&xdg) / fs::path("remwharead");
-        xdgWipeHandle(&xdg);
+        #if POCO_VERSION >= 0x01090000
+        _dbpath = Poco::Path::dataHome() / fs::path("remwharead");
+        #else
+        if (Environment::has("XDG_DATA_HOME"))
+        {
+            _dbpath = Environment::get("XDG_DATA_HOME")
+                / fs::path("remwharead");
+        }
+        else if (Environment::has("HOME"))
+        {
+            _dbpath = Environment::get("HOME")
+                / fs::path(".local/share/remwharead");
+        } // Else use current directory.
+        #endif
 
         if (!fs::exists(_dbpath))
         {
