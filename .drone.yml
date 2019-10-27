@@ -153,6 +153,26 @@ steps:
   - name: debian-package-cache
     path: /var/cache/apt/archives
 
+# - name: rpm
+#   image: centos:8
+#   pull: always
+#   environment:
+#     CXX: g++
+#     CXXFLAGS: -pipe -O2
+#   commands:
+#   - sed -i 's/keepcache=0/keepcache=1/' /etc/yum.conf
+#   - yum install -qy epel-release
+#   - yum install --enablerepo=PowerTools --enablerepo=epel -qy gcc-c++ cmake poco-devel openssl-devel doxygen asciidoc rpm-build
+#   - rm -rf build && mkdir -p build && cd build
+#   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_RPM=YES ..
+#   - make package
+#   - cmake -DWITH_RPM=YES -DWITH_DOC=NO ..
+#   - make package
+#   - cp -v remwharead-${DRONE_TAG}-0.x86_64.rpm ..
+#   volumes:
+#   - name: centos-package-cache
+#     path: /var/cache/yum
+
 - name: release
   image: plugins/gitea-release
   pull: always
