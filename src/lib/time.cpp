@@ -14,6 +14,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "time.hpp"
 #include "sqlite.hpp"
 #include <array>
 #include <cstdint>

@@ -1,7 +1,5 @@
 include(GNUInstallDirs)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(libxdg-basedir REQUIRED IMPORTED_TARGET libxdg-basedir)
 # Some distributions do not contain Poco*Config.cmake recipes.
 find_package(Poco
   COMPONENTS Foundation Net NetSSL Data DataSQLite JSON XML
@@ -24,7 +22,7 @@ target_include_directories(${PROJECT_NAME}
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 target_link_libraries(${PROJECT_NAME}
-  PRIVATE PkgConfig::libxdg-basedir pthread
+  PRIVATE pthread
   PUBLIC stdc++fs)
 
 # If no Poco*Config.cmake recipes are found, look for headers in standard dirs.

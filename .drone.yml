@@ -13,18 +13,18 @@ trigger:
     - tag
 
 steps:
-- name: gcc8
+- name: gcc7
   image: debian:buster-slim
   pull: always
   environment:
-    CXX: g++-8
+    CXX: g++-7
     CXXFLAGS: -pipe -O2
     LANG: en_US.utf-8
   commands:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy g++-7 cmake libpoco-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DWITH_MOZILLA=YES -DWITH_TESTS=YES ..
   - make VERBOSE=1
@@ -52,7 +52,7 @@ steps:
   - gpg --armor --export 0x60c317803a41ba51845e371a1e9377a2ba9ef27f | apt-key add -
   - apt-get update -q
   - apt-get install -qy -t bionic g++-9
-  - apt-get install -qy cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy cmake libpoco-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -71,7 +71,7 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy clang-6.0 cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy clang-6.0 cmake libpoco-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -90,7 +90,7 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy clang cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy clang cmake libpoco-dev asciidoc catch
   - rm -rf build && mkdir -p build && cd build
   - cmake -DWITH_MOZILLA=YES ..
   - make VERBOSE=1
@@ -140,7 +140,7 @@ steps:
   - rm /etc/apt/apt.conf.d/docker-clean
   - alias apt-get='rm -f /var/cache/apt/archives/lock && apt-get'
   - apt-get update -q
-  - apt-get install -qy g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc catch
+  - apt-get install -qy g++ cmake libpoco-dev asciidoc catch
   - apt-get install -qy build-essential file zip
   - rm -rf build && mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_MOZILLA=YES -DMOZILLA_NMH_DIR="lib/mozilla/native-messaging-hosts" -DWITH_DEB=YES ..
@@ -152,6 +152,26 @@ steps:
   volumes:
   - name: debian-package-cache
     path: /var/cache/apt/archives
+
+# - name: rpm
+#   image: centos:8
+#   pull: always
+#   environment:
+#     CXX: g++
+#     CXXFLAGS: -pipe -O2
+#   commands:
+#   - sed -i 's/keepcache=0/keepcache=1/' /etc/yum.conf
+#   - yum install -qy epel-release
+#   - yum install --enablerepo=PowerTools --enablerepo=epel -qy gcc-c++ cmake poco-devel openssl-devel doxygen asciidoc rpm-build
+#   - rm -rf build && mkdir -p build && cd build
+#   - cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_RPM=YES ..
+#   - make package
+#   - cmake -DWITH_RPM=YES -DWITH_DOC=NO ..
+#   - make package
+#   - cp -v remwharead-${DRONE_TAG}-0.x86_64.rpm ..
+#   volumes:
+#   - name: centos-package-cache
+#     path: /var/cache/yum
 
 - name: release
   image: plugins/gitea-release

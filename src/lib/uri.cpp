@@ -45,6 +45,7 @@ using std::vector;
 using std::cerr;
 using std::endl;
 using std::move;
+using std::uint32_t;
 using Poco::Net::HTTPClientSession;
 using Poco::Net::HTTPSClientSession;
 using Poco::Net::HTTPRequest;
@@ -92,12 +93,13 @@ void URI::set_proxy()
         proxy.host = matches[3];
         if (!matches[4].empty())
         {
-            const std::uint32_t &port = std::stoul(matches[4]);
+            // NOLINTNEXTLINE(google-runtime-lint) - Need to use same as stoul.
+            const unsigned long port = std::stoul(matches[4]);
             if (port > 65535)
             {
                 throw std::invalid_argument("Proxy port number out of range");
             }
-            proxy.port = port;
+            proxy.port = static_cast<uint16_t>(port);
         }
         HTTPClientSession::setGlobalProxyConfig(proxy);
     }
@@ -331,11 +333,11 @@ string URI::unescape_html(string html)
         // 'x' in front of the number means it's hexadecimal, else decimal.
         if (matches[1].length != 0)
         {
-            codepoint = std::stoi(number, nullptr, 16);
+            codepoint = static_cast<char32_t>(std::stoul(number, nullptr, 16));
         }
         else
         {
-            codepoint = std::stoi(number, nullptr, 10);
+            codepoint = static_cast<char32_t>(std::stoi(number, nullptr, 10));
         }
         const string unicode = u8c.to_bytes(codepoint);
         html.replace(matches[0].offset, matches[0].length, unicode);
@@ -615,7 +617,7 @@ string URI::unescape_html(string html)
     return html;
 }
 
-archive_answer URI::archive()
+archive_answer URI::archive() const
 {
     if (_uri.substr(0, 4) != "http")
     {
@@ -664,8 +666,14 @@ string URI::cut_text(const string &text, const uint16_t n_chars) const
     {
         constexpr char suffix[] = " […]";
         constexpr auto suffix_len = std::end(suffix) - std::begin(suffix) - 1;
+        if (n_chars <= suffix_len)
+        {
+            throw std::invalid_argument("n_chars has to be greater than "
+                                        + std::to_string(suffix_len));
+        }
 
-        const size_t pos = text.rfind(' ', n_chars - suffix_len);
+        const size_t pos =
+            text.rfind(' ', static_cast<size_t>(n_chars - suffix_len));
 
         return text.substr(0, pos) + suffix;
     }

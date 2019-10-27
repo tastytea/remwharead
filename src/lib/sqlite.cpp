@@ -18,8 +18,9 @@
 #include "time.hpp"
 #include <Poco/Data/SQLite/Connector.h>
 #include <Poco/Data/Session.h>
+#include <Poco/Version.h>
+#include <Poco/Environment.h>
 #include <algorithm>
-#include <basedir.h>
 #include <exception>
 #include <iostream>
 
@@ -29,17 +30,14 @@ using std::cerr;
 using std::endl;
 using namespace Poco::Data::Keywords;
 using Poco::Data::Statement;
+using Poco::Environment;
 
 Database::Database()
     : _connected(false)
 {
     try
     {
-        xdgHandle xdg;
-        xdgInitHandle(&xdg);
-        _dbpath = xdgDataHome(&xdg) / fs::path("remwharead");
-        xdgWipeHandle(&xdg);
-
+        _dbpath = get_data_home();
         if (!fs::exists(_dbpath))
         {
             fs::create_directories(_dbpath);
@@ -166,5 +164,21 @@ list<Database::entry> Database::retrieve(const time_point &start,
     }
 
     return {};
+}
+
+fs::path Database::get_data_home() const
+{
+    fs::path path;
+
+    if (Environment::has("XDG_DATA_HOME"))
+    {
+        path = Environment::get("XDG_DATA_HOME") / fs::path("remwharead");
+    }
+    else if (Environment::has("HOME"))
+    {
+        path = Environment::get("HOME") / fs::path(".local/share/remwharead");
+    } // Else return empty path.
+
+    return path;
 }
 } // namespace remwharead

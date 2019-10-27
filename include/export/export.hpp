@@ -46,6 +46,7 @@ public:
      */
     explicit ExportBase(const list<Database::entry> &entries,
                         ostream &out = cout);
+    virtual ~ExportBase() = default;
 
     /*!
      *  @brief  Print output to std::ostream.

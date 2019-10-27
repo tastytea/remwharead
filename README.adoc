@@ -12,8 +12,6 @@
 :uri-gcc: https://gcc.gnu.org/
 :uri-clang: https://clang.llvm.org/
 :uri-cmake: https://cmake.org/
-:uri-pkgconfig: https://pkgconfig.freedesktop.org/wiki/
-:uri-libxdg-basedir: http://repo.or.cz/w/libxdg-basedir.git
 :uri-poco: https://pocoproject.org/
 :uri-asciidoc: http://asciidoc.org/
 :uri-catch: https://github.com/catchorg/Catch2
@@ -78,10 +76,8 @@ only.
 ==== Dependencies
 
 * Tested OS: Linux
-* C++ compiler (tested: {uri-gcc}[gcc] 8/9, {uri-clang}[clang] 6/7)
+* C++ compiler (tested: {uri-gcc}[gcc] 7/8/9, {uri-clang}[clang] 6/7)
 * {uri-cmake}[cmake] (at least: 3.6)
-* {uri-pkgconfig}[pkgconfig] (tested: 0.29)
-* {uri-libxdg-basedir}[libxdg-basedir] (tested: 1.2)
 * {uri-poco}[POCO] (tested: 1.9 / 1.7)
 * Optional:
 ** Manpage: {uri-asciidoc}[asciidoc] (tested: 8.6)
@@ -93,7 +89,7 @@ only.
 ====
 [source,zsh]
 ----
-apt-get install g++ cmake pkg-config libpoco-dev libxdg-basedir-dev asciidoc dpkg
+apt-get install g++ cmake libpoco-dev asciidoc dpkg
 ----
 ====
 

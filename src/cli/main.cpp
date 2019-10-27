@@ -31,6 +31,7 @@
 #include <list>
 #include <locale>
 #include <string>
+#include <thread>
 
 using namespace remwharead;
 using namespace remwharead_cli;
@@ -76,6 +77,17 @@ int App::main(const std::vector<std::string> &args)
     if (!_uri.empty())
     {
         URI uri(_uri);
+
+        archive_answer archive_data;
+        std::thread thread_archive;
+        if (_archive)
+        {
+            thread_archive = std::thread([&archive_data, &uri]
+                                         {
+                                             archive_data = uri.archive();
+                                         });
+        }
+
         html_extract page = uri.get();
         if (!page)
         {
@@ -84,17 +96,17 @@ int App::main(const std::vector<std::string> &args)
             return 3;
         }
 
-        archive_answer archive;
         if (_archive)
         {
-            archive = uri.archive();
-            if (!archive)
+            thread_archive.join();
+            if (!archive_data)
             {
-                cerr << "Error archiving URL: " << archive.error << endl;
+                cerr << "Error archiving URL: " << archive_data.error << endl;
             }
         }
-        db.store({_uri, archive.uri, system_clock::now(), _tags, page.title,
-                  page.description, page.fulltext});
+
+        db.store({_uri, archive_data.uri, system_clock::now(), _tags,
+                  page.title, page.description, page.fulltext});
     }
 
     ofstream file;
