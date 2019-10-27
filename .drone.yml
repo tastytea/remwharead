@@ -13,11 +13,11 @@ trigger:
     - tag
 
 steps:
-- name: gcc8
+- name: gcc7
   image: debian:buster-slim
   pull: always
   environment:
-    CXX: g++-8
+    CXX: g++-7
     CXXFLAGS: -pipe -O2
     LANG: en_US.utf-8
   commands:
