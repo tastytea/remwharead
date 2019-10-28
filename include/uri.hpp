@@ -170,7 +170,7 @@ protected:
      *
      *  @since  0.8.5
      */
-    string cut_text(const string &text, const uint16_t n_chars) const;
+    string cut_text(const string &text, uint16_t n_chars) const;
 };
 } // namespace remwharead
 
