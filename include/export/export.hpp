@@ -47,6 +47,11 @@ public:
     explicit ExportBase(const list<Database::entry> &entries,
                         ostream &out = cout);
     virtual ~ExportBase() = default;
+    ExportBase(const ExportBase &) = delete;
+    ExportBase &operator=(const ExportBase &) = delete;
+    ExportBase(ExportBase &&) = delete;
+    ExportBase &operator=(ExportBase &&) = delete;
+
 
     /*!
      *  @brief  Print output to std::ostream.
