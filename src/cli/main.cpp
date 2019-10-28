@@ -50,21 +50,19 @@ int App::main(const std::vector<std::string> &args)
     {
         return 0;
     }
-    else
+
+    if (_argument_error)
     {
-        if (_argument_error)
-        {
-            return 1;
-        }
-        if (!args.empty())
-        {
-            _uri = args[0];
-        }
-        if (_uri.empty() && _format == export_format::undefined)
-        {
-            cerr << "Error: You have to specify either an URI or --export.\n";
-            return 1;
-        }
+        return 1;
+    }
+    if (!args.empty())
+    {
+        _uri = args[0];
+    }
+    if (_uri.empty() && _format == export_format::undefined)
+    {
+        cerr << "Error: You have to specify either an URI or --export.\n";
+        return 1;
     }
 
     Database db;
