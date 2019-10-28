@@ -93,7 +93,7 @@ void URI::set_proxy()
         proxy.host = matches[3];
         if (!matches[4].empty())
         {
-            // NOLINTNEXTLINE(google-runtime-lint) - Need to use same as stoul.
+            // NOLINTNEXTLINE(google-runtime-int) - Need to use same as stoul.
             const unsigned long port = std::stoul(matches[4]);
             if (port > 65535)
             {
