@@ -23,9 +23,7 @@
 #include <string>
 #include <vector>
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 using std::string;
 
@@ -68,7 +66,6 @@ private:
     //! Get ISO-8601 time from Database::entry.
     string get_time(const Database::entry &entry) const;
 };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_ADOC_HPP

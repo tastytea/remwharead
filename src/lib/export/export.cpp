@@ -17,9 +17,7 @@
 #include "export/export.hpp"
 #include <algorithm>
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 ExportBase::ExportBase(const list<Database::entry> &entries, ostream &out)
     : _entries(sort_entries(entries))
@@ -37,5 +35,4 @@ ExportBase::sort_entries(list<Database::entry> entries) const
 
     return entries;
 }
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export

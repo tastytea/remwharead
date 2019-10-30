@@ -21,9 +21,7 @@
 #include <iostream>
 #include <list>
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 using std::list;
 using std::ostream;
@@ -71,7 +69,6 @@ protected:
      */
     list<Database::entry> sort_entries(list<Database::entry> entries) const;
 };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_EXPORT_HPP
