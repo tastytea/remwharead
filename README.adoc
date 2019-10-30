@@ -77,7 +77,7 @@ only.
 
 * Tested OS: Linux
 * C++ compiler (tested: {uri-gcc}[gcc] 7/8/9, {uri-clang}[clang] 6/7)
-* {uri-cmake}[cmake] (at least: 3.6)
+* {uri-cmake}[cmake] (at least: 3.9)
 * {uri-poco}[POCO] (tested: 1.9 / 1.7)
 * Optional:
 ** Manpage: {uri-asciidoc}[asciidoc] (tested: 8.6)

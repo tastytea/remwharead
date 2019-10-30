@@ -1,6 +1,6 @@
-# Support version 3.6 and above, but use policy settings up to 3.14.
-# 3.6 is needed because of IMPORTED_TARGET in pkg_check_modules().
-cmake_minimum_required(VERSION 3.6...3.14)
+# Support version 3.9 and above, but use policy settings up to 3.14.
+# 3.9 is needed for project description.
+cmake_minimum_required(VERSION 3.9...3.14)
 # Ranges are supported from 3.12, set policy to current for < 3.12.
 if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -8,12 +8,8 @@ endif()
 
 project(remwharead
   VERSION 0.8.5
+  DESCRIPTION "Saves URIs of things you want to remember in a database."
   LANGUAGES CXX)
-# DESCRIPTION was introduced in version 3.9.
-if(NOT (${CMAKE_VERSION} VERSION_LESS 3.9))
-  set(PROJECT_DESCRIPTION
-    "Saves URIs of things you want to remember in a database.")
-endif()
 
 include(GNUInstallDirs)
 
