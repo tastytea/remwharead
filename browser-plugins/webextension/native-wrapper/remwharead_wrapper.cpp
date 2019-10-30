@@ -27,7 +27,11 @@ using std::cout;
 using std::uint32_t;
 using std::system;
 
-const string read_input()
+string read_input();
+void send_message(const string &message);
+int launch(const string &args);
+
+string read_input()
 {
     // Read message length.
     uint32_t length;
@@ -55,7 +59,8 @@ const string read_input()
 
 void send_message(const string &message)
 {
-    const uint32_t length = static_cast<uint32_t>(message.length() + 2);
+    const auto length = static_cast<uint32_t>(message.length() + 2);
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast) - Necessary.
     cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
     cout << '"' << message << '"';
 }
@@ -63,10 +68,11 @@ void send_message(const string &message)
 int launch(const string &args)
 {
     const string cmd = "remwharead " + args + " 2>/dev/null";
+    // NOLINTNEXTLINE(cert-env33-c) - We get the arguments in a string.
     int ret = system(cmd.c_str());
-    if (WIFEXITED(ret))
+    if (WIFEXITED(ret))         // NOLINT(hicpp-signed-bitwise) - Necessary.
     {
-        ret = WEXITSTATUS(ret);
+        ret = WEXITSTATUS(ret); // NOLINT(hicpp-signed-bitwise) - Necessary.
     }
 
     return ret;
