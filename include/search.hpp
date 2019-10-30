@@ -57,6 +57,7 @@ public:
      *
      *  @since  0.7.0
      */
+    [[nodiscard]]
     list<Database::entry> search_tags(const string &expression, bool is_re)
         const;
 
@@ -72,6 +73,7 @@ public:
      *
      *  @since  0.7.0
      */
+    [[nodiscard]]
     list<Database::entry> search_all(const string &expression, bool is_re)
         const;
 
@@ -89,6 +91,7 @@ public:
      *  @since  0.7.2
      */
     // TODO(tastytea): Think of something more elegant.
+    [[nodiscard]]
     list<Database::entry> search_all_threaded(const string &expression,
                                               bool is_re) const;
 
@@ -106,6 +109,7 @@ private:
      *
      *  @since  0.7.0
      */
+    [[nodiscard]]
     vector<vector<string>> parse_expression(const string &expression) const;
 
     /*!
@@ -113,6 +117,7 @@ private:
      *
      *  @since  0.7.0
      */
+    [[nodiscard]]
     inline string to_lowercase(const string &str) const;
 };
 } // namespace remwharead

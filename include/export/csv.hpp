@@ -40,6 +40,7 @@ namespace remwharead::Export
 
     private:
         //! replaces " with "".
+        [[nodiscard]]
         string quote(string field) const;
     };
 } // namespace remwharead::Export

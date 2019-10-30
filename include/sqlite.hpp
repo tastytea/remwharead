@@ -75,6 +75,7 @@ public:
          *
          *  @since  0.6.0
          */
+        [[nodiscard]]
         string fulltext_oneline() const;
     };
 
@@ -104,6 +105,7 @@ public:
      *
      *  @since  0.6.0
      */
+    [[nodiscard]]
     list<entry> retrieve(const time_point &start = time_point(),
                          const time_point &end = system_clock::now()) const;
 
@@ -112,6 +114,7 @@ private:
     std::unique_ptr<Session> _session;
     bool _connected;
 
+    [[nodiscard]]
     fs::path get_data_home() const;
 };
 } // namespace remwharead

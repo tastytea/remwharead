@@ -67,6 +67,7 @@ protected:
      *
      *  @return Sorted list of Database::entry.
      */
+    [[nodiscard]]
     list<Database::entry> sort_entries(list<Database::entry> entries) const;
 };
 } // namespace remwharead::Export
