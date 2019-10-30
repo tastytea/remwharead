@@ -28,53 +28,53 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(DEBUG_CXXFLAGS "")
 # GCC >= 5.0 or Clang >= 5.0 is assumed.
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  list(APPEND DEBUG_CXXFLAGS
+    "-Wall"
+    "-Wextra"
+    "-Wpedantic"
+    "-Wuninitialized"
+    "-Wshadow"
+    "-Wnon-virtual-dtor"
+    "-Wconversion"
+    "-Wsign-conversion"
+    "-Wold-style-cast"
+    "-Wzero-as-null-pointer-constant"
+    # "-Wmissing-declarations"
+    "-Wcast-align"
+    "-Wunused"
+    "-Woverloaded-virtual"
+    "-Wdouble-promotion"
+    "-Wformat=2"
+    "-ftrapv"
+    "-fsanitize=undefined"
+    "-g"
+    "-Og"
+    "-fno-omit-frame-pointer")
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     list(APPEND DEBUG_CXXFLAGS
-        "-Wall"
-        "-Wextra"
-        "-Wpedantic"
-        "-Wuninitialized"
-        "-Wshadow"
-        "-Wnon-virtual-dtor"
-        "-Wconversion"
-        "-Wsign-conversion"
-        "-Wold-style-cast"
-        "-Wzero-as-null-pointer-constant"
-        # "-Wmissing-declarations"
-        "-Wcast-align"
-        "-Wunused"
-        "-Woverloaded-virtual"
-        "-Wdouble-promotion"
-        "-Wformat=2"
-        "-ftrapv"
-        "-fsanitize=undefined"
-        "-g"
-        "-Og"
-        "-fno-omit-frame-pointer")
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+      "-Wlogical-op"
+      "-Wuseless-cast")
+    if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "6")
+      list(APPEND DEBUG_CXXFLAGS
+        "-Wmisleading-indentation"
+        "-Wduplicated-cond"
+        "-Wnull-dereference")
+      if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
         list(APPEND DEBUG_CXXFLAGS
-            "-Wlogical-op"
-            "-Wuseless-cast")
-        if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "6")
-            list(APPEND DEBUG_CXXFLAGS
-                "-Wmisleading-indentation"
-                "-Wduplicated-cond"
-                "-Wnull-dereference")
-            if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
-                list(APPEND DEBUG_CXXFLAGS
-                    "-Wduplicated-branches")
-            endif()
-        endif()
+          "-Wduplicated-branches")
+      endif()
     endif()
+  endif()
 
-    set(DEBUG_LDFLAGS
-        "-fsanitize=undefined")
-    add_compile_options("$<$<CONFIG:Debug>:${DEBUG_CXXFLAGS}>")
-    # add_link_options was introduced in version 3.13.
-    if(${CMAKE_VERSION} VERSION_LESS 3.13)
-        set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${DEBUG_LDFLAGS}")
-    else()
-        add_link_options("$<$<CONFIG:Debug>:${DEBUG_LDFLAGS}>")
-    endif()
+  set(DEBUG_LDFLAGS
+    "-fsanitize=undefined")
+  add_compile_options("$<$<CONFIG:Debug>:${DEBUG_CXXFLAGS}>")
+  # add_link_options was introduced in version 3.13.
+  if(${CMAKE_VERSION} VERSION_LESS 3.13)
+    set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${DEBUG_LDFLAGS}")
+  else()
+    add_link_options("$<$<CONFIG:Debug>:${DEBUG_LDFLAGS}>")
+  endif()
 endif()
 
 add_subdirectory(src)
