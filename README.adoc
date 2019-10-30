@@ -76,7 +76,7 @@ only.
 ==== Dependencies
 
 * Tested OS: Linux
-* C++ compiler (tested: {uri-gcc}[gcc] 7/8/9, {uri-clang}[clang] 6/7)
+* C++ compiler ({uri-gcc}[gcc] 6+, {uri-clang}[clang] 6+)
 * {uri-cmake}[cmake] (at least: 3.9)
 * {uri-poco}[POCO] (tested: 1.9 / 1.7)
 * Optional:

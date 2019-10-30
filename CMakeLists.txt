@@ -24,7 +24,7 @@ set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
   CACHE STRING "Directory for the Mozilla extension wrapper.")
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "The type of build.")
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
