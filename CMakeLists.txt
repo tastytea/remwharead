@@ -84,11 +84,11 @@ add_subdirectory(src/cli)
 add_subdirectory(pkg-config)
 add_subdirectory(cmake)
 
-if (WITH_MAN)
+if(WITH_MAN)
   add_subdirectory(man)
 endif()
 
-if (WITH_MOZILLA)
+if(WITH_MOZILLA)
   add_subdirectory(browser-plugins/webextension/native-wrapper)
 endif()
 
