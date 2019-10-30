@@ -87,12 +87,6 @@ int App::main(const std::vector<std::string> &args)
         }
 
         html_extract page = uri.get();
-        if (!page)
-        {
-            cerr << "Error: Could not fetch page.\n";
-            cerr << page.error << endl;
-            return 3;
-        }
 
         if (_archive)
         {
@@ -101,6 +95,13 @@ int App::main(const std::vector<std::string> &args)
             {
                 cerr << "Error archiving URL: " << archive_data.error << endl;
             }
+        }
+
+        if (!page)
+        {
+            cerr << "Error: Could not fetch page.\n";
+            cerr << page.error << endl;
+            return 3;
         }
 
         db.store({_uri, archive_data.uri, system_clock::now(), _tags,
