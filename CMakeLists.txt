@@ -20,6 +20,7 @@ option(WITH_MOZILLA "Build and install wrapper for Mozilla browsers." YES)
 option(BUILD_SHARED_LIBS "Build shared libraries." YES)
 set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
   CACHE STRING "Directory for the Mozilla extension wrapper.")
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "The type of build.")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
