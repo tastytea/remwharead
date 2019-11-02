@@ -8,5 +8,5 @@ var searchData=
   ['simple',['Simple',['../classremwharead_1_1Export_1_1Simple.html',1,'remwharead::Export']]],
   ['sort_5fentries',['sort_entries',['../classremwharead_1_1Export_1_1ExportBase.html#a8d4245d0b37d82a3a8d95507d30ea671',1,'remwharead::Export::ExportBase']]],
   ['store',['store',['../classremwharead_1_1Database.html#ab3ea9062c5c0ef5d9f2b7eea6f0fd1bd',1,'remwharead::Database']]],
-  ['strip_5fhtml',['strip_html',['../classremwharead_1_1URI.html#afe80e4fafe35023c25d109517ffd9388',1,'remwharead::URI']]]
+  ['strip_5fhtml',['strip_html',['../classremwharead_1_1URI.html#a8a7bffcca80333bfec92ae4c2e794d36',1,'remwharead::URI']]]
 ];
