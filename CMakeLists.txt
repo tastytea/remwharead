@@ -6,23 +6,55 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 
+# Global build options.
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "The type of build.")
+option(BUILD_SHARED_LIBS "Build shared libraries." YES)
+option(HUNTER_ENABLED "Use the Hunter package manager" NO)
+
+if(${HUNTER_ENABLED})
+  set(BUILD_SHARED_LIBS "NO")
+  set(HUNTER_PocoCpp_CMAKE_ARGS
+    ENABLE_CRYPTO=ON
+    ENABLE_DATA=ON
+    ENABLE_JSON=ON
+    ENABLE_NET=ON
+    ENABLE_NETSSL=ON
+    ENABLE_SQL_SQLITE=ON
+    ENABLE_UTIL=ON
+    ENABLE_XML=ON)
+
+  # FetchContent_MakeAvailable needs 3.14.
+  if(NOT (${CMAKE_VERSION} VERSION_LESS 3.14))
+    set(HUNTER_PACKAGES PocoCpp)
+    include(FetchContent)
+    FetchContent_Declare(SetupHunter GIT_REPOSITORY https://github.com/cpp-pm/gate)
+    FetchContent_MakeAvailable(SetupHunter)
+  else()
+    include("cmake/HunterGate.cmake")
+    HunterGate(
+      URL "https://github.com/cpp-pm/hunter/archive/v0.23.225.tar.gz"
+      SHA1 "4b018ec7b673817475c1fb9f0bd4dfb7c5e7f343"
+      LOCAL)                    # Load cmake/Hunter/config.cmake.
+  endif()
+endif()
+
 project(remwharead
   VERSION 0.8.5
-  DESCRIPTION "Saves URIs of things you want to remember in a database."
-  LANGUAGES CXX)
+  DESCRIPTION "Saves URIs of things you want to remember in a database.")
+
+if(${HUNTER_ENABLED} AND ${CMAKE_VERSION} VERSION_LESS 3.14)
+  hunter_add_package(PocoCpp)
+endif()
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-
 include(GNUInstallDirs)
 
-# All custom build switches.
+# Project build options.
 option(WITH_MAN "Compile and install manpage." YES)
 option(WITH_TESTS "Compile tests." NO)
 option(WITH_MOZILLA "Build and install wrapper for Mozilla browsers." YES)
-option(BUILD_SHARED_LIBS "Build shared libraries." YES)
 set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
   CACHE STRING "Directory for the Mozilla extension wrapper.")
-set(CMAKE_BUILD_TYPE "Release" CACHE STRING "The type of build.")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

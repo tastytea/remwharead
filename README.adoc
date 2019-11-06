@@ -19,6 +19,7 @@
 :uri-rpm: http://www.rpm.org/
 :uri-ff-addon: https://addons.mozilla.org/firefox/addon/remwharead
 :uri-papirus: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
+:uri-hunter: https://github.com/cpp-pm/hunter
 
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
@@ -124,6 +125,7 @@ cmake --build .
 * `-DMOZILLA_NMH_DIR` lets you set the directory for the Mozilla
   extension wrapper. The complete path is
   `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
+* `-DHUNTER_ENABLED=YES` to use the package manager link:{uri-hunter}[Hunter].
 * One of:
 ** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
 ** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.
