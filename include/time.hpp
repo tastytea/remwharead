@@ -36,6 +36,7 @@ using time_point = system_clock::time_point;
  *  @param  strtime Time string in ISO 8601 or SQLite format.
  *  @param  sqlite  Is the string in SQLite format?
  */
+[[nodiscard]]
 time_point string_to_timepoint(const string &strtime, bool sqlite = false);
 
 /*!
@@ -46,6 +47,7 @@ time_point string_to_timepoint(const string &strtime, bool sqlite = false);
  *  @param  time_point The std::chrono::system_clock::time_point.
  *  @param  sqlite     Is the string in SQLite format?
  */
+[[nodiscard]]
 string timepoint_to_string(const time_point &tp, bool sqlite = false);
 } // namespace remwharead
 

@@ -94,13 +94,15 @@ public:
      *
      *  @since  0.6.0
      */
+    [[nodiscard]]
     html_extract get();
 
     /*!
      *  @brief  Save %URI in archive and return archive-URI.
      *
      *  @since  0.6.0
-     */
+    */
+    [[nodiscard]]
     archive_answer archive() const;
 
 protected:
@@ -111,6 +113,7 @@ protected:
      *
      *  @since  0.6.0
      */
+    [[nodiscard]]
     string make_request(const string &uri, bool archive = false) const;
 
     /*!
@@ -118,21 +121,24 @@ protected:
      *
      *  @since  0.6.0
      */
-    string extract_title(const string &html);
+    [[nodiscard]]
+    string extract_title(const string &html) const;
 
     /*!
      *  @brief  Extract the description from an HTML page.
      *
      *  @since  0.6.0
      */
-    string extract_description(const string &html);
+    [[nodiscard]]
+    string extract_description(const string &html) const;
 
     /*!
      *  @brief  Removes HTML tags and superflous spaces from an HTML page.
      *
      *  @since  0.6.0
      */
-    string strip_html(const string &html);
+    [[nodiscard]]
+    string strip_html(const string &html) const;
 
     /*!
      *  @brief  Remove HTML tags.
@@ -142,21 +148,24 @@ protected:
      *
      *  @since  0.6.0
      */
-    string remove_html_tags(const string &html, const string &tag = "");
+    [[nodiscard]]
+    string remove_html_tags(const string &html, const string &tag = "") const;
 
     /*!
      *  @brief  Convert HTML entities to UTF-8.
      *
      *  @since  0.6.0
      */
-    string unescape_html(string html);
+    [[nodiscard]]
+    string unescape_html(string html) const;
 
     /*!
      *  @brief  Replace newlines with spaces.
      *
      *  @since  0.6.0
      */
-    string remove_newlines(string text);
+    [[nodiscard]]
+    string remove_newlines(string text) const;
 
     /*!
      *  @brief  Set proxy server.
@@ -170,7 +179,8 @@ protected:
      *
      *  @since  0.8.5
      */
-    string cut_text(const string &text, const uint16_t n_chars) const;
+    [[nodiscard]]
+    string cut_text(const string &text, uint16_t n_chars) const;
 };
 } // namespace remwharead
 

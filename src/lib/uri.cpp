@@ -93,7 +93,7 @@ void URI::set_proxy()
         proxy.host = matches[3];
         if (!matches[4].empty())
         {
-            // NOLINTNEXTLINE(google-runtime-lint) - Need to use same as stoul.
+            // NOLINTNEXTLINE(google-runtime-int) - Need to use same as stoul.
             const unsigned long port = std::stoul(matches[4]);
             if (port > 65535)
             {
@@ -224,7 +224,7 @@ string URI::make_request(const string &uri, bool archive) const
     }
 }
 
-string URI::extract_title(const string &html)
+string URI::extract_title(const string &html) const
 {
     const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
     if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
@@ -241,7 +241,7 @@ string URI::extract_title(const string &html)
     return "";
 }
 
-string URI::extract_description(const string &html)
+string URI::extract_description(const string &html) const
 {
     const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
     if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
@@ -259,7 +259,7 @@ string URI::extract_description(const string &html)
     return "";
 }
 
-string URI::strip_html(const string &html)
+string URI::strip_html(const string &html) const
 {
     string out;
 
@@ -280,7 +280,7 @@ string URI::strip_html(const string &html)
     return unescape_html(out);
 }
 
-string URI::remove_html_tags(const string &html, const string &tag)
+string URI::remove_html_tags(const string &html, const string &tag) const
 {
     // NOTE: I did this with regex_replace before, but libstdc++ segfaulted.
     string out;
@@ -318,7 +318,7 @@ string URI::remove_html_tags(const string &html, const string &tag)
     return out;
 }
 
-string URI::unescape_html(string html)
+string URI::unescape_html(string html) const
 {
     // Used to convert int to utf-8 char.
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> u8c;
@@ -642,7 +642,7 @@ archive_answer URI::archive() const
     return { false, "Unknown error.", "" };
 }
 
-string URI::remove_newlines(string text)
+string URI::remove_newlines(string text) const
 {
     size_t posn = 0;
     while ((posn = text.find('\n', posn)) != std::string::npos)

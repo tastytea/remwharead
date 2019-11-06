@@ -21,9 +21,7 @@
 #include <iostream>
 #include <list>
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 using std::list;
 using std::ostream;
@@ -47,6 +45,11 @@ public:
     explicit ExportBase(const list<Database::entry> &entries,
                         ostream &out = cout);
     virtual ~ExportBase() = default;
+    ExportBase(const ExportBase &) = delete;
+    ExportBase &operator=(const ExportBase &) = delete;
+    ExportBase(ExportBase &&) = delete;
+    ExportBase &operator=(ExportBase &&) = delete;
+
 
     /*!
      *  @brief  Print output to std::ostream.
@@ -64,9 +67,9 @@ protected:
      *
      *  @return Sorted list of Database::entry.
      */
+    [[nodiscard]]
     list<Database::entry> sort_entries(list<Database::entry> entries) const;
 };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_EXPORT_HPP

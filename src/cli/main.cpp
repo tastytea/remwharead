@@ -50,21 +50,19 @@ int App::main(const std::vector<std::string> &args)
     {
         return 0;
     }
-    else
+
+    if (_argument_error)
     {
-        if (_argument_error)
-        {
-            return 1;
-        }
-        if (!args.empty())
-        {
-            _uri = args[0];
-        }
-        if (_uri.empty() && _format == export_format::undefined)
-        {
-            cerr << "Error: You have to specify either an URI or --export.\n";
-            return 1;
-        }
+        return 1;
+    }
+    if (!args.empty())
+    {
+        _uri = args[0];
+    }
+    if (_uri.empty() && _format == export_format::undefined)
+    {
+        cerr << "Error: You have to specify either an URI or --export.\n";
+        return 1;
     }
 
     Database db;
@@ -89,12 +87,6 @@ int App::main(const std::vector<std::string> &args)
         }
 
         html_extract page = uri.get();
-        if (!page)
-        {
-            cerr << "Error: Could not fetch page.\n";
-            cerr << page.error << endl;
-            return 3;
-        }
 
         if (_archive)
         {
@@ -103,6 +95,13 @@ int App::main(const std::vector<std::string> &args)
             {
                 cerr << "Error archiving URL: " << archive_data.error << endl;
             }
+        }
+
+        if (!page)
+        {
+            cerr << "Error: Could not fetch page.\n";
+            cerr << page.error << endl;
+            return 3;
         }
 
         db.store({_uri, archive_data.uri, system_clock::now(), _tags,

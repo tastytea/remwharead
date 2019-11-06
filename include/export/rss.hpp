@@ -20,9 +20,7 @@
 #include <string>
 #include "export.hpp"
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 using std::string;
 
@@ -40,7 +38,6 @@ public:
 
     void print() const override;
 };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_RSS_HPP

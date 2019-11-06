@@ -20,9 +20,7 @@
 #include "export.hpp"
 #include <string>
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
     using std::string;
 
@@ -42,9 +40,9 @@ namespace Export
 
     private:
         //! replaces " with "".
+        [[nodiscard]]
         string quote(string field) const;
     };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_CSV_HPP

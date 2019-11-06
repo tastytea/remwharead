@@ -23,9 +23,7 @@
 #include <string>
 #include <vector>
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 using std::string;
 
@@ -48,27 +46,32 @@ private:
     using replacemap = const std::map<const string, const string>;
 
     //! Replace strings in text.
+    [[nodiscard]]
     string replace(string text, const replacemap &replacements) const;
 
     //! Replaces characters in tags that asciidoctor doesn't like.
+    [[nodiscard]]
     string replace_in_tag(const string &text) const;
 
     //! Replaces characters in title that asciidoctor doesn't like.
+    [[nodiscard]]
     string replace_in_title(const string &text) const;
 
     //! Replaces characters in URI that asciidoctor doesn't like.
+    [[nodiscard]]
     string replace_in_uri(const string &text) const;
 
     //! Print things sorted by tag.
     void print_tags(const tagmap &tags) const;
 
     //! Get ISO-8601 day from Database::entry.
+    [[nodiscard]]
     string get_day(const Database::entry &entry) const;
 
     //! Get ISO-8601 time from Database::entry.
+    [[nodiscard]]
     string get_time(const Database::entry &entry) const;
 };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_ADOC_HPP

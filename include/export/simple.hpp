@@ -19,9 +19,7 @@
 
 #include "export.hpp"
 
-namespace remwharead
-{
-namespace Export
+namespace remwharead::Export
 {
 /*!
  *  @brief  Export as simple list.
@@ -36,7 +34,6 @@ public:
     using ExportBase::ExportBase;
     void print() const override;
 };
-} // namespace Export
-} // namespace remwharead
+} // namespace remwharead::Export
 
 #endif  // REMWHAREAD_EXPORT_SIMPLE_HPP
