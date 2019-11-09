@@ -84,8 +84,7 @@ string Search::to_lowercase(const string &str) const
 }
 
 list<Database::entry> Search::search_tags(const string &expression,
-                                          const bool is_re)
-    const
+                                          const bool is_re) const
 {
     vector<vector<string>> searchlist = parse_expression(expression);
     list<Database::entry> result;
