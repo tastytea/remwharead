@@ -133,6 +133,21 @@ cmake --build .
 You can run the tests with `cd tests && ctest`. Install with `make install`,
 generate binary packages with `make package`.
 
+===== Compiling with Hunter
+
+If your operating system doesn't provide all the dependencies or the versions
+are too old, you can use the Hunter package manager to download and compile all
+library dependencies. Keep in mind that the packages from Hunter are not
+necessarily up to date.
+
+[source,shell]
+----
+mkdir build
+cd build/
+cmake -DHUNTER_ENABLED=YES ..
+cmake --build .
+----
+
 == Browser plugins
 
 === WebExtension
