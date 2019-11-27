@@ -39,7 +39,7 @@ if(${HUNTER_ENABLED})
 endif()
 
 project(remwharead
-  VERSION 0.8.5
+  VERSION 0.8.6
   DESCRIPTION "Saves URIs of things you want to remember in a database.")
 
 if(${HUNTER_ENABLED} AND ${CMAKE_VERSION} VERSION_LESS 3.14)
