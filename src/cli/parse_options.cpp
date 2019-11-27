@@ -146,6 +146,10 @@ void App::handle_options(const std::string &name, const std::string &value)
         {
             _format = export_format::rss;
         }
+        else if (value == "link")
+        {
+            _format = export_format::link;
+        }
         else
         {
             cerr << "Error: Unknown format.\n";

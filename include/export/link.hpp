@@ -14,31 +14,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_TYPES_HPP
-#define REMWHAREAD_TYPES_HPP
+#ifndef REMWHAREAD_EXPORT_LINK_HPP
+#define REMWHAREAD_EXPORT_LINK_HPP
 
-//! @file
+#include "export.hpp"
 
-namespace remwharead
+namespace remwharead::Export
 {
 /*!
- *  @brief  Format of the export.
+ *  @brief  Export as list of hyperlinks.
  *
- *  @since  0.6.0
+ *  @since  0.9.0
  *
- *  @headerfile types.hpp remwharead/types.hpp
+ *  @headerfile link.hpp remwharead/export/link.hpp
  */
-enum class export_format
+class Link : protected ExportBase
 {
-    undefined,
-    csv,
-    asciidoc,
-    bookmarks,
-    simple,
-    json,
-    rss,
-    link
+public:
+    using ExportBase::ExportBase;
+    void print() const override;
 };
-} // namespace remwharead
+} // namespace remwharead::Export
 
-#endif  // REMWHAREAD_TYPES_HPP
+#endif  // REMWHAREAD_EXPORT_LINK_HPP

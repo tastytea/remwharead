@@ -14,31 +14,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_TYPES_HPP
-#define REMWHAREAD_TYPES_HPP
-
-//! @file
+#include "export/link.hpp"
+#include "sqlite.hpp"
+#include <string>
 
 namespace remwharead
 {
-/*!
- *  @brief  Format of the export.
- *
- *  @since  0.6.0
- *
- *  @headerfile types.hpp remwharead/types.hpp
- */
-enum class export_format
-{
-    undefined,
-    csv,
-    asciidoc,
-    bookmarks,
-    simple,
-    json,
-    rss,
-    link
-};
-} // namespace remwharead
+using std::string;
 
-#endif  // REMWHAREAD_TYPES_HPP
+void Export::Link::print() const
+{
+    for (const Database::entry & entry : _entries)
+    {
+        _out << entry.uri << '\n';
+    }
+}
+} // namespace remwharead

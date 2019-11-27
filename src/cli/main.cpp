@@ -19,6 +19,7 @@
 #include "export/bookmarks.hpp"
 #include "export/csv.hpp"
 #include "export/json.hpp"
+#include "export/link.hpp"
 #include "export/rss.hpp"
 #include "export/simple.hpp"
 #include "search.hpp"
@@ -211,6 +212,19 @@ int App::main(const std::vector<std::string> &args)
             else
             {
                 Export::RSS(entries).print();
+            }
+            break;
+        }
+        case export_format::link:
+        {
+            if (file.is_open())
+            {
+                Export::Link(entries, file).print();
+                file.close();
+            }
+            else
+            {
+                Export::Link(entries).print();
             }
             break;
         }
