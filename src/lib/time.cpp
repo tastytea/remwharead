@@ -30,7 +30,7 @@ time_point string_to_timepoint(const string &strtime, bool sqlite)
 {
     std::stringstream sstime(strtime);
     struct std::tm tm = {};
-    tm.tm_isdst = -1;           // Detect daylight saving time.
+    tm.tm_isdst = -1;           // Don't convert to/from daylight saving time.
     if (sqlite)
     {
         sstime >> std::get_time(&tm, "%Y-%m-%d %T");
@@ -39,7 +39,7 @@ time_point string_to_timepoint(const string &strtime, bool sqlite)
     {
         sstime >> std::get_time(&tm, "%Y-%m-%dT%T");
     }
-    std::time_t time = timelocal(&tm); // Assume time is local.
+    std::time_t time = mktime(&tm);
     return system_clock::from_time_t(time);
 }
 
