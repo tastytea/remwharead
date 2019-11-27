@@ -15,6 +15,7 @@
  */
 
 #include "remwharead_cli.hpp"
+#include "sqlite.hpp"
 #include "time.hpp"
 #include "version.hpp"
 #include <Poco/Util/HelpFormatter.h>
@@ -80,6 +81,11 @@ void App::defineOptions(OptionSet& options)
         .callback(OptionCallback<App>(this, &App::handle_options)));
     options.addOption(
         Option("no-archive", "N", "Do not archive URI.")
+        .callback(OptionCallback<App>(this, &App::handle_options)));
+    options.addOption(
+        Option("delete", "d",
+               "Remove all entries with this URI from database.")
+        .argument("URI")
         .callback(OptionCallback<App>(this, &App::handle_options)));
 }
 
@@ -194,6 +200,12 @@ void App::handle_options(const std::string &name, const std::string &value)
     {
         _regex = true;
     }
+    else if (name == "delete")
+    {
+        Database db;
+        cout << "Deleted " << db.remove(value) << " entries.\n";
+        _exit_requested = true;
+    }
 }
 
 void App::print_help(const string &option)
@@ -207,7 +219,8 @@ void App::print_help(const string &option)
         helpFormatter->setCommand(commandName());
         helpFormatter->setUsage("[-t tags] [-N] URI\n"
                                 "-e format [-f file] [-T start,end] "
-                                "[[-s|-S] expression] [-r]");
+                                "[[-s|-S] expression] [-r]\n"
+                                "-d URI");
     }
     else
     {

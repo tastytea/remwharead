@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-11-27
+:Date:          2019-11-28
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -16,6 +16,8 @@ remwharead - Saves URIs of things you want to remember in a database
 *remwharead* [*-t*=_tags_] [*-N*] _URI_
 
 *remwharead* *-e*=_format_ [*-f*=_file_] [*-T*=_start_,_end_] [[*-s*|*-S*]=_expression_] [*-r*]
+
+*remwharead* [*-d*=_URI_]
 
 == DESCRIPTION
 
@@ -61,6 +63,9 @@ every tag is enclosed by _^_ and _$_.
 
 *-N*, *--no-archive*::
 Do not archive URI.
+
+*-d*=_URI_, *--delete*=_URI_::
+Remove all entries with this URI from the database.
 
 *-h*, *--help*::
 Show help message.

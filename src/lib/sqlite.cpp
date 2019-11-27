@@ -166,6 +166,15 @@ list<Database::entry> Database::retrieve(const time_point &start,
     return {};
 }
 
+size_t Database::remove(const string &uri)
+{
+    Statement del(*_session);
+
+    del << "DELETE FROM remwharead WHERE uri = ?;", bind(uri);
+
+    return del.execute();
+}
+
 fs::path Database::get_data_home() const
 {
     fs::path path;
