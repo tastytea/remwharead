@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-10-15
+:Date:          2019-11-27
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -24,7 +24,7 @@ remwharead - Saves URIs of things you want to remember in a database
  the full text of the page and optional tags.
 
 The database can be filtered by time, tags and full text and exported to CSV,
-AsciiDoc, a bookmarks file, JSON or RSS.
+AsciiDoc, a bookmarks file, JSON, RSS or a list of hyperlinks.
 
 Archiving is done using the Wayback machine from the
 https://archive.org/[Internet Archive].
@@ -36,7 +36,7 @@ Add tags to _URI_, delimited by commas.
 
 *-e*=_format_, *--export*=_format_::
 Export to _format_. Possible values are _csv_, _asciidoc_, _bookmarks_,
-_simple_, _json_ or _rss_. See _FORMATS_.
+_simple_, _json_, _rss_ or _link_. See _FORMATS_.
 
 *-f*=_file_, *--file*=_file_::
 Save output to _file_. Default is stdout.
@@ -148,6 +148,10 @@ _title_, _description_ and _fulltext_.
 Export as http://www.rssboard.org/rss-specification[RSS] feed. Because the URL
 of the feed is unknown to *remwharead*, the generated feed is slightly out of
 specification (the element _link_ in _channel_ is empty).
+
+=== link
+
+Export as a plain list of links, separated by newlines.
 
 == SEARCH EXPRESSIONS
 
