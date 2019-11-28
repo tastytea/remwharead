@@ -9,7 +9,7 @@ if [ -n "${2}" ]; then
 fi
 
 if [ "${1}" = "runremwharead" ]; then
-    /home/tastytea/Projekte/remwharead/build/src/cli/remwharead -e rofi
+    remwharead -e rofi
 else
     rofi -show remwharead -modi remwharead:"${0} runremwharead"
 fi
