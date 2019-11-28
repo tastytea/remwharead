@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['unescape_5fhtml',['unescape_html',['../classremwharead_1_1URI.html#a8bfe665841ab414e8682b4d1f90a4c13',1,'remwharead::URI']]],
-  ['uri',['URI',['../classremwharead_1_1URI.html',1,'remwharead::URI'],['../classremwharead_1_1URI.html#a34633f88b14dcd2c3a618794040bc154',1,'remwharead::URI::URI()']]]
+  ['tags_5fto_5fstring',['tags_to_string',['../classremwharead_1_1Database.html#a61f526a9e56544fd7343e8bf35748a3b',1,'remwharead::Database']]],
+  ['time_2ehpp',['time.hpp',['../time_8hpp.html',1,'']]],
+  ['types_2ehpp',['types.hpp',['../types_8hpp.html',1,'']]]
 ];

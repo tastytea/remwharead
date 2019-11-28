@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['operator_20bool',['operator bool',['../classremwharead_1_1Database.html#adf363243852b2a5fec1911139d4936c1',1,'remwharead::Database']]],
-  ['operator_3d_3d',['operator==',['../structremwharead_1_1Database_1_1entry.html#a67f257a407ec46c00d205fd4c9215846',1,'remwharead::Database::entry']]]
+  ['make_5frequest',['make_request',['../classremwharead_1_1URI.html#ad13540201da297653f5a8608e3b0df07',1,'remwharead::URI']]]
 ];
