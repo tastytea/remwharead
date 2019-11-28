@@ -109,6 +109,15 @@ public:
     list<entry> retrieve(const time_point &start = time_point(),
                          const time_point &end = system_clock::now()) const;
 
+    /*!
+     *  @brief  Remove all entries with this URI from database.
+     *
+     *  @return Number of removed entries.
+     *
+     *  @since  0.9.0
+     */
+    size_t remove(const string &uri);
+
 private:
     fs::path _dbpath;
     std::unique_ptr<Session> _session;
