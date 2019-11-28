@@ -77,32 +77,50 @@ Print version, copyright and license.
 
 .Save a thing into the database, with tags.
 ====
-`remwharead -t=tag1,tag2 https://example.com/article.html`
+[source,shell]
+----
+remwharead -t=tag1,tag2 https://example.com/article.html
+----
 ====
 
 .Export all things between and including 2019-04-01 and 2019-05-31 to a file.
 ====
-`remwharead -e=asciidoc -f=out.adoc -T=2019-04-01,2019-05-31`
+[source,shell]
+----
+remwharead -e=asciidoc -f=out.adoc -T=2019-04-01,2019-05-31
+----
 ====
 
 .Export all things to an HTML file.
 ====
-`remwharead -e=asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
+[source,shell]
+----
+remwharead -e=asciidoc | asciidoctor --backend=html5 --out-file=out.html -
+----
 ====
 
 .Export all things about GRUB the boot-loader, but nothing about caterpillars.
 ====
-`remwharead -e=csv -s="grub AND boot"`
+[source,shell]
+----
+remwharead -e=csv -s="grub AND boot"
+----
 ====
 
 .Output all articles by Jan Müller, consider different spellings.
 ====
-`remwharead -e=simple -S='Jan[\s]+M(ü|ue?)ller' -r`
+[source,shell]
+----
+remwharead -e=simple -S='Jan[\s]+M(ü|ue?)ller' -r
+----
 ====
 
 .Export all things from the last week to an RSS feed.
 ====
-`remwharead -e=rss -T=$(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
+[source,shell]
+----
+remwharead -e=rss -T=$(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss
+----
 ====
 
 === Display database
