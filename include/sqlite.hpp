@@ -118,6 +118,14 @@ public:
      */
     size_t remove(const string &uri);
 
+    /*!
+     *  @brief  Returns tags as comma separated string.
+     *
+     *  @since  0.9.0
+     */
+    [[nodiscard]]
+    static string tags_to_string(const vector<string> &tags);
+
 private:
     fs::path _dbpath;
     std::unique_ptr<Session> _session;

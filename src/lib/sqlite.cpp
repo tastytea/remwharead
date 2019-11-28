@@ -84,17 +84,8 @@ void Database::store(const Database::entry &data) const
     try
     {
         const string strdatetime = timepoint_to_string(data.datetime, true);
-        string strtags;
+        string strtags = tags_to_string(data.tags);
         Statement insert(*_session);
-
-        for (const string &tag : data.tags)
-        {
-            strtags += tag;
-            if (tag != *(data.tags.rbegin()))
-            {
-                strtags += ",";
-            }
-        }
 
         // useRef() uses the const reference.
         insert << "INSERT INTO remwharead "
@@ -173,6 +164,22 @@ size_t Database::remove(const string &uri)
     del << "DELETE FROM remwharead WHERE uri = ?;", bind(uri);
 
     return del.execute();
+}
+
+string Database::tags_to_string(const vector<string> &tags)
+{
+    string strtags;
+
+    for (const string &tag : tags)
+    {
+        strtags += tag;
+        if (tag != *(tags.rbegin()))
+        {
+            strtags += ',';
+        }
+    }
+
+    return strtags;
 }
 
 fs::path Database::get_data_home() const
