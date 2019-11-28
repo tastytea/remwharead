@@ -123,6 +123,21 @@ remwharead -e=rss -T=$(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|
 ----
 ====
 
+.Remove all entries that are tagged with mountain
+====
+[source,shell]
+----
+OLDIFS=${IFS}
+IFS=$'\n'
+
+for uri in $(remwharead -e link -s mountain); do
+    remwharead -d "${uri}"
+done
+
+IFS=${OLDIFS}
+----
+====
+
 === Display database
 
 *remwharead* does not provide an interface to display the database. However, you
