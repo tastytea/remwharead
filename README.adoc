@@ -20,6 +20,7 @@
 :uri-ff-addon: https://addons.mozilla.org/firefox/addon/remwharead
 :uri-papirus: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
 :uri-hunter: https://github.com/cpp-pm/hunter
+:uri-rofi: https://github.com/davatorium/rofi
 
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
@@ -44,6 +45,12 @@ image::{uri-images-base}/example_tags.png[]
 
 See {uri-branch-main}/man/remwharead.1.adoc[manpage] and/or read
 {uri-blogpost}[the blogpost].
+
+=== With rofi
+
+The link:{uri-rofi}[rofi] export makes integration with rofi simple. See
+link:{uri-branch-main}/scripts/remwharead-rofi[scripts/remwharead-rofi] for an
+example.
 
 === In your programs
 
