@@ -14,32 +14,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef REMWHAREAD_TYPES_HPP
-#define REMWHAREAD_TYPES_HPP
+#ifndef REMWHAREAD_EXPORT_ROFI_HPP
+#define REMWHAREAD_EXPORT_ROFI_HPP
 
-//! @file
+#include "export.hpp"
 
-namespace remwharead
+namespace remwharead::Export
 {
 /*!
- *  @brief  Format of the export.
+ *  @brief  Export title, tags and URL for consumption by rofi.
  *
- *  @since  0.6.0
+ *  @since  0.9.0
  *
- *  @headerfile types.hpp remwharead/types.hpp
+ *  @headerfile rofi.hpp remwharead/export/rofi.hpp
  */
-enum class export_format
+class Rofi : protected ExportBase
 {
-    undefined,
-    csv,
-    asciidoc,
-    bookmarks,
-    simple,
-    json,
-    rss,
-    link,
-    rofi
+public:
+    using ExportBase::ExportBase;
+    void print() const override;
 };
-} // namespace remwharead
+} // namespace remwharead::Export
 
-#endif  // REMWHAREAD_TYPES_HPP
+#endif  // REMWHAREAD_EXPORT_ROFI_HPP

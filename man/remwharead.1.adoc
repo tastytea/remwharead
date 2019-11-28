@@ -26,7 +26,8 @@ remwharead - Saves URIs of things you want to remember in a database
  the full text of the page and optional tags.
 
 The database can be filtered by time, tags and full text and exported to CSV,
-AsciiDoc, a bookmarks file, JSON, RSS or a list of hyperlinks.
+AsciiDoc, a bookmarks file, JSON, RSS, a list of hyperlinks or a rofi-compatible
+list.
 
 Archiving is done using the Wayback machine from the
 https://archive.org/[Internet Archive].
@@ -38,7 +39,7 @@ Add tags to _URI_, delimited by commas.
 
 *-e*=_format_, *--export*=_format_::
 Export to _format_. Possible values are _csv_, _asciidoc_, _bookmarks_,
-_simple_, _json_, _rss_ or _link_. See _FORMATS_.
+_simple_, _json_, _rss_, _link_ or _rofi_. See _FORMATS_.
 
 *-f*=_file_, *--file*=_file_::
 Save output to _file_. Default is stdout.
@@ -77,32 +78,65 @@ Print version, copyright and license.
 
 .Save a thing into the database, with tags.
 ====
-`remwharead -t=tag1,tag2 https://example.com/article.html`
+[source,shell]
+----
+remwharead -t=tag1,tag2 https://example.com/article.html
+----
 ====
 
 .Export all things between and including 2019-04-01 and 2019-05-31 to a file.
 ====
-`remwharead -e=asciidoc -f=out.adoc -T=2019-04-01,2019-05-31`
+[source,shell]
+----
+remwharead -e=asciidoc -f=out.adoc -T=2019-04-01,2019-05-31
+----
 ====
 
 .Export all things to an HTML file.
 ====
-`remwharead -e=asciidoc | asciidoctor --backend=html5 --out-file=out.html -`
+[source,shell]
+----
+remwharead -e=asciidoc | asciidoctor --backend=html5 --out-file=out.html -
+----
 ====
 
 .Export all things about GRUB the boot-loader, but nothing about caterpillars.
 ====
-`remwharead -e=csv -s="grub AND boot"`
+[source,shell]
+----
+remwharead -e=csv -s="grub AND boot"
+----
 ====
 
 .Output all articles by Jan Müller, consider different spellings.
 ====
-`remwharead -e=simple -S='Jan[\s]+M(ü|ue?)ller' -r`
+[source,shell]
+----
+remwharead -e=simple -S='Jan[\s]+M(ü|ue?)ller' -r
+----
 ====
 
 .Export all things from the last week to an RSS feed.
 ====
-`remwharead -e=rss -T=$(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss`
+[source,shell]
+----
+remwharead -e=rss -T=$(date -d "-1 week" -I),$(date -Iminutes) | sed 's|<link/>|<link>https://example.com/</link>|' > /var/www/feed.rss
+----
+====
+
+.Remove all entries that are tagged with mountain
+====
+[source,shell]
+----
+OLDIFS=${IFS}
+IFS=$'\n'
+
+for uri in $(remwharead -e link -s mountain); do
+    remwharead -d "${uri}"
+done
+
+IFS=${OLDIFS}
+----
 ====
 
 === Display database
@@ -157,6 +191,11 @@ specification (the element _link_ in _channel_ is empty).
 === link
 
 Export as a plain list of links, separated by newlines.
+
+=== rofi
+
+Export title, tags and URL for consumption by rofi. See the `scripts/` directory
+on https://schlomp.space/tastytea/remwharead for an example.
 
 == SEARCH EXPRESSIONS
 

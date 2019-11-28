@@ -1,0 +1,15 @@
+#!/bin/sh
+# Open the whole database in rofi. Searches in title, tags and URI.
+# The selected entry will be opened with the default browser.
+
+if [ -n "${2}" ]; then
+    uri=$(echo "${*}" | sed -E 's|^.+>([^><]+)</span>$|\1|')
+    xdg-open "${uri}"
+    exit 0
+fi
+
+if [ "${1}" = "runremwharead" ]; then
+    remwharead -e rofi
+else
+    rofi -show remwharead -modi remwharead:"${0} runremwharead"
+fi

@@ -30,19 +30,10 @@ void Export::CSV::print() const
              << R"("Title","Description","Full text")" << "\r\n";
         for (const Database::entry &entry : _entries)
         {
-            string strtags;
-            for (const string &tag : entry.tags)
-            {
-                strtags += tag;
-                if (tag != *(entry.tags.rbegin()))
-                {
-                    strtags += ",";
-                }
-            }
             _out << '"' << quote(entry.uri) << "\",\""
                  << quote(entry.archive_uri) << "\",\""
                  << timepoint_to_string(entry.datetime) << "\",\""
-                 << quote(strtags) << "\",\""
+                 << quote(Database::tags_to_string(entry.tags)) << "\",\""
                  << quote(entry.title) << "\",\""
                  << quote(entry.description) << "\",\""
                  << quote(entry.fulltext_oneline()) << '"'<< "\r\n";

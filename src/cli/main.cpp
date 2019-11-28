@@ -20,6 +20,7 @@
 #include "export/csv.hpp"
 #include "export/json.hpp"
 #include "export/link.hpp"
+#include "export/rofi.hpp"
 #include "export/rss.hpp"
 #include "export/simple.hpp"
 #include "search.hpp"
@@ -225,6 +226,19 @@ int App::main(const std::vector<std::string> &args)
             else
             {
                 Export::Link(entries).print();
+            }
+            break;
+        }
+        case export_format::rofi:
+        {
+            if (file.is_open())
+            {
+                Export::Rofi(entries, file).print();
+                file.close();
+            }
+            else
+            {
+                Export::Rofi(entries).print();
             }
             break;
         }
