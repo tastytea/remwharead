@@ -229,7 +229,7 @@ string URI::extract_title(const string &html) const
     const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
     if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
     {
-        const RegEx re_title("<title>([^<]+)", RegEx::RE_CASELESS);
+        const RegEx re_title("<title(?: [^>]+)?>([^<]+)", RegEx::RE_CASELESS);
         vector<string> matches;
         re_title.split(html, matches);
         if (matches.size() >= 2)
