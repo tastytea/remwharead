@@ -21,6 +21,7 @@
 :uri-papirus: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
 :uri-hunter: https://github.com/cpp-pm/hunter
 :uri-rofi: https://github.com/davatorium/rofi
+:uri-boost: https://www.boost.org/
 
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
@@ -87,6 +88,7 @@ only.
 * C++ compiler ({uri-gcc}[gcc] 6+, {uri-clang}[clang] 6+)
 * {uri-cmake}[cmake] (at least: 3.9)
 * {uri-poco}[POCO] (tested: 1.9 / 1.7)
+* {uri-boost}[Boost] (tested: 1.71 / 1.67)
 * Optional:
 ** Manpage: {uri-asciidoc}[asciidoc] (tested: 8.6)
 ** Tests: {uri-catch}[catch] (tested: 2.5 / 1.2)
