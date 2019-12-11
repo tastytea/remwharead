@@ -16,6 +16,7 @@
 
 #include "uri.hpp"
 #include "version.hpp"
+#include <boost/locale.hpp>
 #include <Poco/Environment.h>
 #include <Poco/Exception.h>
 #include <Poco/Net/HTTPClientSession.h>
@@ -131,6 +132,7 @@ html_extract URI::get()
     try
     {
         _document = make_request(_uri);
+        _document = to_utf8(_document);
         if (!_document.empty())
         {
             return
@@ -677,6 +679,27 @@ string URI::cut_text(const string &text, const uint16_t n_chars) const
     }
 
     return text;
+}
+
+string URI::to_utf8(const string &str)
+{
+    if (_encoding.empty())
+    {
+        detect_encoding();
+    }
+
+    return boost::locale::conv::to_utf<char>(str, _encoding);
+}
+
+void URI::detect_encoding()
+{
+    const RegEx re_encoding(R"(<meta.+charset=(.+)[";])", RegEx::RE_CASELESS);
+    vector<string> matches;
+    re_encoding.split(_document, matches);
+    if (matches.size() >= 2)
+    {
+        _encoding = matches[1];
+    }
 }
 
 bool URI::is_html() const

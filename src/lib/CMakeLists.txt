@@ -5,6 +5,8 @@ find_package(Poco
   COMPONENTS Foundation Net NetSSL Data DataSQLite JSON XML
   CONFIG)
 
+find_package(Boost COMPONENTS Locale REQUIRED)
+
 file(GLOB_RECURSE sources_lib *.cpp)
 file(GLOB_RECURSE headers_lib ../../include/*.hpp)
 
@@ -22,7 +24,7 @@ target_include_directories(${PROJECT_NAME}
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 target_link_libraries(${PROJECT_NAME}
-  PRIVATE pthread
+  PRIVATE pthread Boost::Locale
   PUBLIC stdc++fs)
 
 # If no Poco*Config.cmake recipes are found, look for headers in standard dirs.

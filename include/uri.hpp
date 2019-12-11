@@ -107,6 +107,7 @@ public:
 
 protected:
     string _uri;
+    string _encoding;
     string _document;
 
     /*!
@@ -182,6 +183,21 @@ protected:
      */
     [[nodiscard]]
     string cut_text(const string &text, uint16_t n_chars) const;
+
+    /*!
+     *  @brief  Converts string to UTF-8.
+     *
+     *  @since  0.9.2
+     */
+    [[nodiscard]]
+    inline string to_utf8(const string &str);
+
+    /*!
+     *  @brief  Try to detect the encoding of the document.
+     *
+     *  @since  0.9.2
+     */
+    void detect_encoding();
 
     /*!
      *  @brief  Returns true if document is *HTML.
