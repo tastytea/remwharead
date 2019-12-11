@@ -66,7 +66,7 @@ archive_answer::operator bool()
 }
 
 URI::URI(string uri)
-    :_uri(move(uri))
+    : _uri(move(uri))
 {
     Poco::Net::initializeSSL();
 
@@ -130,16 +130,16 @@ html_extract URI::get()
 {
     try
     {
-        const string answer = make_request(_uri);
-        if (!answer.empty())
+        _document = make_request(_uri);
+        if (!_document.empty())
         {
             return
                 {
                     true,
                     "",
-                    extract_title(answer),
-                    extract_description(answer),
-                    strip_html(answer)
+                    extract_title(),
+                    extract_description(),
+                    strip_html()
                 };
         }
     }
@@ -224,14 +224,13 @@ string URI::make_request(const string &uri, bool archive) const
     }
 }
 
-string URI::extract_title(const string &html) const
+string URI::extract_title() const
 {
-    const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
-    if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
+    if (is_html())
     {
         const RegEx re_title("<title(?: [^>]+)?>([^<]+)", RegEx::RE_CASELESS);
         vector<string> matches;
-        re_title.split(html, matches);
+        re_title.split(_document, matches);
         if (matches.size() >= 2)
         {
             return remove_newlines(unescape_html(matches[1]));
@@ -241,29 +240,28 @@ string URI::extract_title(const string &html) const
     return "";
 }
 
-string URI::extract_description(const string &html) const
+string URI::extract_description() const
 {
-    const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
-    if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
+    if (is_html())
     {
         const RegEx re_desc(R"(description"[^>]+content="([^"]+))",
                             RegEx::RE_CASELESS);
         vector<string> matches;
-        re_desc.split(html, matches);
+        re_desc.split(_document, matches);
         if (matches.size() >= 2)
         {
-            return remove_newlines(cut_text(unescape_html(matches[1]), 500));
+            return cut_text(remove_newlines(unescape_html(matches[1])), 500);
         }
     }
 
     return "";
 }
 
-string URI::strip_html(const string &html) const
+string URI::strip_html() const
 {
     string out;
 
-    out = remove_html_tags(html, "script"); // Remove JavaScript.
+    out = remove_html_tags(_document, "script"); // Remove JavaScript.
     out = remove_html_tags(out, "style");   // Remove CSS.
     out = remove_html_tags(out);            // Remove tags.
 
@@ -679,6 +677,17 @@ string URI::cut_text(const string &text, const uint16_t n_chars) const
     }
 
     return text;
+}
+
+bool URI::is_html() const
+{
+    const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
+    if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
+    {
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace remwharead

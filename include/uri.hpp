@@ -107,6 +107,7 @@ public:
 
 protected:
     string _uri;
+    string _document;
 
     /*!
      *  @brief  Make a HTTP(S) request.
@@ -122,7 +123,7 @@ protected:
      *  @since  0.6.0
      */
     [[nodiscard]]
-    string extract_title(const string &html) const;
+    string extract_title() const;
 
     /*!
      *  @brief  Extract the description from an HTML page.
@@ -130,7 +131,7 @@ protected:
      *  @since  0.6.0
      */
     [[nodiscard]]
-    string extract_description(const string &html) const;
+    string extract_description() const;
 
     /*!
      *  @brief  Removes HTML tags and superflous spaces from an HTML page.
@@ -138,7 +139,7 @@ protected:
      *  @since  0.6.0
      */
     [[nodiscard]]
-    string strip_html(const string &html) const;
+    string strip_html() const;
 
     /*!
      *  @brief  Remove HTML tags.
@@ -181,6 +182,13 @@ protected:
      */
     [[nodiscard]]
     string cut_text(const string &text, uint16_t n_chars) const;
+
+    /*!
+     *  @brief  Returns true if document is *HTML.
+     *
+     *  @since  0.9.2
+     */
+    bool is_html() const;
 };
 } // namespace remwharead
 
