@@ -25,7 +25,8 @@ if(${HUNTER_ENABLED})
 
   # FetchContent_MakeAvailable needs 3.14.
   if(NOT (${CMAKE_VERSION} VERSION_LESS 3.14))
-    set(HUNTER_PACKAGES PocoCpp)
+    set(HUNTER_Boost_COMPONENTS locale)
+    set(HUNTER_PACKAGES PocoCpp Boost)
     include(FetchContent)
     FetchContent_Declare(SetupHunter GIT_REPOSITORY https://github.com/cpp-pm/gate)
     FetchContent_MakeAvailable(SetupHunter)
@@ -44,6 +45,7 @@ project(remwharead
 
 if(${HUNTER_ENABLED} AND ${CMAKE_VERSION} VERSION_LESS 3.14)
   hunter_add_package(PocoCpp)
+  hunter_add_package(Boost COMPONENTS locale)
 endif()
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
