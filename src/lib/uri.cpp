@@ -705,12 +705,7 @@ void URI::detect_encoding()
 bool URI::is_html() const
 {
     const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
-    if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
-    {
-        return true;
-    }
-
-    return false;
+    return (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri));
 }
 
 } // namespace remwharead
