@@ -1,9 +1,10 @@
 include(GNUInstallDirs)
 
 # Some distributions do not contain Poco*Config.cmake recipes.
-find_package(Poco
-  COMPONENTS Foundation Net NetSSL Data DataSQLite JSON XML
-  CONFIG)
+find_package(Poco CONFIG
+  COMPONENTS Foundation Net NetSSL Data DataSQLite JSON XML)
+
+find_package(Boost 1.48.0 REQUIRED COMPONENTS locale)
 
 file(GLOB_RECURSE sources_lib *.cpp)
 file(GLOB_RECURSE headers_lib ../../include/*.hpp)
@@ -22,7 +23,7 @@ target_include_directories(${PROJECT_NAME}
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 target_link_libraries(${PROJECT_NAME}
-  PRIVATE pthread
+  PRIVATE pthread Boost::locale
   PUBLIC stdc++fs)
 
 # If no Poco*Config.cmake recipes are found, look for headers in standard dirs.

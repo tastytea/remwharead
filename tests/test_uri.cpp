@@ -32,41 +32,29 @@ SCENARIO ("URI works correctly")
             explicit URITest(const string &)
                 : URI("") {}
             URITest()
-                : URI("test.html") {}
+                : URI("test.html")
+            {
+                _document =
+                    "<html><head><title>title</title>"
+                    "<meta name=\"description\" content=\"description\" />"
+                    "<body><p>A short <span style=\"\">sentence</span>.</p>"
+                    "</body></head></html>";
+            }
 
             bool test_title()
             {
-                if (extract_title(_html) == "title")
-                {
-                    return true;
-                }
-                return false;
+                return (extract_title() == "title");
             }
 
             bool test_description()
             {
-                if (extract_description(_html) == "description")
-                {
-                    return true;
-                }
-                return false;
+                return (extract_description() == "description");
             }
 
             bool test_fulltext()
             {
-                if (strip_html(_html) == "titleA short sentence.")
-                {
-                    return true;
-                }
-                return false;
+                return (strip_html() == "titleA short sentence.");
             }
-
-        private:
-            const string _html =
-                "<html><head><title>title</title>"
-                "<meta name=\"description\" content=\"description\" />"
-                "<body><p>A short <span style=\"\">sentence</span>.</p>"
-                "</body></head></html>";
         };
 
         WHEN ("extract_title() is called")
