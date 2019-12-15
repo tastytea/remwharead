@@ -106,7 +106,7 @@ void Export::AsciiDoc::print() const
 
             if (!entry.description.empty())
             {
-                _out << " +" << endl << entry.description;
+                _out << " +\n+" << entry.description << '+';
             }
             _out << endl << endl;
         }

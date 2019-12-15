@@ -688,6 +688,11 @@ string URI::to_utf8(const string &str)
         detect_encoding();
     }
 
+    if (_encoding == "utf-8")
+    {
+        return str;
+    }
+
     return boost::locale::conv::to_utf<char>(str, _encoding);
 }
 
@@ -698,19 +703,14 @@ void URI::detect_encoding()
     re_encoding.split(_document, matches);
     if (matches.size() >= 2)
     {
-        _encoding = matches[1];
+        _encoding = boost::locale::to_lower(matches[1]);
     }
 }
 
 bool URI::is_html() const
 {
     const RegEx re_htmlfile(".*\\.(.?html?|xml|rss)$", RegEx::RE_CASELESS);
-    if (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri))
-    {
-        return true;
-    }
-
-    return false;
+    return (_uri.substr(0, 4) == "http" || re_htmlfile.match(_uri));
 }
 
 } // namespace remwharead
