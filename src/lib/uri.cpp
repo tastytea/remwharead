@@ -69,6 +69,12 @@ archive_answer::operator bool()
 URI::URI(string uri)
     : _uri(move(uri))
 {
+    // FIXME(tastytea): Only call locale-stuff once after getting rid OF POCO.
+    // Set global locale with Boost extras. Needed for Boost functions.
+    const boost::locale::generator locgen;
+    const std::locale loc = locgen("");
+    std::locale::global(loc);
+
     Poco::Net::initializeSSL();
 
     set_proxy();
