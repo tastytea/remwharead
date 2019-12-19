@@ -704,7 +704,7 @@ string URI::to_utf8(const string &str)
 
 void URI::detect_encoding()
 {
-    const RegEx re_encoding(R"(<meta.+charset=(.+)[";])", RegEx::RE_CASELESS);
+    const RegEx re_encoding(R"(<meta.+charset="([^";]+))", RegEx::RE_CASELESS);
     vector<string> matches;
     re_encoding.split(_document, matches);
     if (matches.size() >= 2)
