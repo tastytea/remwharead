@@ -17,6 +17,7 @@
 #include "export/adoc.hpp"
 #include "time.hpp"
 #include "version.hpp"
+#include <Poco/URI.h>
 #include <algorithm>
 #include <iostream>
 #include <locale>
@@ -172,10 +173,9 @@ string Export::AsciiDoc::replace_in_title(const string &text) const
 
 string Export::AsciiDoc::replace_in_uri(const string &text) const
 {
-    return replace(text,
-                   {
-                       { "[", "%5B" }, { "]", "%5D" }
-                   });
+    string out;
+    Poco::URI::encode(text, "+", out);
+    return out;
 }
 
 void Export::AsciiDoc::print_tags(const tagmap &tags) const
