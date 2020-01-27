@@ -7,12 +7,13 @@ const chkarchive = document.getElementById("chkarchive");
 const btnadd = document.getElementById("btnadd");
 const msgstatus = document.getElementById("msgstatus");
 const msgerror = document.getElementById("msgerror");
+const separator = '\u001f';
 
 
 function set_taburl(tabs)       // Set taburl to URL of current tab.
 {
     const tab = tabs[0];
-    taburl = '\'' + tab.url + '\'';
+    taburl = separator + tab.url + separator;
 }
 
 function get_tags()             // get tags from text input.
@@ -20,7 +21,7 @@ function get_tags()             // get tags from text input.
     const tags = txttags.value;
     if (tags != "")
     {
-        return "-t '" + tags + "' ";
+        return separator + "-t " + tags;
     }
     return "";
 }
@@ -72,7 +73,7 @@ function add()
     let archive = "";
     if (chkarchive.checked === false)
     {
-        archive = "--no-archive ";
+        archive = separator + "--no-archive";
     }
     const args = get_tags() + archive + taburl;
     console.log(args);
