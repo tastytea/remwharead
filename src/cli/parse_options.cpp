@@ -237,7 +237,7 @@ void App::print_help(const string &option)
 
 void App::print_version()
 {
-    cout << "remwharead " << global::version << endl <<
+    cout << "remwharead " << remwharead::version << endl <<
         "Copyright (C) 2019 tastytea <tastytea@tastytea.de>\n"
         "License GPLv3: GNU GPL version 3 "
         "<https://www.gnu.org/licenses/gpl-3.0.html>.\n"

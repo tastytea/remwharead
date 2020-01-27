@@ -187,7 +187,7 @@ string URI::make_request(const string &uri, bool archive) const
     }
 
     HTTPRequest request(method, path, HTTPMessage::HTTP_1_1);
-    request.set("User-Agent", string("remwharead/") + global::version);
+    request.set("User-Agent", string("remwharead/") + version);
 
     HTTPResponse response;
 

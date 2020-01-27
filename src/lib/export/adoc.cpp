@@ -36,7 +36,7 @@ void Export::AsciiDoc::print() const
     try
     {
         _out << "= Visited things\n"
-             << ":Author:    remwharead " << global::version << "\n"
+             << ":Author:    remwharead " << version << "\n"
              << ":Date:      "
              << timepoint_to_string(system_clock::now()) << "\n"
              << ":TOC:       right\n"

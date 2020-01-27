@@ -1,9 +1,9 @@
 #ifndef VERSION_HPP
 #define VERSION_HPP
 
-namespace global
+namespace remwharead
 {
 static constexpr char version[] = "@PROJECT_VERSION@";
-}
+} // namespace remwharead
 
 #endif  // VERSION_HPP
