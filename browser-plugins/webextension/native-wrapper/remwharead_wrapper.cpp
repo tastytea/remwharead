@@ -116,7 +116,6 @@ int main()
 {
     const string args = read_input();
 
-    cout << decode_args(args) << std::endl;
     const int ret = launch(decode_args(args));
 
     if (ret == 0)
