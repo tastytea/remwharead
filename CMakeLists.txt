@@ -57,12 +57,20 @@ option(WITH_TESTS "Compile tests." NO)
 option(WITH_MOZILLA "Build and install wrapper for Mozilla browsers." YES)
 set(MOZILLA_NMH_DIR "${CMAKE_INSTALL_LIBDIR}/mozilla/native-messaging-hosts"
   CACHE STRING "Directory for the Mozilla extension wrapper.")
+option(WITH_CLANG-TIDY "Check sourcecode with clang-tidy while compiling." NO)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(debug_flags)
+
+if(WITH_CLANG-TIDY)
+  set(CMAKE_CXX_CLANG_TIDY
+    "clang-tidy"
+    "-header-filter=${PROJECT_SOURCE_DIR}"
+    "-quiet")
+endif()
 
 add_subdirectory(src)
 add_subdirectory(src/lib)

@@ -22,6 +22,7 @@
 :uri-hunter: https://github.com/cpp-pm/hunter
 :uri-rofi: https://github.com/davatorium/rofi
 :uri-boost: https://www.boost.org/
+:uri-clang-tidy: https://clang.llvm.org/extra/clang-tidy/
 
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
@@ -135,6 +136,8 @@ cmake --build .
   extension wrapper. The complete path is
   `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
 * `-DHUNTER_ENABLED=YES` to use the package manager link:{uri-hunter}[Hunter].
+* `-DWITH_CLANG-TIDY=YES` to check the sourcecode with
+  link:{uri-clang-tidy}[clang-tidy] while compiling.
 * One of:
 ** `-DWITH_DEB=YES` if you want to be able to generate a deb-package.
 ** `-DWITH_RPM=YES` if you want to be able to generate an rpm-package.
