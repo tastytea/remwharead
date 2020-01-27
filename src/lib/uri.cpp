@@ -187,7 +187,7 @@ string URI::make_request(const string &uri, bool archive) const
     }
 
     HTTPRequest request(method, path, HTTPMessage::HTTP_1_1);
-    request.set("User-Agent", string("remwharead/") + global::version);
+    request.set("User-Agent", string("remwharead/") + version);
 
     HTTPResponse response;
 
@@ -286,7 +286,7 @@ string URI::strip_html() const
     return unescape_html(out);
 }
 
-string URI::remove_html_tags(const string &html, const string &tag) const
+string URI::remove_html_tags(const string &html, const string &tag)
 {
     // NOTE: I did this with regex_replace before, but libstdc++ segfaulted.
     string out;
@@ -324,7 +324,7 @@ string URI::remove_html_tags(const string &html, const string &tag) const
     return out;
 }
 
-string URI::unescape_html(string html) const
+string URI::unescape_html(string html)
 {
     // Used to convert int to utf-8 char.
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> u8c;
@@ -648,7 +648,7 @@ archive_answer URI::archive() const
     return { false, "Unknown error.", "" };
 }
 
-string URI::remove_newlines(string text) const
+string URI::remove_newlines(string text)
 {
     size_t posn = 0;
     while ((posn = text.find('\n', posn)) != std::string::npos)
@@ -666,7 +666,7 @@ string URI::remove_newlines(string text) const
     return text;
 }
 
-string URI::cut_text(const string &text, const uint16_t n_chars) const
+string URI::cut_text(const string &text, const uint16_t n_chars)
 {
     if (text.size() > n_chars)
     {

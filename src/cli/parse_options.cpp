@@ -32,12 +32,12 @@ using Poco::Util::OptionCallback;
 using Poco::Util::HelpFormatter;
 
 App::App()
-    : _exit_requested(false)
-    , _argument_error(false)
-    , _format(export_format::undefined)
-    , _timespan({ time_point(), system_clock::now() })
-    , _archive(true)
-    , _regex(false)
+    : _exit_requested{false}
+    , _argument_error{false}
+    , _format{export_format::undefined}
+    , _timespan{{time_point(), system_clock::now()}}
+    , _archive{true}
+    , _regex{false}
 {}
 
 void App::defineOptions(OptionSet& options)
@@ -237,7 +237,7 @@ void App::print_help(const string &option)
 
 void App::print_version()
 {
-    cout << "remwharead " << global::version << endl <<
+    cout << "remwharead " << remwharead::version << endl <<
         "Copyright (C) 2019 tastytea <tastytea@tastytea.de>\n"
         "License GPLv3: GNU GPL version 3 "
         "<https://www.gnu.org/licenses/gpl-3.0.html>.\n"

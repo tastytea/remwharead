@@ -66,7 +66,7 @@ void Export::RSS::print() const
         writer.endElement("", "", "description");
 
         writer.startElement("", "", "generator");
-        writer.characters(string("remwharead ") + global::version);
+        writer.characters(string("remwharead ") + version);
         writer.endElement("", "", "generator");
 
         const string now = DateTimeFormatter::format(DateTime(),

@@ -36,7 +36,7 @@ void Export::AsciiDoc::print() const
     try
     {
         _out << "= Visited things\n"
-             << ":Author:    remwharead " << global::version << "\n"
+             << ":Author:    remwharead " << version << "\n"
              << ":Date:      "
              << timepoint_to_string(system_clock::now()) << "\n"
              << ":TOC:       right\n"
@@ -124,7 +124,6 @@ void Export::AsciiDoc::print() const
 }
 
 string Export::AsciiDoc::replace(string text, const replacemap &replacements)
-    const
 {
     for (const std::pair<const string, const string> &sr : replacements)
     {
@@ -137,7 +136,7 @@ string Export::AsciiDoc::replace(string text, const replacemap &replacements)
     }
     return text;
 }
-string Export::AsciiDoc::replace_in_tag(const string &text) const
+string Export::AsciiDoc::replace_in_tag(const string &text)
 {
     // TODO(tastytea): Find a better solution.
     const replacemap replacements =
@@ -165,13 +164,13 @@ string Export::AsciiDoc::replace_in_tag(const string &text) const
     return replace(text, replacements);
 }
 
-string Export::AsciiDoc::replace_in_title(const string &text) const
+string Export::AsciiDoc::replace_in_title(const string &text)
 {
     // [ is implicitly escaped if the corresponding ] is.
     return replace(text, {{ "]", "\\]" }});
 }
 
-string Export::AsciiDoc::replace_in_uri(const string &text) const
+string Export::AsciiDoc::replace_in_uri(const string &text)
 {
     string out;
     Poco::URI::encode(text, "+", out);
@@ -196,7 +195,9 @@ void Export::AsciiDoc::print_tags(const tagmap &tags) const
             const std::locale loc;
             const auto &coll = std::use_facet<std::collate<char>>(loc);
             return (coll.compare(
+                        // NOLINTNEXTLINE – pointer arithmetic
                         &a.first[0], &a.first[0] + a.first.size(),
+                        // NOLINTNEXTLINE – pointer arithmetic
                         &b.first[0], &b.first[0] + b.first.size()) == -1);
         };
     std::sort(sortedtags.begin(), sortedtags.end(), compare_tags);
@@ -235,13 +236,13 @@ void Export::AsciiDoc::print_tags(const tagmap &tags) const
     _out << endl;
 }
 
-string Export::AsciiDoc::get_day(const Database::entry &entry) const
+string Export::AsciiDoc::get_day(const Database::entry &entry)
 {
     const string datetime = timepoint_to_string(entry.datetime);
     return datetime.substr(0, datetime.find('T'));
 }
 
-string Export::AsciiDoc::get_time(const Database::entry &entry) const
+string Export::AsciiDoc::get_time(const Database::entry &entry)
 {
     const string datetime = timepoint_to_string(entry.datetime);
     return datetime.substr(datetime.find('T') + 1);

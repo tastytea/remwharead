@@ -132,7 +132,7 @@ private:
     bool _connected;
 
     [[nodiscard]]
-    fs::path get_data_home() const;
+    static fs::path get_data_home();
 };
 } // namespace remwharead
 

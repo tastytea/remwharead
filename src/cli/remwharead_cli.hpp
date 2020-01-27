@@ -44,7 +44,7 @@ protected:
     void defineOptions(OptionSet& options) override;
     void handle_options(const string &name, const string &value);
     void print_help(const string &option);
-    void print_version();
+    static void print_version();
     int main(const std::vector<string> &args) override;
 
 private:

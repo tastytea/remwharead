@@ -110,7 +110,7 @@ private:
      *  @since  0.7.0
      */
     [[nodiscard]]
-    vector<vector<string>> parse_expression(const string &expression) const;
+    static vector<vector<string>> parse_expression(const string &expression);
 
     /*!
      *  @brief  Convert str to lowercase. Works with unicode.
@@ -118,7 +118,7 @@ private:
      *  @since  0.7.0
      */
     [[nodiscard]]
-    inline string to_lowercase(const string &str) const;
+    static inline string to_lowercase(const string &str);
 };
 } // namespace remwharead
 

@@ -30,6 +30,8 @@ using std::system;
 string read_input();
 void send_message(const string &message);
 int launch(const string &args);
+string decode_args(const string &args);
+void replace_in_field(string &field);
 
 string read_input()
 {
@@ -78,11 +80,44 @@ int launch(const string &args)
     return ret;
 }
 
+string decode_args(const string &args)
+{
+    constexpr char separator{'\u001F'}; // UNIT SEPARATOR.
+    if (args[0] != separator)           // Extension uses old method.
+    {
+        return args;
+    }
+
+    size_t pos{1};
+    size_t endpos{0};
+    string newargs;
+    while ((endpos = args.find(separator, pos)) != string::npos)
+    {
+        string field{args.substr(pos, endpos - pos)};
+        replace_in_field(field);
+        newargs += " \"" + field + '"';
+        pos = endpos + 1;
+    }
+
+    return newargs;
+}
+
+void replace_in_field(string &field)
+{
+    size_t pos{0};
+    while ((pos = field.find('"', pos)) != string::npos)
+    {
+        field.replace(pos, 1, R"(\")"); // Replace " with \".
+        pos += 2;
+    }
+}
+
 int main()
 {
     const string args = read_input();
 
-    const int ret = launch(args);
+    cout << decode_args(args) << std::endl;
+    const int ret = launch(decode_args(args));
 
     if (ret == 0)
     {

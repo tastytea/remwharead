@@ -17,7 +17,6 @@
 #include <exception>
 #include <string>
 #include <chrono>
-#include <vector>
 #include <catch.hpp>
 #include "sqlite.hpp"
 #include "search.hpp"
@@ -25,7 +24,6 @@
 using namespace remwharead;
 using std::string;
 using std::chrono::system_clock;
-using std::vector;
 
 SCENARIO ("Searching works correctly")
 {
