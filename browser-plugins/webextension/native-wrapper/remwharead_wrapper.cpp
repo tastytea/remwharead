@@ -14,6 +14,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// TODO: Rewrite this in understandable code.
+
 #include <string>
 #include <iostream>
 #include <cstdint>
@@ -30,7 +32,7 @@ using std::system;
 string read_input();
 void send_message(const string &message);
 int launch(const string &args);
-string decode_args(const string &args);
+string decode_args(string args);
 void replace_in_field(string &field);
 
 string read_input()
@@ -80,9 +82,17 @@ int launch(const string &args)
     return ret;
 }
 
-string decode_args(const string &args)
+string decode_args(string args)
 {
-    constexpr char separator{'\u001F'}; // UNIT SEPARATOR.
+    {                           // The string we get is escaped.
+        size_t pos{0};
+        while ((pos = args.find(R"(\u001f)", pos)) != string::npos)
+        {
+            args.replace(pos, 6, "\u001f");
+        }
+    }
+
+    constexpr char separator{'\u001f'}; // UNIT SEPARATOR.
     if (args[0] != separator)           // Extension uses old method.
     {
         return args;
@@ -111,6 +121,7 @@ void replace_in_field(string &field)
         pos += 2;
     }
 }
+
 
 int main()
 {
