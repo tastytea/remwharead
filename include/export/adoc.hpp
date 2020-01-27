@@ -47,30 +47,30 @@ private:
 
     //! Replace strings in text.
     [[nodiscard]]
-    string replace(string text, const replacemap &replacements) const;
+    static string replace(string text, const replacemap &replacements);
 
     //! Replaces characters in tags that asciidoctor doesn't like.
     [[nodiscard]]
-    string replace_in_tag(const string &text) const;
+    static string replace_in_tag(const string &text);
 
     //! Replaces characters in title that asciidoctor doesn't like.
     [[nodiscard]]
-    string replace_in_title(const string &text) const;
+    static string replace_in_title(const string &text);
 
     //! Replaces characters in URI that asciidoctor doesn't like.
     [[nodiscard]]
-    string replace_in_uri(const string &text) const;
+    static string replace_in_uri(const string &text);
 
     //! Print things sorted by tag.
     void print_tags(const tagmap &tags) const;
 
     //! Get ISO-8601 day from Database::entry.
     [[nodiscard]]
-    string get_day(const Database::entry &entry) const;
+    static string get_day(const Database::entry &entry);
 
     //! Get ISO-8601 time from Database::entry.
     [[nodiscard]]
-    string get_time(const Database::entry &entry) const;
+    static string get_time(const Database::entry &entry);
 };
 } // namespace remwharead::Export
 

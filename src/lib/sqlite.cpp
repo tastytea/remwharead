@@ -33,7 +33,7 @@ using Poco::Data::Statement;
 using Poco::Environment;
 
 Database::Database()
-    : _connected(false)
+    : _connected{false}
 {
     try
     {
@@ -182,7 +182,7 @@ string Database::tags_to_string(const vector<string> &tags)
     return strtags;
 }
 
-fs::path Database::get_data_home() const
+fs::path Database::get_data_home()
 {
     fs::path path;
 

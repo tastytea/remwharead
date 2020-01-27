@@ -37,7 +37,7 @@ Search::Search(list<Database::entry> entries)
     :_entries(move(entries))
 {}
 
-vector<vector<string>> Search::parse_expression(const string &expression) const
+vector<vector<string>> Search::parse_expression(const string &expression)
 {
     vector<vector<string>> searchlist;
     const RegEx re_or("(.+?) (OR|\\|\\|) ");
@@ -78,7 +78,7 @@ vector<vector<string>> Search::parse_expression(const string &expression) const
     return searchlist;
 }
 
-string Search::to_lowercase(const string &str) const
+string Search::to_lowercase(const string &str)
 {
     return Poco::UTF8::toLower(str);
 }

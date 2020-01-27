@@ -25,7 +25,7 @@ ExportBase::ExportBase(const list<Database::entry> &entries, ostream &out)
 {}
 
 list<Database::entry>
-ExportBase::sort_entries(list<Database::entry> entries) const
+ExportBase::sort_entries(list<Database::entry> entries)
 {
     entries.sort([](const auto &a, const auto &b)
                  {

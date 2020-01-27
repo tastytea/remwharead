@@ -151,7 +151,7 @@ protected:
      *  @since  0.6.0
      */
     [[nodiscard]]
-    string remove_html_tags(const string &html, const string &tag = "") const;
+    static string remove_html_tags(const string &html, const string &tag = "");
 
     /*!
      *  @brief  Convert HTML entities to UTF-8.
@@ -159,7 +159,7 @@ protected:
      *  @since  0.6.0
      */
     [[nodiscard]]
-    string unescape_html(string html) const;
+    static string unescape_html(string html);
 
     /*!
      *  @brief  Replace newlines with spaces.
@@ -167,14 +167,14 @@ protected:
      *  @since  0.6.0
      */
     [[nodiscard]]
-    string remove_newlines(string text) const;
+    static string remove_newlines(string text);
 
     /*!
      *  @brief  Set proxy server.
      *
      *  @since  0.8.5
      */
-    void set_proxy();
+    static void set_proxy();
 
     /*!
      *  @brief  Limits text to N characters, cuts at space.
@@ -182,7 +182,7 @@ protected:
      *  @since  0.8.5
      */
     [[nodiscard]]
-    string cut_text(const string &text, uint16_t n_chars) const;
+    static string cut_text(const string &text, uint16_t n_chars);
 
     /*!
      *  @brief  Converts string to UTF-8.
@@ -204,6 +204,7 @@ protected:
      *
      *  @since  0.9.2
      */
+    [[nodiscard]]
     bool is_html() const;
 };
 } // namespace remwharead

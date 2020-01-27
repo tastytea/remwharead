@@ -45,7 +45,7 @@ void Export::CSV::print() const
     }
 }
 
-string Export::CSV::quote(string field) const
+string Export::CSV::quote(string field)
 {
     size_t pos = 0;
     while ((pos = field.find('"', pos)) != std::string::npos)
