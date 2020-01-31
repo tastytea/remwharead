@@ -1,5 +1,5 @@
 /*  This file is part of remwharead.
- *  Copyright © 2019 tastytea <tastytea@tastytea.de>
+ *  Copyright © 2019, 2020 tastytea <tastytea@tastytea.de>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,8 +14,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// TODO: Rewrite this in understandable code.
-
+#include <Poco/Message.h>
 #include <string>
 #include <iostream>
 #include <cstdint>
@@ -29,105 +28,39 @@ using std::cout;
 using std::uint32_t;
 using std::system;
 
-string read_input();
+class Message
+{
+public:
+    //! Read message from stdin and store it in _msg.
+    Message();
+
+    //! Decode message and return argument string for launch().
+    [[nodiscard]]
+    string decode();
+
+private:
+    string _msg;
+
+    //! Replace "\u001f" with the char in _msg.
+    void unescape();
+
+    //! Replace " with \" in field.
+    static void replace_in_field(string &field);
+};
+
+//! Send a message back.
 void send_message(const string &message);
+
+//! Launch remwharead with args.
 int launch(const string &args);
-string decode_args(string args);
-void replace_in_field(string &field);
-
-string read_input()
-{
-    // Read message length.
-    uint32_t length;
-    char buffer[4];
-
-    cin.read(buffer, sizeof(uint32_t));
-    std::memcpy(&length, buffer, 4);
-
-    // Ignore quotes.
-    length -= 2;
-    cin.ignore(1);
-
-    // Read message.
-    string input;
-    char c;
-
-    for (; length > 0; --length)
-    {
-        cin.read(&c, 1);
-        input += c;
-    }
-
-    return input;
-}
-
-void send_message(const string &message)
-{
-    const auto length = static_cast<uint32_t>(message.length() + 2);
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast) - Necessary.
-    cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
-    cout << '"' << message << '"';
-}
-
-int launch(const string &args)
-{
-    const string cmd = "remwharead " + args + " 2>/dev/null";
-    // NOLINTNEXTLINE(cert-env33-c) - We get the arguments in a string.
-    int ret = system(cmd.c_str());
-    if (WIFEXITED(ret))         // NOLINT(hicpp-signed-bitwise) - Necessary.
-    {
-        ret = WEXITSTATUS(ret); // NOLINT(hicpp-signed-bitwise) - Necessary.
-    }
-
-    return ret;
-}
-
-string decode_args(string args)
-{
-    {                           // The string we get is escaped.
-        size_t pos{0};
-        while ((pos = args.find(R"(\u001f)", pos)) != string::npos)
-        {
-            args.replace(pos, 6, "\u001f");
-        }
-    }
-
-    constexpr char separator{'\u001f'}; // UNIT SEPARATOR.
-    if (args[0] != separator)           // Extension uses old method.
-    {
-        return args;
-    }
-
-    size_t pos{1};
-    size_t endpos{0};
-    string newargs;
-    while ((endpos = args.find(separator, pos)) != string::npos)
-    {
-        string field{args.substr(pos, endpos - pos)};
-        replace_in_field(field);
-        newargs += " \"" + field + '"';
-        pos = endpos + 1;
-    }
-
-    return newargs;
-}
-
-void replace_in_field(string &field)
-{
-    size_t pos{0};
-    while ((pos = field.find('"', pos)) != string::npos)
-    {
-        field.replace(pos, 1, R"(\")"); // Replace " with \".
-        pos += 2;
-    }
-}
 
 
 int main()
 {
-    const string args = read_input();
+    Message message;
+    const auto args{message.decode()};
 
-    const int ret = launch(decode_args(args));
+    const int ret = launch(args);
 
     if (ret == 0)
     {
@@ -137,6 +70,91 @@ int main()
     {
         send_message("Command failed with status: "
                      + std::to_string(ret) + '.');
+    }
+
+    return ret;
+}
+
+Message::Message()
+{
+    // Read message length.
+    uint32_t length;
+    char buffer[4];
+    cin.read(buffer, sizeof(length));
+    std::memcpy(&length, buffer, sizeof(length));
+
+    // Ignore quotes.
+    length -= 2;
+    cin.ignore(1);
+
+    // Read message.
+    char c;
+    for (; length > 0; --length)
+    {
+        cin.read(&c, 1);
+        _msg += c;
+    }
+}
+
+string Message::decode()
+{
+    unescape();
+
+    constexpr char separator{'\u001f'}; // UNIT SEPARATOR.
+    if (_msg[0] != separator)           // Extension uses old method.
+    {
+        return _msg;
+    }
+
+    size_t pos{1};
+    size_t endpos{0};
+    string newargs;
+    while ((endpos = _msg.find(separator, pos)) != string::npos)
+    {
+        string field{_msg.substr(pos, endpos - pos)};
+        replace_in_field(field);
+        newargs += " \"" + field + '"';
+        pos = endpos + 1;
+    }
+
+    return newargs;
+}
+
+void Message::unescape()
+{
+    size_t pos{0};
+    while ((pos = _msg.find(R"(\u001f)", pos)) != string::npos)
+    {
+        _msg.replace(pos, 6, "\u001f");
+    }
+}
+
+void Message::replace_in_field(string &field)
+{
+    size_t pos{0};
+    while ((pos = field.find('"', pos)) != string::npos)
+    {
+        field.replace(pos, 1, R"(\")");
+        pos += 2;
+    }
+}
+
+void send_message(const string &message)
+{
+    const auto length = static_cast<uint32_t>(message.length() + 2);
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
+    cout << '"' << message << '"';
+}
+
+int launch(const string &args)
+{
+    const string cmd = "remwharead " + args + " 2>/dev/null";
+    // NOLINTNEXTLINE(cert-env33-c)
+    int ret = system(cmd.c_str());
+    if (WIFEXITED(ret))         // NOLINT(hicpp-signed-bitwise)
+    {
+        ret = WEXITSTATUS(ret); // NOLINT(hicpp-signed-bitwise)
     }
 
     return ret;
