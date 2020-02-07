@@ -1,5 +1,5 @@
 /*  This file is part of remwharead.
- *  Copyright © 2019 tastytea <tastytea@tastytea.de>
+ *  Copyright © 2019, 2020 tastytea <tastytea@tastytea.de>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -216,7 +216,14 @@ string URI::make_request(const string &uri, bool archive) const
         string answer;
         if (archive)
         {
-            answer = response.get("Content-Location");
+            if (response.has("Content-Location"))
+            {
+                answer = response.get("Content-Location");
+            }
+            else
+            {
+                answer = uri;
+            }
         }
         else
         {
