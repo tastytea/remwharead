@@ -16,46 +16,31 @@
 
 #include "uri.hpp"
 
+#include "curl_wrapper.hpp"
 #include "version.hpp"
 
-#include <Poco/Environment.h>
-#include <Poco/Exception.h>
-#include <Poco/Net/HTTPClientSession.h>
-#include <Poco/Net/HTTPRequest.h>
-#include <Poco/Net/HTTPResponse.h>
-#include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/RegularExpression.h>
-#include <Poco/StreamCopier.h>
-#include <Poco/URI.h>
 #include <boost/locale.hpp>
 
+#include <atomic>
 #include <codecvt>
 #include <cstdint>
 #include <exception>
 #include <iostream>
 #include <iterator>
 #include <locale>
-#include <sstream>
+#include <stdexcept>
+#include <string>
 #include <utility>
 #include <vector>
 
 namespace remwharead
 {
-using Poco::Environment;
-using Poco::StreamCopier;
-using Poco::Net::HTTPClientSession;
-using Poco::Net::HTTPMessage;
-using Poco::Net::HTTPRequest;
-using Poco::Net::HTTPResponse;
-using Poco::Net::HTTPSClientSession;
 using std::array;
-using std::cerr;
-using std::endl;
-using std::istream;
-using std::make_unique;
+using std::exception;
 using std::move;
+using std::to_string;
 using std::uint32_t;
-using std::unique_ptr;
 using std::vector;
 using RegEx = Poco::RegularExpression;
 
@@ -78,163 +63,27 @@ URI::URI(string uri)
     const boost::locale::generator locgen;
     const std::locale loc = locgen("");
     std::locale::global(loc);
-
-    Poco::Net::initializeSSL();
-
-    set_proxy();
-}
-
-void URI::set_proxy()
-{
-    try
-    {
-        HTTPClientSession::ProxyConfig proxy;
-        const string env_proxy = Environment::get("http_proxy");
-        const RegEx re_proxy("^(?:https?://)?(?:([^:]+):?([^@]*)@)?" // user:pw
-                             "([^:/]+)(?::([\\d]{1,5}))?/?$"); // host:port
-        vector<string> matches;
-
-        if (re_proxy.split(env_proxy, matches) < 4)
-        {
-            return;
-        }
-
-        proxy.username = matches[1];
-        proxy.password = matches[2];
-        proxy.host = matches[3];
-        if (!matches[4].empty())
-        {
-            // NOLINTNEXTLINE(google-runtime-int) - Need to use same as stoul.
-            const unsigned long port = std::stoul(matches[4]);
-            if (port > 65535)
-            {
-                throw std::invalid_argument("Proxy port number out of range");
-            }
-            proxy.port = static_cast<uint16_t>(port);
-        }
-        HTTPClientSession::setGlobalProxyConfig(proxy);
-    }
-    catch (const Poco::RegularExpressionException &e)
-    {
-        cerr << "Error: Proxy could not be set (" << e.displayText() << ")\n";
-    }
-    catch (const std::invalid_argument &e)
-    {
-        cerr << "Error: " << e.what() << endl;
-    }
-    catch (const Poco::NotFoundException &)
-    {
-        // No proxy found, no problem.
-    }
-    catch (const std::exception &e)
-    {
-        cerr << "Unexpected exception: " << e.what() << endl;
-    }
-}
-
-URI::~URI()
-{
-    Poco::Net::uninitializeSSL();
 }
 
 html_extract URI::get()
 {
     try
     {
-        _document = make_request(_uri);
-        _document = to_utf8(_document);
+        CURLWrapper curl;
+        _document = to_utf8(curl.make_request(_uri, false));
+
         if (!_document.empty())
         {
             return {true, "", extract_title(), extract_description(),
                     strip_html()};
         }
     }
-    catch (const Poco::Exception &e)
+    catch (const exception &e)
     {
-        return {false, e.displayText(), "", "", ""};
+        return {false, e.what(), "", "", ""};
     }
 
     return {false, "Unknown error.", "", "", ""};
-}
-
-string URI::make_request(const string &uri, bool archive) const
-{
-    Poco::URI poco_uri(uri);
-    string method = archive ? HTTPRequest::HTTP_HEAD : HTTPRequest::HTTP_GET;
-    string path = poco_uri.getPathAndQuery();
-    if (path.empty())
-    {
-        path = "/";
-    }
-
-    unique_ptr<HTTPClientSession> session;
-    if (poco_uri.getScheme() == "https")
-    {
-        session = make_unique<HTTPSClientSession>(poco_uri.getHost(),
-                                                  poco_uri.getPort());
-    }
-    else if (poco_uri.getScheme() == "http")
-    {
-        session = make_unique<HTTPClientSession>(poco_uri.getHost(),
-                                                 poco_uri.getPort());
-    }
-    else
-    {
-        // NOLINTNEXTLINE(cert-err60-cpp)
-        throw Poco::Exception("Protocol not supported.");
-    }
-
-    HTTPRequest request(method, path, HTTPMessage::HTTP_1_1);
-    request.set("User-Agent", string("remwharead/") + version);
-
-    HTTPResponse response;
-
-    session->sendRequest(request);
-    istream &rs = session->receiveResponse(response);
-
-    // Not using the constants because some are too new for Debian stretch.
-    switch (response.getStatus())
-    {
-    case 301: // HTTPResponse::HTTP_MOVED_PERMANENTLY
-    case 308: // HTTPResponse::HTTP_PERMANENT_REDIRECT
-    case 302: // HTTPResponse::HTTP_FOUND
-    case 303: // HTTPResponse::HTTP_SEE_OTHER
-    case 307: // HTTPResponse::HTTP_TEMPORARY_REDIRECT
-    {
-        string location = response.get("Location");
-        if (location.substr(0, 4) != "http")
-        {
-            location = poco_uri.getScheme() + "://" + poco_uri.getHost()
-                       + location;
-        }
-        return make_request(location, archive);
-    }
-    case HTTPResponse::HTTP_OK:
-    {
-        string answer;
-        if (archive)
-        {
-            if (response.has("Content-Location"))
-            {
-                answer = response.get("Content-Location");
-            }
-            else
-            {
-                answer = uri;
-            }
-        }
-        else
-        {
-            StreamCopier::copyToString(rs, answer);
-        }
-        return answer;
-    }
-    default:
-    {
-        throw Poco::Exception(response.getReason()); // NOLINT(cert-err60-cpp)
-        return "";
-    }
-    }
 }
 
 string URI::extract_title() const
@@ -463,18 +312,19 @@ archive_answer URI::archive() const
 
     try
     {
-        const string answer = make_request("https://web.archive.org/save/"
-                                               + _uri,
-                                           true);
+        CURLWrapper curl;
+        const string answer = curl.make_request("https://web.archive.org/save/"
+                                                    + _uri,
+                                                true);
 
         if (!answer.empty())
         {
             return {true, "", "https://web.archive.org" + answer};
         }
     }
-    catch (const Poco::Exception &e)
+    catch (const exception &e)
     {
-        return {false, e.displayText(), ""};
+        return {false, e.what(), ""};
     }
 
     return {false, "Unknown error.", ""};

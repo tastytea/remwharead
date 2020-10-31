@@ -17,6 +17,8 @@
 #ifndef REMWHAREAD_URI_HPP
 #define REMWHAREAD_URI_HPP
 
+#include <curl/curl.h>
+
 #include <cstdint>
 #include <string>
 
@@ -82,7 +84,7 @@ public:
      *  @since  0.6.0
      */
     explicit URI(string uri);
-    virtual ~URI();
+    virtual ~URI() = default;
 
     URI(const URI &other) = default;
     URI &operator=(const URI &other) = default;
@@ -107,14 +109,6 @@ protected:
     string _uri;
     string _encoding;
     string _document;
-
-    /*!
-     *  @brief  Make a HTTP(S) request.
-     *
-     *  @since  0.6.0
-     */
-    [[nodiscard]] string make_request(const string &uri,
-                                      bool archive = false) const;
 
     /*!
      *  @brief  Extract the title from an HTML page.

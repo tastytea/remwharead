@@ -2,7 +2,7 @@
 :doctype:       manpage
 :Author:        tastytea
 :Email:         tastytea@tastytea.de
-:Date:          2019-11-28
+:Date:          2020-10-31
 :Revision:      0.0.0
 :man source:    remwharead
 :man manual:    General Commands Manual
@@ -211,9 +211,8 @@ Currently only HTTP and HTTPS are supported.
 
 == PROXY SUPPORT
 
-*remwharead* supports HTTP proxies set via the environment variable
-_http_proxy_. Accepted formats are: _\http://[user[:password]@]host[:port]/_ or
-_[user[:password]@]host[:port]_. No SOCKS proxy support yet, sorry.
+Since *remwharead* is built on libcurl, it respects the same proxy environment
+variables. See *curl*(1), section _ENVIRONMENT_.
 
 Example: http_proxy="http://localhost:3128/"
 
@@ -235,7 +234,7 @@ Example: http_proxy="http://localhost:3128/"
 
 == SEE ALSO
 
-*crontab*(1), *crontab*(5)
+*crontab*(1), *crontab*(5), *curl*(1)
 
 == REPORTING BUGS
 

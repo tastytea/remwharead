@@ -2,9 +2,9 @@ include(GNUInstallDirs)
 
 # Some distributions do not contain Poco*Config.cmake recipes.
 find_package(Poco CONFIG
-  COMPONENTS Foundation Net NetSSL Data DataSQLite JSON XML)
-
+  COMPONENTS Foundation Net Data DataSQLite JSON XML)
 find_package(Boost 1.48.0 REQUIRED COMPONENTS locale)
+find_package(CURL 7.52 REQUIRED)
 
 file(GLOB_RECURSE sources_lib *.cpp)
 file(GLOB_RECURSE headers_lib ../../include/*.hpp)
@@ -26,10 +26,21 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE pthread Boost::locale
   PUBLIC stdc++fs)
 
-# If no Poco*Config.cmake recipes are found, look for headers in standard dirs.
-if(PocoNetSSL_FOUND)
+# FindCURL provides an IMPORTED target since CMake 3.12.
+if(NOT ${CMAKE_VERSION} VERSION_LESS 3.12)
   target_link_libraries(${PROJECT_NAME}
-    PRIVATE Poco::Foundation Poco::Net Poco::NetSSL Poco::DataSQLite
+    PUBLIC CURL::libcurl)
+else()
+  target_include_directories(${PROJECT_NAME}
+    PUBLIC ${CURL_INCLUDE_DIRS})
+  target_link_libraries(${PROJECT_NAME}
+    PUBLIC ${CURL_LIBRARIES})
+endif()
+
+# If no Poco*Config.cmake recipes are found, look for headers in standard dirs.
+if(Poco_FOUND)
+  target_link_libraries(${PROJECT_NAME}
+    PRIVATE Poco::Foundation Poco::Net Poco::DataSQLite
     Poco::JSON Poco::XML
     PUBLIC Poco::Data)
 else()
@@ -44,7 +55,7 @@ else()
       "but the files seem to be in the standard directories. "
       "Let's hope this works.")
     target_link_libraries(${PROJECT_NAME}
-      PRIVATE PocoFoundation PocoNet PocoNetSSL PocoDataSQLite PocoJSON PocoXML
+      PRIVATE PocoFoundation PocoNet PocoDataSQLite PocoJSON PocoXML
       PUBLIC PocoData)
   endif()
 endif()
