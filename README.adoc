@@ -99,7 +99,7 @@ only.
 ====
 [source,zsh]
 ----
-apt-get install g++ cmake libpoco-dev asciidoc dpkg
+apt-get install g++ cmake libpoco-dev libboost-dev asciidoc dpkg
 ----
 ====
 
