@@ -15,18 +15,19 @@
  */
 
 #include <Poco/Message.h>
-#include <string>
-#include <iostream>
+#include <sys/wait.h>
+
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <sys/wait.h>
+#include <iostream>
+#include <string>
 
-using std::string;
 using std::cin;
 using std::cout;
-using std::uint32_t;
+using std::string;
 using std::system;
+using std::uint32_t;
 
 class Message
 {
@@ -35,8 +36,7 @@ public:
     Message();
 
     //! Decode message and return argument string for launch().
-    [[nodiscard]]
-    string decode();
+    [[nodiscard]] string decode();
 
 private:
     string _msg;
@@ -54,7 +54,6 @@ void send_message(const string &message);
 //! Launch remwharead with args.
 int launch(const string &args);
 
-
 int main()
 {
     Message message;
@@ -68,8 +67,8 @@ int main()
     }
     else
     {
-        send_message("Command failed with status: "
-                     + std::to_string(ret) + '.');
+        send_message("Command failed with status: " + std::to_string(ret)
+                     + '.');
     }
 
     return ret;
@@ -143,7 +142,7 @@ void send_message(const string &message)
 {
     const auto length = static_cast<uint32_t>(message.length() + 2);
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    cout.write(reinterpret_cast<const char*>(&length), sizeof(uint32_t));
+    cout.write(reinterpret_cast<const char *>(&length), sizeof(uint32_t));
     cout << '"' << message << '"';
 }
 
@@ -152,7 +151,7 @@ int launch(const string &args)
     const string cmd = "remwharead " + args + " 2>/dev/null";
     // NOLINTNEXTLINE(cert-env33-c)
     int ret = system(cmd.c_str());
-    if (WIFEXITED(ret))         // NOLINT(hicpp-signed-bitwise)
+    if (WIFEXITED(ret)) // NOLINT(hicpp-signed-bitwise)
     {
         ret = WEXITSTATUS(ret); // NOLINT(hicpp-signed-bitwise)
     }
