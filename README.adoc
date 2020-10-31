@@ -19,7 +19,6 @@
 :uri-rpm: http://www.rpm.org/
 :uri-ff-addon: https://addons.mozilla.org/firefox/addon/remwharead
 :uri-papirus: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
-:uri-hunter: https://github.com/cpp-pm/hunter
 :uri-rofi: https://github.com/davatorium/rofi
 :uri-boost: https://www.boost.org/
 :uri-clang-tidy: https://clang.llvm.org/extra/clang-tidy/
@@ -135,7 +134,6 @@ cmake --build .
 * `-DMOZILLA_NMH_DIR` lets you set the directory for the Mozilla
   extension wrapper. The complete path is
   `${CMAKE_INSTALL_PREFIX}/${MOZILLA_NMH_DIR}`.
-* `-DHUNTER_ENABLED=YES` to use the package manager link:{uri-hunter}[Hunter].
 * `-DWITH_CLANG-TIDY=YES` to check the sourcecode with
   link:{uri-clang-tidy}[clang-tidy] while compiling.
 * One of:
@@ -144,21 +142,6 @@ cmake --build .
 
 You can run the tests with `cd tests && ctest`. Install with `make install`,
 generate binary packages with `make package`.
-
-===== Compiling with Hunter
-
-If your operating system doesn't provide all the dependencies or the versions
-are too old, you can use the Hunter package manager to download and compile all
-library dependencies. Keep in mind that the packages from Hunter are not
-necessarily up to date.
-
-[source,shell]
-----
-mkdir build
-cd build/
-cmake -DHUNTER_ENABLED=YES ..
-cmake --build .
-----
 
 == Browser plugins
 
