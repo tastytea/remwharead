@@ -1,5 +1,5 @@
 /*  This file is part of remwharead.
- *  Copyright © 2019 tastytea <tastytea@tastytea.de>
+ *  Copyright © 2019, 2020 tastytea <tastytea@tastytea.de>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ struct html_extract
     string description;
     string fulltext;
 
-    explicit operator bool();
+    explicit operator bool() const;
 };
 
 /*!
@@ -60,7 +60,7 @@ struct archive_answer
     string error;
     string uri;
 
-    explicit operator bool();
+    explicit operator bool() const;
 };
 
 /*!

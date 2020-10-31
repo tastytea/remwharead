@@ -59,12 +59,12 @@ using std::unique_ptr;
 using std::vector;
 using RegEx = Poco::RegularExpression;
 
-html_extract::operator bool()
+html_extract::operator bool() const
 {
     return successful;
 }
 
-archive_answer::operator bool()
+archive_answer::operator bool() const
 {
     return successful;
 }
