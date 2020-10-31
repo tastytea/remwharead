@@ -22,6 +22,7 @@
 :uri-rofi: https://github.com/davatorium/rofi
 :uri-boost: https://www.boost.org/
 :uri-clang-tidy: https://clang.llvm.org/extra/clang-tidy/
+:uri-curl: https://curl.haxx.se/libcurl/
 
 *remwharead* saves URIs of things you want to remember in a database along with
  an URI to the archived version, the current date and time, title, description,
@@ -89,6 +90,7 @@ only.
 * {uri-cmake}[cmake] (at least: 3.9)
 * {uri-poco}[POCO] (tested: 1.9 / 1.7)
 * {uri-boost}[Boost] (tested: 1.71 / 1.67)
+* {uri-curl}[libcurl] (at least: 7.52)
 * Optional:
 ** Manpage: {uri-asciidoc}[asciidoc] (tested: 8.6)
 ** Tests: {uri-catch}[catch] (tested: 2.5 / 1.2)
