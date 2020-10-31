@@ -82,10 +82,12 @@ int App::main(const std::vector<std::string> &args)
         std::thread thread_archive;
         if (_archive)
         {
+            // clang-format off
             thread_archive = std::thread([&archive_data, &uri]
                                          {
                                              archive_data = uri.archive();
                                          });
+            // clang-format on
         }
 
         html_extract page = uri.get();
