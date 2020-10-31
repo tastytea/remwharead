@@ -44,7 +44,7 @@ if (WITH_RPM)
     set(CPACK_RPM_PACKAGE_LICENSE "GPL-3")
     set(CPACK_RPM_PACKAGE_URL "https://schlomp.space/tastytea/${PROJECT_NAME}")
     set(CPACK_RPM_PACKAGE_REQUIRES
-      "poco-netssl >= 1.6, poco-sqlite >= 1.6")
+      "poco-net >= 1.6, poco-sqlite >= 1.6, libcurl >= 7.52")
     set(CPACK_PACKAGE_FILE_NAME
       "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-0.${CPACK_PACKAGE_ARCHITECTURE}")
     set(CPACK_SOURCE_PACKAGE_FILE_NAME
