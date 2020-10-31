@@ -78,7 +78,7 @@ int main()
 Message::Message()
 {
     // Read message length.
-    uint32_t length;
+    uint32_t length{0};
     char buffer[4];
     cin.read(buffer, sizeof(length));
     std::memcpy(&length, buffer, sizeof(length));
@@ -88,7 +88,7 @@ Message::Message()
     cin.ignore(1);
 
     // Read message.
-    char c;
+    char c{'\0'};
     for (; length > 0; --length)
     {
         cin.read(&c, 1);
