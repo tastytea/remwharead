@@ -445,7 +445,7 @@ string URI::unescape_html(string html)
          {"rang", 0x232A},        {"loz", 0x25CA},     {"spades", 0x2660},
          {"clubs", 0x2663},       {"hearts", 0x2665},  {"diams", 0x2666}}};
 
-    for (auto &pair : names)
+    for (const auto &pair : names)
     {
         const RegEx re('&' + pair.first + ';');
         re.subst(html, u8c.to_bytes(pair.second), RegEx::RE_GLOBAL);
