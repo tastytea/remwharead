@@ -22,8 +22,8 @@
 
 namespace remwharead
 {
-using std::uint16_t;
 using std::string;
+using std::uint16_t;
 
 /*!
  *  @brief  A processed HTML page.
@@ -94,16 +94,14 @@ public:
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    html_extract get();
+    [[nodiscard]] html_extract get();
 
     /*!
      *  @brief  Save %URI in archive and return archive-URI.
      *
      *  @since  0.6.0
-    */
-    [[nodiscard]]
-    archive_answer archive() const;
+     */
+    [[nodiscard]] archive_answer archive() const;
 
 protected:
     string _uri;
@@ -115,32 +113,29 @@ protected:
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    string make_request(const string &uri, bool archive = false) const;
+    [[nodiscard]] string make_request(const string &uri,
+                                      bool archive = false) const;
 
     /*!
      *  @brief  Extract the title from an HTML page.
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    string extract_title() const;
+    [[nodiscard]] string extract_title() const;
 
     /*!
      *  @brief  Extract the description from an HTML page.
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    string extract_description() const;
+    [[nodiscard]] string extract_description() const;
 
     /*!
      *  @brief  Removes HTML tags and superflous spaces from an HTML page.
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    string strip_html() const;
+    [[nodiscard]] string strip_html() const;
 
     /*!
      *  @brief  Remove HTML tags.
@@ -150,24 +145,22 @@ protected:
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    static string remove_html_tags(const string &html, const string &tag = "");
+    [[nodiscard]] static string remove_html_tags(const string &html,
+                                                 const string &tag = "");
 
     /*!
      *  @brief  Convert HTML entities to UTF-8.
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    static string unescape_html(string html);
+    [[nodiscard]] static string unescape_html(string html);
 
     /*!
      *  @brief  Replace newlines with spaces.
      *
      *  @since  0.6.0
      */
-    [[nodiscard]]
-    static string remove_newlines(string text);
+    [[nodiscard]] static string remove_newlines(string text);
 
     /*!
      *  @brief  Set proxy server.
@@ -181,16 +174,14 @@ protected:
      *
      *  @since  0.8.5
      */
-    [[nodiscard]]
-    static string cut_text(const string &text, uint16_t n_chars);
+    [[nodiscard]] static string cut_text(const string &text, uint16_t n_chars);
 
     /*!
      *  @brief  Converts string to UTF-8.
      *
      *  @since  0.9.2
      */
-    [[nodiscard]]
-    inline string to_utf8(const string &str);
+    [[nodiscard]] inline string to_utf8(const string &str);
 
     /*!
      *  @brief  Try to detect the encoding of the document.
@@ -204,9 +195,8 @@ protected:
      *
      *  @since  0.9.2
      */
-    [[nodiscard]]
-    bool is_html() const;
+    [[nodiscard]] bool is_html() const;
 };
 } // namespace remwharead
 
-#endif  // REMWHAREAD_URI_HPP
+#endif // REMWHAREAD_URI_HPP
