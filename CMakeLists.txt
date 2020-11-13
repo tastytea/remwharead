@@ -39,6 +39,7 @@ if(WITH_CLANG-TIDY)
 endif()
 
 add_subdirectory(src)
+add_subdirectory(src/curl_wrapper)
 add_subdirectory(src/lib)
 add_subdirectory(include)
 add_subdirectory(src/cli)

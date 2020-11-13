@@ -67,10 +67,13 @@ URI::URI(string uri)
 
 html_extract URI::get()
 {
+    using namespace curl_wrapper;
+
     try
     {
         CURLWrapper curl;
-        _document = to_utf8(curl.make_request(_uri, false));
+        _document = to_utf8(
+            curl.make_http_request(http_method::GET, _uri).body);
 
         if (!_document.empty())
         {
@@ -305,6 +308,8 @@ string URI::unescape_html(string html)
 
 archive_answer URI::archive() const
 {
+    using namespace curl_wrapper;
+
     if (_uri.substr(0, 4) != "http")
     {
         return {false, "Only HTTP(S) is archivable.", ""};
@@ -313,13 +318,23 @@ archive_answer URI::archive() const
     try
     {
         CURLWrapper curl;
-        const string answer = curl.make_request("https://web.archive.org/save/"
-                                                    + _uri,
-                                                true);
+        const auto answer =
+            curl.make_http_request(http_method::HEAD,
+                                   "https://web.archive.org/save/" + _uri);
 
-        if (!answer.empty())
+        if (answer)
         {
-            return {true, "", "https://web.archive.org" + answer};
+            string location{answer.get_header("location")};
+            if (location.empty())
+            {
+                location = answer.get_header("content-location");
+            }
+            if (!location.empty())
+            {
+                return {true, "", location};
+            }
+
+            return {false, "Could not extract location.", ""};
         }
     }
     catch (const exception &e)
